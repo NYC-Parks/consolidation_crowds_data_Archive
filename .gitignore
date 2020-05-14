@@ -1,0 +1,6 @@
+*config.ini
+*.ipynb_checkpoints/
+*.pyc
+*snapshots/
+*notebooks.log
+

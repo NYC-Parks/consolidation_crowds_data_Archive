@@ -1,0 +1,10 @@
+Dear ${PERSON_NAME}, 
+
+This is a template message that you could send via email.
+
+Please see below for more details:
+
+${ERROR}
+
+Thanks,
+Data team at IPM

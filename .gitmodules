@@ -1,0 +1,3 @@
+[submodule "IPM_Shared_Code"]
+	path = IPM_Shared_Code
+	url = git@github.com:NYC-Parks/IPM_Shared_Code.git
