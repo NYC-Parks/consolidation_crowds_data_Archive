@@ -23,7 +23,7 @@ from column_map import column_map
 # In[7]:
 
 
-column_map('Ambassador_CW').values()
+col_rename = column_map('patrol_dpr')
 
 
 # In[ ]:
