@@ -20,10 +20,10 @@ from gspread_dataframe import get_as_dataframe
 from column_map import column_map
 
 
-# In[5]:
+# In[7]:
 
 
-column_map('Patrol_DPR').values()
+column_map('Ambassador_CW').values()
 
 
 # In[ ]:
