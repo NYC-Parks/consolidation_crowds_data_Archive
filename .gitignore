@@ -2,5 +2,5 @@
 *.ipynb_checkpoints/
 *.pyc
 *snapshots/
-*notebooks.log
-
+*notebooks.logs
+sql/create_db.sql
