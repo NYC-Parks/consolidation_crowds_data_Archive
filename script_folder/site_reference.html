@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>patrol_dpr</title>
+<title>site_reference</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13097,7 +13097,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">column_map</span> <span class="k">import</span> <span class="n">column_map</span>
@@ -13110,13 +13110,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.google_creds_functions</span> <span class="k">import</span> <span class="n">create_assertion_session</span>
 <span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.utils</span> <span class="k">import</span> <span class="n">get_config</span>
 <span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.delta_functions</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.sql_functions</span> <span class="k">import</span> <span class="n">sql_update</span>
 </pre></div>
 
     </div>
@@ -13133,7 +13134,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;c:\Projects\config.ini&#39;</span><span class="p">)</span>
@@ -13152,17 +13153,21 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Execute-the-function-to-get-the-columns-for-this-sheet">Execute the function to get the columns for this sheet<a class="anchor-link" href="#Execute-the-function-to-get-the-columns-for-this-sheet">&#182;</a></h3>
+<h3 id="Create-the-dictionary-to-rename-the-columns">Create the dictionary to rename the columns<a class="anchor-link" href="#Create-the-dictionary-to-rename-the-columns">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Call the column map function to get the dictionary to be used for renaming and subsetting the columns</span>
-<span class="n">col_rename</span> <span class="o">=</span> <span class="n">column_map</span><span class="p">(</span><span class="s1">&#39;patrol_dpr&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">col_rename</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PROPERTY_I&#39;</span><span class="p">:</span> <span class="s1">&#39;site_id&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;DESCRIPTIO&#39;</span><span class="p">:</span> <span class="s1">&#39;site_desc&#39;</span><span class="p">,</span> 
+               <span class="s1">&#39;DISTRICT&#39;</span><span class="p">:</span> <span class="s1">&#39;park_district&#39;</span><span class="p">,</span> 
+               <span class="s1">&#39;DESC_LOCAT&#39;</span><span class="p">:</span> <span class="s1">&#39;desc_location&#39;</span><span class="p">,</span> 
+               <span class="s1">&#39;Latitiude&#39;</span><span class="p">:</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> 
+               <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span> <span class="s1">&#39;longitude&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13172,7 +13177,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_rename</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -13192,7 +13197,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con_string</span> <span class="o">=</span> <span class="s1">&#39;Driver={&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span> <span class="s1">&#39;};Server=&#39;</span> <span class="o">+</span> <span class="n">server</span> <span class="o">+</span><span class="s1">&#39;;Database=&#39;</span> <span class="o">+</span> <span class="n">dwh</span> <span class="o">+</span> <span class="s1">&#39;;Trusted_Connection=Yes;&#39;</span>
@@ -13207,10 +13212,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_dpr_patrol&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_ref_sites&#39;</span>
 </pre></div>
 
     </div>
@@ -13220,12 +13225,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[113]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
-              <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;patrol_id&#39;</span><span class="p">])</span>
-              <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))[</span><span class="n">cols</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13235,87 +13239,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[115]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_sql</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[115]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_id</th>
-      <th>location_adddesc</th>
-      <th>park_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_patronscomplied</th>
-      <th>sd_patronsnocomply</th>
-      <th>sd_amenity</th>
-      <th>summonscount_a01</th>
-      <th>summonscount_a03</th>
-      <th>summonscount_a04</th>
-      <th>summonscount_a22</th>
-      <th>other_summonstype</th>
-      <th>other_summonscount</th>
-      <th>borough</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-<p>0 rows × 35 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">patrol_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">sites_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13332,7 +13259,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13348,10 +13275,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;COMBINED Patrol Reporting Responses&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;DailyTasks_WebMerc_Centroids&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13361,10 +13288,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;MASTER&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13374,10 +13301,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#patrol_hist = client.open_by_url(&#39;https://docs.google.com/spreadsheets/d/name/edit#gid=0/revisions&#39;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_rename</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))[</span><span class="n">cols</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13387,11 +13316,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#patrol_hist = (get_as_dataframe(hist.worksheet(&#39;MASTER&#39;), evaluate_formulas = True, header= 0)</span>
-<span class="c1">#               .rename(columns = col_rename))[list(col_rename.values())]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Exclude any row with a null site_id</span>
+<span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
 </pre></div>
 
     </div>
@@ -13401,10 +13330,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#patrol_hist = patrol_hist[patrol_hist[&#39;encounter_timestamp&#39;].notna()]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;dups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13414,54 +13343,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Read the worksheet as a data frame, rename the columns and subset the columns to only include those</span>
-<span class="c1">#in the column list</span>
-<span class="n">patrol</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-          <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_rename</span><span class="p">)</span>
-          <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))[</span><span class="n">cols</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Remove any rows with no data, presumably these are rows with no timestamp</span>
-<span class="n">patrol</span> <span class="o">=</span> <span class="n">patrol</span><span class="p">[</span><span class="n">patrol</span><span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">patrol</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="p">[</span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;dups&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13474,7 +13359,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[79]:</div>
+    <div class="prompt output_prompt">Out[59]:</div>
 
 
 
@@ -13497,153 +13382,107 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>property</th>
-      <th>location_adddesc</th>
-      <th>parks_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_patronsnocomply</th>
-      <th>sd_amenity</th>
-      <th>summonscount_a01</th>
-      <th>summonscount_a03</th>
-      <th>summonscount_a04</th>
-      <th>summonscount_a22</th>
-      <th>other_summonstype</th>
-      <th>other_summonscount</th>
-      <th>borough</th>
+      <th>site_id</th>
+      <th>site_desc</th>
+      <th>park_district</th>
+      <th>desc_location</th>
+      <th>latitude</th>
+      <th>longitude</th>
       <th>row_hash</th>
+      <th>dups</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>0</td>
-      <td>5/19/2020 20:37:55</td>
-      <td>5/19/2020 20:36:00</td>
-      <td>J.J. Byrne Playground</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>K</td>
-      <td>Romero</td>
-      <td>R</td>
-      <td>Anderson</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-      <td>77160e7a67215d2734a361fe5a45b436252c9dc30af78d...</td>
+      <td>568</td>
+      <td>Q052-01</td>
+      <td>Captain Tilly Park-Captain Tilly Playground</td>
+      <td>Q-08</td>
+      <td>Q052-01 | Captain Tilly Park-Captain Tilly Pla...</td>
+      <td>40.71260</td>
+      <td>-73.79920</td>
+      <td>44464b0a962ecd6a29bc2fc32a3eb570bf693c80f723b4...</td>
+      <td>True</td>
     </tr>
     <tr>
-      <td>1</td>
-      <td>5/19/2020 20:34:58</td>
-      <td>5/19/2020 19:55:00</td>
+      <td>4836</td>
+      <td>M198</td>
+      <td>Martin Luther King Jr. Playground</td>
+      <td>M-10</td>
+      <td>M198 | Martin Luther King Jr. Playground</td>
+      <td>40.80020</td>
+      <td>-73.95040</td>
+      <td>3395d42a55ced6eed402b1b9665bf0d245d7d391c729c2...</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>4837</td>
+      <td>M404</td>
+      <td>NYC AIDS Memorial Park at St. Vincent’s Triangle</td>
+      <td>M-02</td>
+      <td>M404 | NYC AIDS Memorial Park at St. Vincent’s...</td>
+      <td>40.73720</td>
+      <td>-74.00120</td>
+      <td>a6daf06321df6730bd8aadbe90724004f8b9706bc724aa...</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>4841</td>
+      <td>X039-ZN19</td>
+      <td>Orchard Beach</td>
+      <td>NaN</td>
+      <td>X039-ZN19 | Orchard Beach</td>
+      <td>40.86926</td>
+      <td>-73.79017</td>
+      <td>47c9e632848013b3a2b049167aa70ed03bfaca517b97d1...</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <td>4844</td>
+      <td>M042-ZN04</td>
       <td>Inwood Hill Park - Dyckman Ballfield</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>Ariel</td>
-      <td>Junco</td>
-      <td>McTerry</td>
-      <td>Obioha</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Manhattan</td>
-      <td>14957cc4dc27b4d61800c0adb76ef16ce015ae813ba0a9...</td>
+      <td>M042-ZN04 | Inwood Hill Park Zone 4 (Dyckman F...</td>
+      <td>40.87202</td>
+      <td>-73.93082</td>
+      <td>4f6fc4b2122cba93cffb6ea5ada1a11b84ce0316effd42...</td>
+      <td>True</td>
     </tr>
     <tr>
-      <td>2</td>
-      <td>5/19/2020 20:25:18</td>
-      <td>5/19/2020 18:30:00</td>
-      <td>Battery Park-Battery Park</td>
+      <td>4845</td>
+      <td>M071-37</td>
+      <td>Riverside Park-Tot Lot  One Hundred And Twelve</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>daniel</td>
-      <td>palladino</td>
-      <td>a</td>
-      <td>mota</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Manhattan</td>
-      <td>031558724f154509734ea4b2dfaf09d901c0ed286486de...</td>
+      <td>M071-37 | Riverside Park-Tot Lot One Hundred A...</td>
+      <td>40.80625</td>
+      <td>-73.96805</td>
+      <td>ccfbcc7cac06ac8a4b665524a58cde4c96458f6bd64093...</td>
+      <td>True</td>
     </tr>
     <tr>
-      <td>3</td>
-      <td>5/19/2020 20:13:33</td>
-      <td>5/19/2020 20:12:00</td>
-      <td>Fort Greene Park</td>
+      <td>4846</td>
+      <td>M071-38</td>
+      <td>Riverside Park-Tot Lot  One Hundred And Sixteen</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>Daniel</td>
-      <td>Gitel</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-      <td>26afcb5c3042047ab9e70faf24e6e7745cb97b6cea5910...</td>
+      <td>M071-38 | Riverside Park-Tot Lot One Hundred A...</td>
+      <td>40.80980</td>
+      <td>-73.96535</td>
+      <td>fcff21907385e420e055ba422f0d8bf1392c755e2100e3...</td>
+      <td>True</td>
     </tr>
     <tr>
-      <td>4</td>
-      <td>5/19/2020 20:12:57</td>
-      <td>5/19/2020 20:15:00</td>
-      <td>Josephine Caminiti Playground</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>j</td>
-      <td>hengber</td>
-      <td>b</td>
-      <td>jospeh</td>
-      <td>NaN</td>
-      <td>...</td>
+      <td>4848</td>
+      <td>X044</td>
+      <td>St. James Park</td>
       <td>NaN</td>
       <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>0be26e167788a86cfc36f497e615bc15cd3bdc0aa61ac6...</td>
+      <td>40.86516</td>
+      <td>-73.89779</td>
+      <td>b12c32bed66e5ccb2e032e29599df6f1580b3376d60418...</td>
+      <td>True</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 32 columns</p>
 </div>
 </div>
 
@@ -13655,10 +13494,30 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">patrol</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">patrol_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Perform-the-delta-check">Perform the delta check<a class="anchor-link" href="#Perform-the-delta-check">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">sites</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">sites_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;site_id&#39;</span><span class="p">,</span> 
                               <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">,</span> <span class="n">dml_col</span> <span class="o">=</span> <span class="s1">&#39;dml_verb&#39;</span><span class="p">))</span>
 </pre></div>
 
@@ -13669,23 +13528,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_inserts</span> <span class="o">=</span> <span class="n">patrol_deltas</span><span class="p">[</span><span class="n">patrol_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_deltas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13698,7 +13544,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[94]:</div>
+    <div class="prompt output_prompt">Out[37]:</div>
 
 
 
@@ -13721,25 +13567,18 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>property</th>
-      <th>location_adddesc</th>
-      <th>parks_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity_old</th>
-      <th>summonscount_a01_old</th>
-      <th>summonscount_a03_old</th>
-      <th>summonscount_a04_old</th>
-      <th>summonscount_a22_old</th>
-      <th>other_summonstype_old</th>
-      <th>other_summonscount_old</th>
-      <th>borough_old</th>
+      <th>site_id</th>
+      <th>site_desc</th>
+      <th>park_district</th>
+      <th>desc_location</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>row_hash</th>
+      <th>site_desc_old</th>
+      <th>park_district_old</th>
+      <th>desc_location_old</th>
+      <th>latitude_old</th>
+      <th>longitude_old</th>
       <th>row_hash_old</th>
       <th>dml_verb</th>
     </tr>
@@ -13747,20 +13586,13 @@ div#notebook {
   <tbody>
     <tr>
       <td>0</td>
-      <td>5/19/2020 20:37:55</td>
-      <td>5/19/2020 20:36:00</td>
-      <td>J.J. Byrne Playground</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>K</td>
-      <td>Romero</td>
-      <td>R</td>
-      <td>Anderson</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>Q102</td>
+      <td>Juniper Valley Park</td>
+      <td>Q-05</td>
+      <td>Q102 | Juniper Valley Park</td>
+      <td>40.7202</td>
+      <td>-73.8804</td>
+      <td>d322002ab6bc23a6a3e67b72fb0aa7005da8c5212380dc...</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13771,20 +13603,13 @@ div#notebook {
     </tr>
     <tr>
       <td>1</td>
-      <td>5/19/2020 20:34:58</td>
-      <td>5/19/2020 19:55:00</td>
-      <td>Inwood Hill Park - Dyckman Ballfield</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>Ariel</td>
-      <td>Junco</td>
-      <td>McTerry</td>
-      <td>Obioha</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>Q024</td>
+      <td>Kissena Park</td>
+      <td>Q-07</td>
+      <td>Q024 | Kissena Park</td>
+      <td>40.7454</td>
+      <td>-73.8048</td>
+      <td>6b3148652d96466cf59804d9f6121c6005211be0033f6e...</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13795,20 +13620,13 @@ div#notebook {
     </tr>
     <tr>
       <td>2</td>
-      <td>5/19/2020 20:25:18</td>
-      <td>5/19/2020 18:30:00</td>
-      <td>Battery Park-Battery Park</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>daniel</td>
-      <td>palladino</td>
-      <td>a</td>
-      <td>mota</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>Q347</td>
+      <td>Colden Playground</td>
+      <td>Q-07</td>
+      <td>Q347 | Colden Playground</td>
+      <td>40.7702</td>
+      <td>-73.8272</td>
+      <td>f8b1b82cc366fdf7d2a30573cefd225e0b53ff020b38f5...</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13819,20 +13637,13 @@ div#notebook {
     </tr>
     <tr>
       <td>3</td>
-      <td>5/19/2020 20:13:33</td>
-      <td>5/19/2020 20:12:00</td>
-      <td>Fort Greene Park</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>Daniel</td>
-      <td>Gitel</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>Q121</td>
+      <td>Detective Keith L Williams Park</td>
+      <td>Q-12</td>
+      <td>Q121 | Detective Keith L Williams Park</td>
+      <td>40.7029</td>
+      <td>-73.7844</td>
+      <td>fbe4b102c854dc470881fbe0c2bfdd1a10f7a830f1dfda...</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13843,20 +13654,13 @@ div#notebook {
     </tr>
     <tr>
       <td>4</td>
-      <td>5/19/2020 20:12:57</td>
-      <td>5/19/2020 20:15:00</td>
-      <td>Josephine Caminiti Playground</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>j</td>
-      <td>hengber</td>
-      <td>b</td>
-      <td>jospeh</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>Q375</td>
+      <td>Willets Point Playground</td>
+      <td>Q-07</td>
+      <td>Q375 | Willets Point Playground</td>
+      <td>40.7838</td>
+      <td>-73.7964</td>
+      <td>1cdfd2182f58db2aa5ca2c81a2ba3c814fcdf1df9dcb04...</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13867,7 +13671,6 @@ div#notebook {
     </tr>
   </tbody>
 </table>
-<p>5 rows × 69 columns</p>
 </div>
 </div>
 
@@ -13876,13 +13679,20 @@ div#notebook {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Slice-the-inserts-and-push-them-to-SQL">Slice the inserts and push them to SQL<a class="anchor-link" href="#Slice-the-inserts-and-push-them-to-SQL">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_updates</span> <span class="o">=</span> <span class="n">patrol_deltas</span><span class="p">[</span><span class="n">patrol_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span> <span class="o">=</span> <span class="n">sites_deltas</span><span class="p">[</span><span class="n">sites_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13892,10 +13702,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -13908,7 +13718,86 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[95]:</div>
+    <div class="prompt output_prompt">Out[52]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(4849, 6)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">sites_inserts</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4841</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[44]:</div>
 
 
 
@@ -13931,38 +13820,174 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>property</th>
-      <th>location_adddesc</th>
-      <th>parks_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity_old</th>
-      <th>summonscount_a01_old</th>
-      <th>summonscount_a03_old</th>
-      <th>summonscount_a04_old</th>
-      <th>summonscount_a22_old</th>
-      <th>other_summonstype_old</th>
-      <th>other_summonscount_old</th>
-      <th>borough_old</th>
-      <th>row_hash_old</th>
-      <th>dml_verb</th>
+      <th>site_id</th>
+      <th>site_desc</th>
+      <th>park_district</th>
+      <th>desc_location</th>
+      <th>latitude</th>
+      <th>longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Q102</td>
+      <td>Juniper Valley Park</td>
+      <td>Q-05</td>
+      <td>Q102 | Juniper Valley Park</td>
+      <td>40.7202</td>
+      <td>-73.8804</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Q024</td>
+      <td>Kissena Park</td>
+      <td>Q-07</td>
+      <td>Q024 | Kissena Park</td>
+      <td>40.7454</td>
+      <td>-73.8048</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Q347</td>
+      <td>Colden Playground</td>
+      <td>Q-07</td>
+      <td>Q347 | Colden Playground</td>
+      <td>40.7702</td>
+      <td>-73.8272</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Q121</td>
+      <td>Detective Keith L Williams Park</td>
+      <td>Q-12</td>
+      <td>Q121 | Detective Keith L Williams Park</td>
+      <td>40.7029</td>
+      <td>-73.7844</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Q375</td>
+      <td>Willets Point Playground</td>
+      <td>Q-07</td>
+      <td>Q375 | Willets Point Playground</td>
+      <td>40.7838</td>
+      <td>-73.7964</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_ref_sites&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Slice-the-updates-and-push-them-to-SQL">Slice the updates and push them to SQL<a class="anchor-link" href="#Slice-the-updates-and-push-them-to-SQL">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_updates</span> <span class="o">=</span> <span class="n">sites_deltas</span><span class="p">[</span><span class="n">sites_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[45]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>site_id</th>
+      <th>site_desc</th>
+      <th>park_district</th>
+      <th>desc_location</th>
+      <th>latitude</th>
+      <th>longitude</th>
     </tr>
   </thead>
   <tbody>
   </tbody>
 </table>
-<p>0 rows × 69 columns</p>
 </div>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_update</span><span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="n">sites_updates</span><span class="p">,</span> <span class="n">sql_table</span> <span class="o">=</span> <span class="s1">&#39;tbl_ref_sites&#39;</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">where_col</span> <span class="o">=</span> <span class="s1">&#39;site_id&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

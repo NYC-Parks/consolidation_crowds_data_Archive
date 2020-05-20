@@ -13,7 +13,7 @@ def column_map(form_name):
                    'Date & Time of Encounter/Patrol': 'encounter_datetime',
                    'Which site are you reporting on?': 'property',
                    'Additional Location Description/ Cross Street (optional)': 'location_adddesc',
-                   'Name of Division': 'parks_division',
+                   'Name of Division': 'park_division',
                    'First name of Employee on Patrol - 1': 'firstname_1',
                    'Last name of Employee on Patrol - 1': 'lastname_1',
                    'First name of Employee on Patrol - 2': 'firstname_2',
