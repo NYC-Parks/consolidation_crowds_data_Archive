@@ -13076,7 +13076,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gspread</span>
@@ -13097,7 +13097,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">column_map</span> <span class="k">import</span> <span class="n">column_map</span>
@@ -13110,7 +13110,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../..&#39;</span><span class="p">)</span>
@@ -13124,6 +13124,27 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>C:\ProgramData\Anaconda3\lib\site-packages\authlib\client\__init__.py:12: AuthlibDeprecationWarning: Deprecate &#34;authlib.client&#34;, USE &#34;authlib.integrations.requests_client&#34; instead.
+It will be compatible before version 1.0.
+Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
+  deprecate(&#39;Deprecate &#34;authlib.client&#34;, USE &#34;authlib.integrations.requests_client&#34; instead.&#39;, &#39;1.0&#39;, &#39;Jeclj&#39;, &#39;rn&#39;)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13134,7 +13155,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;c:\Projects\config.ini&#39;</span><span class="p">)</span>
@@ -13159,7 +13180,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">col_rename</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PROPERTY_I&#39;</span><span class="p">:</span> <span class="s1">&#39;site_id&#39;</span><span class="p">,</span>
@@ -13177,7 +13198,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_rename</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -13197,7 +13218,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con_string</span> <span class="o">=</span> <span class="s1">&#39;Driver={&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span> <span class="s1">&#39;};Server=&#39;</span> <span class="o">+</span> <span class="n">server</span> <span class="o">+</span><span class="s1">&#39;;Database=&#39;</span> <span class="o">+</span> <span class="n">dwh</span> <span class="o">+</span> <span class="s1">&#39;;Trusted_Connection=Yes;&#39;</span>
@@ -13212,7 +13233,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_ref_sites&#39;</span>
@@ -13225,7 +13246,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
@@ -13239,7 +13260,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">sites_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
@@ -13259,7 +13280,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13275,7 +13296,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;DailyTasks_WebMerc_Centroids&#39;</span><span class="p">)</span>
@@ -13288,7 +13309,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
@@ -13301,7 +13322,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
@@ -13316,7 +13337,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Exclude any row with a null site_id</span>
@@ -13330,7 +13351,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;dups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span>
@@ -13343,7 +13364,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="p">[</span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;dups&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
@@ -13359,7 +13380,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[59]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -13388,7 +13409,6 @@ div#notebook {
       <th>desc_location</th>
       <th>latitude</th>
       <th>longitude</th>
-      <th>row_hash</th>
       <th>dups</th>
     </tr>
   </thead>
@@ -13401,7 +13421,6 @@ div#notebook {
       <td>Q052-01 | Captain Tilly Park-Captain Tilly Pla...</td>
       <td>40.71260</td>
       <td>-73.79920</td>
-      <td>44464b0a962ecd6a29bc2fc32a3eb570bf693c80f723b4...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13412,7 +13431,6 @@ div#notebook {
       <td>M198 | Martin Luther King Jr. Playground</td>
       <td>40.80020</td>
       <td>-73.95040</td>
-      <td>3395d42a55ced6eed402b1b9665bf0d245d7d391c729c2...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13423,7 +13441,6 @@ div#notebook {
       <td>M404 | NYC AIDS Memorial Park at St. Vincent’s...</td>
       <td>40.73720</td>
       <td>-74.00120</td>
-      <td>a6daf06321df6730bd8aadbe90724004f8b9706bc724aa...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13434,7 +13451,6 @@ div#notebook {
       <td>X039-ZN19 | Orchard Beach</td>
       <td>40.86926</td>
       <td>-73.79017</td>
-      <td>47c9e632848013b3a2b049167aa70ed03bfaca517b97d1...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13445,7 +13461,6 @@ div#notebook {
       <td>M042-ZN04 | Inwood Hill Park Zone 4 (Dyckman F...</td>
       <td>40.87202</td>
       <td>-73.93082</td>
-      <td>4f6fc4b2122cba93cffb6ea5ada1a11b84ce0316effd42...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13456,7 +13471,6 @@ div#notebook {
       <td>M071-37 | Riverside Park-Tot Lot One Hundred A...</td>
       <td>40.80625</td>
       <td>-73.96805</td>
-      <td>ccfbcc7cac06ac8a4b665524a58cde4c96458f6bd64093...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13467,7 +13481,6 @@ div#notebook {
       <td>M071-38 | Riverside Park-Tot Lot One Hundred A...</td>
       <td>40.80980</td>
       <td>-73.96535</td>
-      <td>fcff21907385e420e055ba422f0d8bf1392c755e2100e3...</td>
       <td>True</td>
     </tr>
     <tr>
@@ -13478,7 +13491,6 @@ div#notebook {
       <td>NaN</td>
       <td>40.86516</td>
       <td>-73.89779</td>
-      <td>b12c32bed66e5ccb2e032e29599df6f1580b3376d60418...</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -13488,6 +13500,19 @@ div#notebook {
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 import gspread
@@ -15,13 +15,13 @@ from gspread_dataframe import set_with_dataframe
 from gspread_dataframe import get_as_dataframe
 
 
-# In[3]:
+# In[2]:
 
 
 from column_map import column_map
 
 
-# In[49]:
+# In[3]:
 
 
 sys.path.append('../..')
@@ -33,7 +33,7 @@ from IPM_Shared_Code_public.Python.sql_functions import sql_update
 
 # ### Use the config file to setup connections
 
-# In[5]:
+# In[7]:
 
 
 config = get_config('c:\Projects\config.ini')
@@ -46,7 +46,7 @@ cred_file = config['google']['path_to_file']
 
 # ### Create the dictionary to rename the columns
 
-# In[24]:
+# In[4]:
 
 
 col_rename = {'PROPERTY_I': 'site_id',
@@ -57,7 +57,7 @@ col_rename = {'PROPERTY_I': 'site_id',
                'Longitude': 'longitude'}
 
 
-# In[25]:
+# In[5]:
 
 
 cols = list(col_rename.values())
@@ -65,7 +65,7 @@ cols = list(col_rename.values())
 
 # ### Read the current data from SQL
 
-# In[29]:
+# In[8]:
 
 
 con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
@@ -73,20 +73,20 @@ params = urllib.parse.quote_plus(con_string)
 engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 
-# In[30]:
+# In[9]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[31]:
+# In[10]:
 
 
 sites_sql = (pd.read_sql(con = engine, sql = sql)
              .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[32]:
+# In[11]:
 
 
 hash_rows(sites_sql, exclude_cols = ['site_id'], hash_name = 'row_hash')
@@ -94,7 +94,7 @@ hash_rows(sites_sql, exclude_cols = ['site_id'], hash_name = 'row_hash')
 
 # ### Read the latest data from Google Sheets
 
-# In[10]:
+# In[12]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -103,19 +103,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[11]:
+# In[13]:
 
 
 sheet = client.open('DailyTasks_WebMerc_Centroids')
 
 
-# In[13]:
+# In[14]:
 
 
 ws = sheet.worksheet('Sheet1')
 
 
-# In[26]:
+# In[29]:
 
 
 sites = (get_as_dataframe(ws, evaluate_formulas = True, header= 0)
@@ -123,23 +123,29 @@ sites = (get_as_dataframe(ws, evaluate_formulas = True, header= 0)
          .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[39]:
+# In[23]:
 
 
 #Exclude any row with a null site_id
 sites = sites[sites['site_id'].notna()]
 
 
-# In[ ]:
+# In[24]:
 
 
 sites['dups'] = sites['site_id'].duplicated()
 
 
-# In[59]:
+# In[25]:
 
 
 sites[sites['dups'] == True]
+
+
+# In[26]:
+
+
+sites = sites.drop_duplicates()
 
 
 # In[34]:
