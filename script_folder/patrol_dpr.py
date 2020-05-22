@@ -49,14 +49,14 @@ cred_file = config['google']['path_to_file']
 
 # ### Execute the function to get the columns for this sheet
 
-# In[5]:
+# In[55]:
 
 
 #Call the column map function to get the dictionary to be used for renaming and subsetting the columns
 col_rename = column_map('patrol_dpr')
 
 
-# In[6]:
+# In[56]:
 
 
 #Because of duplicate column names these columns are renamed based on the column index and the keys and 
@@ -64,7 +64,7 @@ col_rename = column_map('patrol_dpr')
 col_rename = {v[0]: k for k, v in col_rename.items()}
 
 
-# In[7]:
+# In[57]:
 
 
 cols = list(col_rename.values())
@@ -72,7 +72,7 @@ cols = list(col_rename.values())
 
 # ### Read the current data from SQL
 
-# In[8]:
+# In[42]:
 
 
 con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
@@ -80,13 +80,13 @@ params = urllib.parse.quote_plus(con_string)
 engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 
-# In[9]:
+# In[43]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_dpr_patrol'
 
 
-# In[10]:
+# In[44]:
 
 
 patrol_sql = (pd.read_sql(con = engine, sql = sql)
@@ -94,13 +94,13 @@ patrol_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[ ]:
+# In[45]:
 
 
 sql_cols = list(patrol_sql.columns.values)
 
 
-# In[11]:
+# In[46]:
 
 
 patrol_sql.head()
@@ -110,6 +110,45 @@ patrol_sql.head()
 
 
 hash_rows(patrol_sql, exclude_cols = ['encounter_timestamp'], hash_name = 'row_hash')
+
+
+# ### Add a section to try reading in the Site Reference list since it cannot go into a DB in the current state
+
+# In[33]:
+
+
+col_rename = {'PROPERTY_I': 'site_id',
+               'DESCRIPTIO': 'site_desc', 
+               'DISTRICT': 'park_district', 
+               'DESC_LOCAT': 'desc_location', 
+               'Latitiude': 'latitude', 
+               'Longitude': 'longitude'}
+
+
+# In[35]:
+
+
+cols = list(col_rename.values())
+
+
+# In[37]:
+
+
+sheet = client.open('DailyTasks_WebMerc_Centroids')
+
+
+# In[38]:
+
+
+ws = sheet.worksheet('Sheet1')
+
+
+# In[39]:
+
+
+site_ref = (get_as_dataframe(ws, evaluate_formulas = True, header= 0)
+            .rename(columns = col_rename)
+            .fillna(value = np.nan, axis = 1))[cols]
 
 
 # ### Read the site reference list from SQL
@@ -128,7 +167,7 @@ site_ref = pd.read_sql(con = engine, sql = sql)
 
 # ### Read the latest data from Google Sheets
 
-# In[13]:
+# In[50]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -137,13 +176,13 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[14]:
+# In[51]:
 
 
 sheet = client.open('COMBINED Patrol Reporting Responses')
 
 
-# In[15]:
+# In[52]:
 
 
 ws = sheet.worksheet('MASTER')
@@ -168,7 +207,7 @@ ws = sheet.worksheet('MASTER')
 #patrol_hist = patrol_hist[patrol_hist['encounter_timestamp'].notna()]
 
 
-# In[19]:
+# In[58]:
 
 
 #Read the worksheet as a data frame, rename the columns and subset the columns to only include those
@@ -180,36 +219,42 @@ patrol = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[20]:
+# In[59]:
 
 
 patrol.head()
 
 
-# In[21]:
+# In[60]:
 
 
 yesno = ['closed_education', 'closed_outcome', 'closed_summonsissued', 'closed_pdassist',
          'closed_pdcontact', 'sd_summonsissued', 'sd_pdassist', 'sd_pdcontact']
 
 
-# In[22]:
+# In[61]:
 
 
 yesno_cols(patrol, yesno)
 
 
-# In[24]:
+# In[62]:
 
 
 #Remove any rows with no data, presumably these are rows with no timestamp
 patrol = patrol[patrol['encounter_timestamp'].notna()]
 
 
-# In[ ]:
+# In[63]:
 
 
-patrol = patrol.merge(site_ref, how = 'left', on = 'site_desc')[sql_cols]
+patrol = patrol.merge(site_ref, how = 'left', on = 'site_desc')#[sql_cols]
+
+
+# In[64]:
+
+
+patrol[patrol['site_id'].isnull()]['site_desc'].unique()
 
 
 # In[25]:
