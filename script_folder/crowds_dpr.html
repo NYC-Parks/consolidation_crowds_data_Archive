@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>patrol_dpr</title>
+<title>crowds_dpr</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13121,6 +13121,7 @@ div#notebook {
 <span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.google_creds_functions</span> <span class="k">import</span> <span class="n">create_assertion_session</span>
 <span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.utils</span> <span class="k">import</span> <span class="n">get_config</span>
 <span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.delta_functions</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">IPM_Shared_Code_public.Python.sql_functions</span> <span class="k">import</span> <span class="o">*</span>
 </pre></div>
 
     </div>
@@ -13176,7 +13177,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con_string</span> <span class="o">=</span> <span class="s1">&#39;Driver={&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span> <span class="s1">&#39;};Server=&#39;</span> <span class="o">+</span> <span class="n">server</span> <span class="o">+</span><span class="s1">&#39;;Database=&#39;</span> <span class="o">+</span> <span class="n">dwh</span> <span class="o">+</span> <span class="s1">&#39;;Trusted_Connection=Yes;&#39;</span>
@@ -13198,11 +13199,11 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Call the column map function to get the dictionary to be used for renaming and subsetting the columns</span>
-<span class="n">col_rename</span> <span class="o">=</span> <span class="n">column_map</span><span class="p">(</span><span class="s1">&#39;patrol_dpr&#39;</span><span class="p">)</span>
+<span class="n">col_rename</span> <span class="o">=</span> <span class="n">column_map</span><span class="p">(</span><span class="s1">&#39;crowds_dpr&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13212,7 +13213,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Because of duplicate column names these columns are renamed based on the column index and the keys and </span>
@@ -13227,227 +13228,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_rename</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Read-the-current-data-from-SQL">Read the current data from SQL<a class="anchor-link" href="#Read-the-current-data-from-SQL">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_dpr_patrol&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
-              <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;patrol_id&#39;</span><span class="p">])</span>
-              <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">patrol_sql</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_sql</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[46]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_id</th>
-      <th>location_adddesc</th>
-      <th>park_division</th>
-      <th>visit_reason</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>...</th>
-      <th>sd_patronscomplied</th>
-      <th>sd_patronsnocomply</th>
-      <th>sd_amenity</th>
-      <th>summonscount_a01</th>
-      <th>summonscount_a03</th>
-      <th>summonscount_a04</th>
-      <th>summonscount_a22</th>
-      <th>other_summonstype</th>
-      <th>other_summonscount</th>
-      <th>borough</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-<p>0 rows × 36 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">patrol_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Add-a-section-to-try-reading-in-the-Site-Reference-list-since-it-cannot-go-into-a-DB-in-the-current-state">Add a section to try reading in the Site Reference list since it cannot go into a DB in the current state<a class="anchor-link" href="#Add-a-section-to-try-reading-in-the-Site-Reference-list-since-it-cannot-go-into-a-DB-in-the-current-state">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">col_rename</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PROPERTY_I&#39;</span><span class="p">:</span> <span class="s1">&#39;site_id&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;DESCRIPTIO&#39;</span><span class="p">:</span> <span class="s1">&#39;site_desc&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;DISTRICT&#39;</span><span class="p">:</span> <span class="s1">&#39;park_district&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;DESC_LOCAT&#39;</span><span class="p">:</span> <span class="s1">&#39;desc_location&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;Latitiude&#39;</span><span class="p">:</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span> <span class="s1">&#39;longitude&#39;</span><span class="p">}</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_rename</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;DailyTasks_WebMerc_Centroids&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">site_ref</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_rename</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))[</span><span class="n">cols</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13464,7 +13248,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_ref_sites&#39;</span>
@@ -13477,10 +13261,71 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">site_ref</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">site_ref</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)[[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;desc_location&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Read-the-current-data-from-SQL">Read the current data from SQL<a class="anchor-link" href="#Read-the-current-data-from-SQL">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_dpr_crowds&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
+              <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;crowds_id&#39;</span><span class="p">])</span>
+              <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">crowds_sql</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">crowds_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13497,7 +13342,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13513,36 +13358,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;COMBINED Patrol Reporting Responses&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;MASTER&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#patrol_hist = client.open_by_url(&#39;https://docs.google.com/spreadsheets/d/name/edit#gid=0/revisions&#39;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;Crowds_Combined&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13555,8 +13374,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#patrol_hist = (get_as_dataframe(hist.worksheet(&#39;MASTER&#39;), evaluate_formulas = True, header= 0)</span>
-<span class="c1">#               .rename(columns = col_rename))[list(col_rename.values())]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13566,25 +13384,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#patrol_hist = patrol_hist[patrol_hist[&#39;encounter_timestamp&#39;].notna()]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Read the worksheet as a data frame, rename the columns and subset the columns to only include those</span>
-<span class="c1">#in the column list</span>
-<span class="n">patrol</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
           <span class="c1">#Always remove row 0 with the column headers</span>
           <span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
           <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_rename</span><span class="p">)</span>
@@ -13598,10 +13401,24 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Remove the rows where there timestamp is null because these sheets have extra rows full of nulls</span>
+<span class="n">crowds</span> <span class="o">=</span> <span class="n">crowds</span><span class="p">[</span><span class="n">crowds</span><span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13614,7 +13431,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[59]:</div>
+    <div class="prompt output_prompt">Out[26]:</div>
 
 
 
@@ -13638,152 +13455,79 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
     <tr style="text-align: right;">
       <th></th>
       <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_desc</th>
-      <th>location_adddesc</th>
-      <th>park_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_pdassist</th>
-      <th>sd_pdcontact</th>
-      <th>sd_comments</th>
-      <th>summonscount_a01</th>
-      <th>summonscount_a03</th>
-      <th>summonscount_a04</th>
-      <th>summonscount_a22</th>
-      <th>other_summonstype</th>
-      <th>other_summonscount</th>
+      <th>park_district</th>
+      <th>patroncount</th>
+      <th>in_playground</th>
+      <th>action_taken</th>
+      <th>amenity</th>
+      <th>comments</th>
+      <th>desc_location</th>
       <th>borough</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>1</td>
-      <td>5/21/2020 20:01:08</td>
-      <td>5/21/2020 20:00:00</td>
-      <td>Astoria Park</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>Domingo</td>
-      <td>Vigil</td>
-      <td>Alyssa</td>
-      <td>Gonzalez</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>5/26/2020 17:37:04</td>
+      <td>Q-06</td>
+      <td>25.0</td>
+      <td>No</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Chess area</td>
+      <td>Chess players</td>
+      <td>Q207 | MacDonald Park</td>
       <td>Queens</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>5/21/2020 19:57:00</td>
-      <td>5/21/2020 19:30:00</td>
-      <td>Harlem River Park</td>
-      <td>Athletic Field</td>
-      <td>PEP</td>
-      <td>C.</td>
-      <td>Palmer</td>
-      <td>M.</td>
-      <td>Obioha</td>
+      <td>5/26/2020 17:17:41</td>
+      <td>X-14</td>
+      <td>17.0</td>
+      <td>No</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Soccer field</td>
       <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Manhattan</td>
+      <td>X147A-ZN01 | Starlight Park Zone 1</td>
+      <td>Bronx</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>5/21/2020 19:52:22</td>
-      <td>5/21/2020 19:50:00</td>
-      <td>Riverside Park South</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>Arm</td>
-      <td>Zaman</td>
-      <td>Zuriel</td>
-      <td>Lara</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Manhattan</td>
+      <td>5/26/2020 16:31:03</td>
+      <td>X-14</td>
+      <td>8.0</td>
+      <td>Yes</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Playground</td>
+      <td>On the swings and play equipment</td>
+      <td>X147A-ZN01 | Starlight Park Zone 1</td>
+      <td>Bronx</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>5/21/2020 19:44:30</td>
-      <td>5/21/2020 19:29:00</td>
-      <td>Thomas Boyland Park</td>
+      <td>5/26/2020 10:55:57</td>
+      <td>X-06</td>
+      <td>20.0</td>
+      <td>No</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Bench/sitting area</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>S</td>
-      <td>Johnson</td>
-      <td>L</td>
-      <td>LEE</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
+      <td>X010A | Tremont Park</td>
+      <td>Bronx</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>5/21/2020 19:43:08</td>
-      <td>5/21/2020 19:42:00</td>
-      <td>Devoe Park</td>
+      <td>5/26/2020 10:24:04</td>
+      <td>B-13</td>
+      <td>20.0</td>
+      <td>No</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Soccer field</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>ivan</td>
-      <td>bernardez</td>
-      <td>Kevin</td>
-      <td>Feliciano</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Bronx</td>
+      <td>B129 | Kaiser Park</td>
+      <td>Brooklyn</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 36 columns</p>
 </div>
 </div>
 
@@ -13795,11 +13539,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;closed_education&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_outcome&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_summonsissued&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_pdassist&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;closed_pdcontact&#39;</span><span class="p">,</span> <span class="s1">&#39;sd_summonsissued&#39;</span><span class="p">,</span> <span class="s1">&#39;sd_pdassist&#39;</span><span class="p">,</span> <span class="s1">&#39;sd_pdcontact&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;in_playground&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13809,10 +13552,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno_cols</span><span class="p">(</span><span class="n">patrol</span><span class="p">,</span> <span class="n">yesno</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno_cols</span><span class="p">(</span><span class="n">crowds</span><span class="p">,</span> <span class="n">yesno</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13822,11 +13565,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Remove any rows with no data, presumably these are rows with no timestamp</span>
-<span class="n">patrol</span> <span class="o">=</span> <span class="n">patrol</span><span class="p">[</span><span class="n">patrol</span><span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span> <span class="o">=</span> <span class="n">crowds</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">site_ref</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;desc_location&#39;</span><span class="p">)[</span><span class="n">sql_cols</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -13836,10 +13578,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol</span> <span class="o">=</span> <span class="n">patrol</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">site_ref</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;site_desc&#39;</span><span class="p">)</span><span class="c1">#[sql_cols]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">crowds</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13849,47 +13591,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol</span><span class="p">[</span><span class="n">patrol</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()][</span><span class="s1">&#39;site_desc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[64]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([&#39;Lower Highland Park&#39;,
-       &#39;Yellowstone Municipal Park-Katzman Playground&#39;,
-       &#39;Baisley Pond Park-155th St Playground&#39;,
-       &#39;Uncle Vito F. Maranzano Glendale Playground&#39;, &#39;St James Park&#39;,
-       &#39;Parade Place&#39;], dtype=object)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_dpr_patrol3&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13902,211 +13607,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">ProgrammingError</span>                          Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py</span> in <span class="ansi-cyan-fg">_execute_context</span><span class="ansi-blue-intense-fg ansi-bold">(self, dialect, constructor, statement, parameters, *args)</span>
-<span class="ansi-green-fg">   1228</span>                     self.dialect.do_executemany(
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1229</span><span class="ansi-yellow-intense-fg ansi-bold">                         </span>cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context
-<span class="ansi-green-fg">   1230</span>                     )
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\dialects\mssql\pyodbc.py</span> in <span class="ansi-cyan-fg">do_executemany</span><span class="ansi-blue-intense-fg ansi-bold">(self, cursor, statement, parameters, context)</span>
-<span class="ansi-green-fg">    346</span>         super(MSDialect_pyodbc, self).do_executemany(
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 347</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context<span class="ansi-yellow-intense-fg ansi-bold">=</span>context
-<span class="ansi-green-fg">    348</span>         )
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\default.py</span> in <span class="ansi-cyan-fg">do_executemany</span><span class="ansi-blue-intense-fg ansi-bold">(self, cursor, statement, parameters, context)</span>
-<span class="ansi-green-fg">    576</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> do_executemany<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 577</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>cursor<span class="ansi-yellow-intense-fg ansi-bold">.</span>executemany<span class="ansi-yellow-intense-fg ansi-bold">(</span>statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    578</span> 
-
-<span class="ansi-red-intense-fg ansi-bold">ProgrammingError</span>: (&#39;42S22&#39;, &#34;[42S22] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid column name &#39;site_desc&#39;. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC SQL Server Driver][SQL Server]Statement(s) could not be prepared. (8180)&#34;)
-
-The above exception was the direct cause of the following exception:
-
-<span class="ansi-red-intense-fg ansi-bold">ProgrammingError</span>                          Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-25-43c944116135&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>patrol<span class="ansi-yellow-intense-fg ansi-bold">.</span>to_sql<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;tbl_dpr_patrol3&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> engine<span class="ansi-yellow-intense-fg ansi-bold">,</span> index <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-green-intense-fg ansi-bold">False</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> if_exists <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;append&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\pandas\core\generic.py</span> in <span class="ansi-cyan-fg">to_sql</span><span class="ansi-blue-intense-fg ansi-bold">(self, name, con, schema, if_exists, index, index_label, chunksize, dtype, method)</span>
-<span class="ansi-green-fg">   2710</span>             chunksize<span class="ansi-yellow-intense-fg ansi-bold">=</span>chunksize<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-fg">   2711</span>             dtype<span class="ansi-yellow-intense-fg ansi-bold">=</span>dtype<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 2712</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>method<span class="ansi-yellow-intense-fg ansi-bold">=</span>method<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-fg">   2713</span>         )
-<span class="ansi-green-fg">   2714</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\pandas\io\sql.py</span> in <span class="ansi-cyan-fg">to_sql</span><span class="ansi-blue-intense-fg ansi-bold">(frame, name, con, schema, if_exists, index, index_label, chunksize, dtype, method)</span>
-<span class="ansi-green-fg">    516</span>         chunksize<span class="ansi-yellow-intense-fg ansi-bold">=</span>chunksize<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-fg">    517</span>         dtype<span class="ansi-yellow-intense-fg ansi-bold">=</span>dtype<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 518</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>method<span class="ansi-yellow-intense-fg ansi-bold">=</span>method<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-fg">    519</span>     )
-<span class="ansi-green-fg">    520</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\pandas\io\sql.py</span> in <span class="ansi-cyan-fg">to_sql</span><span class="ansi-blue-intense-fg ansi-bold">(self, frame, name, if_exists, index, index_label, schema, chunksize, dtype, method)</span>
-<span class="ansi-green-fg">   1318</span>         )
-<span class="ansi-green-fg">   1319</span>         table<span class="ansi-yellow-intense-fg ansi-bold">.</span>create<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1320</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>table<span class="ansi-yellow-intense-fg ansi-bold">.</span>insert<span class="ansi-yellow-intense-fg ansi-bold">(</span>chunksize<span class="ansi-yellow-intense-fg ansi-bold">,</span> method<span class="ansi-yellow-intense-fg ansi-bold">=</span>method<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">   1321</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> <span class="ansi-green-intense-fg ansi-bold">not</span> name<span class="ansi-yellow-intense-fg ansi-bold">.</span>isdigit<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">and</span> <span class="ansi-green-intense-fg ansi-bold">not</span> name<span class="ansi-yellow-intense-fg ansi-bold">.</span>islower<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">   1322</span>             <span class="ansi-red-intense-fg ansi-bold"># check for potentially case sensitivity issues (GH7815)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\pandas\io\sql.py</span> in <span class="ansi-cyan-fg">insert</span><span class="ansi-blue-intense-fg ansi-bold">(self, chunksize, method)</span>
-<span class="ansi-green-fg">    754</span> 
-<span class="ansi-green-fg">    755</span>                 chunk_iter <span class="ansi-yellow-intense-fg ansi-bold">=</span> zip<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span><span class="ansi-yellow-intense-fg ansi-bold">[</span>arr<span class="ansi-yellow-intense-fg ansi-bold">[</span>start_i<span class="ansi-yellow-intense-fg ansi-bold">:</span>end_i<span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-green-intense-fg ansi-bold">for</span> arr <span class="ansi-green-intense-fg ansi-bold">in</span> data_list<span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 756</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span>exec_insert<span class="ansi-yellow-intense-fg ansi-bold">(</span>conn<span class="ansi-yellow-intense-fg ansi-bold">,</span> keys<span class="ansi-yellow-intense-fg ansi-bold">,</span> chunk_iter<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    757</span> 
-<span class="ansi-green-fg">    758</span>     def _query_iterator(
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\pandas\io\sql.py</span> in <span class="ansi-cyan-fg">_execute_insert</span><span class="ansi-blue-intense-fg ansi-bold">(self, conn, keys, data_iter)</span>
-<span class="ansi-green-fg">    668</span>         &#34;&#34;&#34;
-<span class="ansi-green-fg">    669</span>         data <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-yellow-intense-fg ansi-bold">[</span>dict<span class="ansi-yellow-intense-fg ansi-bold">(</span>zip<span class="ansi-yellow-intense-fg ansi-bold">(</span>keys<span class="ansi-yellow-intense-fg ansi-bold">,</span> row<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-green-intense-fg ansi-bold">for</span> row <span class="ansi-green-intense-fg ansi-bold">in</span> data_iter<span class="ansi-yellow-intense-fg ansi-bold">]</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 670</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>conn<span class="ansi-yellow-intense-fg ansi-bold">.</span>execute<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>table<span class="ansi-yellow-intense-fg ansi-bold">.</span>insert<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> data<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    671</span> 
-<span class="ansi-green-fg">    672</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> _execute_insert_multi<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> conn<span class="ansi-yellow-intense-fg ansi-bold">,</span> keys<span class="ansi-yellow-intense-fg ansi-bold">,</span> data_iter<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py</span> in <span class="ansi-cyan-fg">execute</span><span class="ansi-blue-intense-fg ansi-bold">(self, object_, *multiparams, **params)</span>
-<span class="ansi-green-fg">    986</span>             <span class="ansi-green-intense-fg ansi-bold">raise</span> exc<span class="ansi-yellow-intense-fg ansi-bold">.</span>ObjectNotExecutableError<span class="ansi-yellow-intense-fg ansi-bold">(</span>object_<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    987</span>         <span class="ansi-green-intense-fg ansi-bold">else</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 988</span><span class="ansi-yellow-intense-fg ansi-bold">             </span><span class="ansi-green-intense-fg ansi-bold">return</span> meth<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> multiparams<span class="ansi-yellow-intense-fg ansi-bold">,</span> params<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    989</span> 
-<span class="ansi-green-fg">    990</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> _execute_function<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> func<span class="ansi-yellow-intense-fg ansi-bold">,</span> multiparams<span class="ansi-yellow-intense-fg ansi-bold">,</span> params<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\sql\elements.py</span> in <span class="ansi-cyan-fg">_execute_on_connection</span><span class="ansi-blue-intense-fg ansi-bold">(self, connection, multiparams, params)</span>
-<span class="ansi-green-fg">    285</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> _execute_on_connection<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> connection<span class="ansi-yellow-intense-fg ansi-bold">,</span> multiparams<span class="ansi-yellow-intense-fg ansi-bold">,</span> params<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">    286</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>supports_execution<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 287</span><span class="ansi-yellow-intense-fg ansi-bold">             </span><span class="ansi-green-intense-fg ansi-bold">return</span> connection<span class="ansi-yellow-intense-fg ansi-bold">.</span>_execute_clauseelement<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> multiparams<span class="ansi-yellow-intense-fg ansi-bold">,</span> params<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    288</span>         <span class="ansi-green-intense-fg ansi-bold">else</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">    289</span>             <span class="ansi-green-intense-fg ansi-bold">raise</span> exc<span class="ansi-yellow-intense-fg ansi-bold">.</span>ObjectNotExecutableError<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py</span> in <span class="ansi-cyan-fg">_execute_clauseelement</span><span class="ansi-blue-intense-fg ansi-bold">(self, elem, multiparams, params)</span>
-<span class="ansi-green-fg">   1105</span>             distilled_params<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-fg">   1106</span>             compiled_sql<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1107</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>distilled_params<span class="ansi-yellow-intense-fg ansi-bold">,</span>
-<span class="ansi-green-fg">   1108</span>         )
-<span class="ansi-green-fg">   1109</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_has_events <span class="ansi-green-intense-fg ansi-bold">or</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>engine<span class="ansi-yellow-intense-fg ansi-bold">.</span>_has_events<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py</span> in <span class="ansi-cyan-fg">_execute_context</span><span class="ansi-blue-intense-fg ansi-bold">(self, dialect, constructor, statement, parameters, *args)</span>
-<span class="ansi-green-fg">   1251</span>         <span class="ansi-green-intense-fg ansi-bold">except</span> BaseException <span class="ansi-green-intense-fg ansi-bold">as</span> e<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">   1252</span>             self._handle_dbapi_exception(
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1253</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span>e<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> context
-<span class="ansi-green-fg">   1254</span>             )
-<span class="ansi-green-fg">   1255</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py</span> in <span class="ansi-cyan-fg">_handle_dbapi_exception</span><span class="ansi-blue-intense-fg ansi-bold">(self, e, statement, parameters, cursor, context)</span>
-<span class="ansi-green-fg">   1471</span>                 util<span class="ansi-yellow-intense-fg ansi-bold">.</span>raise_from_cause<span class="ansi-yellow-intense-fg ansi-bold">(</span>newraise<span class="ansi-yellow-intense-fg ansi-bold">,</span> exc_info<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">   1472</span>             <span class="ansi-green-intense-fg ansi-bold">elif</span> should_wrap<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1473</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span>util<span class="ansi-yellow-intense-fg ansi-bold">.</span>raise_from_cause<span class="ansi-yellow-intense-fg ansi-bold">(</span>sqlalchemy_exception<span class="ansi-yellow-intense-fg ansi-bold">,</span> exc_info<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">   1474</span>             <span class="ansi-green-intense-fg ansi-bold">else</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">   1475</span>                 util<span class="ansi-yellow-intense-fg ansi-bold">.</span>reraise<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>exc_info<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\util\compat.py</span> in <span class="ansi-cyan-fg">raise_from_cause</span><span class="ansi-blue-intense-fg ansi-bold">(exception, exc_info)</span>
-<span class="ansi-green-fg">    396</span>     exc_type<span class="ansi-yellow-intense-fg ansi-bold">,</span> exc_value<span class="ansi-yellow-intense-fg ansi-bold">,</span> exc_tb <span class="ansi-yellow-intense-fg ansi-bold">=</span> exc_info
-<span class="ansi-green-fg">    397</span>     cause <span class="ansi-yellow-intense-fg ansi-bold">=</span> exc_value <span class="ansi-green-intense-fg ansi-bold">if</span> exc_value <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">not</span> exception <span class="ansi-green-intense-fg ansi-bold">else</span> <span class="ansi-green-intense-fg ansi-bold">None</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 398</span><span class="ansi-yellow-intense-fg ansi-bold">     </span>reraise<span class="ansi-yellow-intense-fg ansi-bold">(</span>type<span class="ansi-yellow-intense-fg ansi-bold">(</span>exception<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> exception<span class="ansi-yellow-intense-fg ansi-bold">,</span> tb<span class="ansi-yellow-intense-fg ansi-bold">=</span>exc_tb<span class="ansi-yellow-intense-fg ansi-bold">,</span> cause<span class="ansi-yellow-intense-fg ansi-bold">=</span>cause<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    399</span> 
-<span class="ansi-green-fg">    400</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\util\compat.py</span> in <span class="ansi-cyan-fg">reraise</span><span class="ansi-blue-intense-fg ansi-bold">(tp, value, tb, cause)</span>
-<span class="ansi-green-fg">    150</span>             value<span class="ansi-yellow-intense-fg ansi-bold">.</span>__cause__ <span class="ansi-yellow-intense-fg ansi-bold">=</span> cause
-<span class="ansi-green-fg">    151</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> value<span class="ansi-yellow-intense-fg ansi-bold">.</span>__traceback__ <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">not</span> tb<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 152</span><span class="ansi-yellow-intense-fg ansi-bold">             </span><span class="ansi-green-intense-fg ansi-bold">raise</span> value<span class="ansi-yellow-intense-fg ansi-bold">.</span>with_traceback<span class="ansi-yellow-intense-fg ansi-bold">(</span>tb<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    153</span>         <span class="ansi-green-intense-fg ansi-bold">raise</span> value
-<span class="ansi-green-fg">    154</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\base.py</span> in <span class="ansi-cyan-fg">_execute_context</span><span class="ansi-blue-intense-fg ansi-bold">(self, dialect, constructor, statement, parameters, *args)</span>
-<span class="ansi-green-fg">   1227</span>                 <span class="ansi-green-intense-fg ansi-bold">if</span> <span class="ansi-green-intense-fg ansi-bold">not</span> evt_handled<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">   1228</span>                     self.dialect.do_executemany(
-<span class="ansi-green-intense-fg ansi-bold">-&gt; 1229</span><span class="ansi-yellow-intense-fg ansi-bold">                         </span>cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context
-<span class="ansi-green-fg">   1230</span>                     )
-<span class="ansi-green-fg">   1231</span>             <span class="ansi-green-intense-fg ansi-bold">elif</span> <span class="ansi-green-intense-fg ansi-bold">not</span> parameters <span class="ansi-green-intense-fg ansi-bold">and</span> context<span class="ansi-yellow-intense-fg ansi-bold">.</span>no_parameters<span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\dialects\mssql\pyodbc.py</span> in <span class="ansi-cyan-fg">do_executemany</span><span class="ansi-blue-intense-fg ansi-bold">(self, cursor, statement, parameters, context)</span>
-<span class="ansi-green-fg">    345</span>             cursor<span class="ansi-yellow-intense-fg ansi-bold">.</span>fast_executemany <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-green-intense-fg ansi-bold">True</span>
-<span class="ansi-green-fg">    346</span>         super(MSDialect_pyodbc, self).do_executemany(
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 347</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context<span class="ansi-yellow-intense-fg ansi-bold">=</span>context
-<span class="ansi-green-fg">    348</span>         )
-<span class="ansi-green-fg">    349</span> 
-
-<span class="ansi-green-intense-fg ansi-bold">C:\ProgramData\Anaconda3\lib\site-packages\sqlalchemy\engine\default.py</span> in <span class="ansi-cyan-fg">do_executemany</span><span class="ansi-blue-intense-fg ansi-bold">(self, cursor, statement, parameters, context)</span>
-<span class="ansi-green-fg">    575</span> 
-<span class="ansi-green-fg">    576</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> do_executemany<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 577</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>cursor<span class="ansi-yellow-intense-fg ansi-bold">.</span>executemany<span class="ansi-yellow-intense-fg ansi-bold">(</span>statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">    578</span> 
-<span class="ansi-green-fg">    579</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> do_execute<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> cursor<span class="ansi-yellow-intense-fg ansi-bold">,</span> statement<span class="ansi-yellow-intense-fg ansi-bold">,</span> parameters<span class="ansi-yellow-intense-fg ansi-bold">,</span> context<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-
-<span class="ansi-red-intense-fg ansi-bold">ProgrammingError</span>: (pyodbc.ProgrammingError) (&#39;42S22&#39;, &#34;[42S22] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid column name &#39;site_desc&#39;. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC SQL Server Driver][SQL Server]Statement(s) could not be prepared. (8180)&#34;)
-[SQL: INSERT INTO tbl_dpr_patrol3 (encounter_timestamp, encounter_datetime, site_desc, location_adddesc, park_division, firstname_1, lastname_1, firstname_2, lastname_2, firstname_3, lastname_3, visit_reason, patrol_method, encounter_type, closed_amenity, closed_patroncount, closed_comments, sd_patronscomplied, sd_patronsnocomply, sd_amenity, sd_comments, summonscount_a01, summonscount_a03, summonscount_a04, summonscount_a22, other_summonstype, other_summonscount, borough, closed_education, closed_outcome, closed_summonsissued, closed_pdassist, closed_pdcontact, sd_summonsissued, sd_pdassist, sd_pdcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
-[parameters: ((&#39;5/20/2020 23:11:48&#39;, &#39;5/20/2020 23:11:00&#39;, &#39;Hudson River Park&#39;, &#39;Cwp&#39;, &#39;PEP&#39;, &#39;a&#39;, &#39;Kaganovsky &#39;, &#39;B&#39;, &#39;Memishaj &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 23:10:56&#39;, &#39;5/20/2020 23:09:00&#39;, &#39;Hudson River Park&#39;, &#39;pier 95 &amp; 96&#39;, &#39;PEP&#39;, &#39;a&#39;, &#39;Kaganovsky &#39;, &#39;B&#39;, &#39;Memishaj &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 23:09:44&#39;, &#39;5/20/2020 23:08:00&#39;, &#39;Hudson River Park&#39;, &#39;pier 84&#39;, &#39;PEP&#39;, &#39;a&#39;, &#39;Kaganovsky &#39;, &#39;B&#39;, &#39;memishaj &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 23:08:23&#39;, &#39;5/20/2020 23:06:00&#39;, &#39;Hudson River Park&#39;, &#39;pier 66-62&#39;, &#39;PEP&#39;, &#39;a&#39;, &#39;Kaganovsky &#39;, &#39;B&#39;, &#39;Memishaj &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 23:06:21&#39;, &#39;5/20/2020 23:05:00&#39;, &#39;Franz Sigel Park&#39;, None, &#39;PEP&#39;, &#39;Naji &#39;, &#39;Williams &#39;, &#39;Kevin &#39;, &#39;Feliciano &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Bronx&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 23:04:34&#39;, &#39;5/20/2020 23:01:00&#39;, &#39;Washington Square Park&#39;, None, &#39;PEP&#39;, &#39;a&#39;, &#39;sylver&#39;, &#39;j&#39;, &#39;martinez &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 23:03:19&#39;, &#39;5/20/2020 22:49:00&#39;, &#39;Tompkins Square Park&#39;, None, &#39;PEP&#39;, &#39;a&#39;, &#39;sylver&#39;, &#39;j&#39;, &#39;martinez &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None), (&#39;5/20/2020 22:51:50&#39;, &#39;5/20/2020 22:50:00&#39;, &#39;Cunningham Park&#39;, None, &#39;PEP&#39;, &#39;Delano &#39;, &#39;Dorsaint &#39;, &#39;Henry &#39;, &#39;Chilton &#39;, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Queens&#39;, None, None, None, None, None, None, None, None)  ... displaying 10 of 14002 total bound parameter sets ...  (&#39;4/14/2020 18:05:59&#39;, &#39;4/14/2020 19:24:00&#39;, &#39;High Rock Park&#39;, &#39;Altamont Ave Trails&#39;, &#39;PEP&#39;, &#39;Mercedes&#39;, &#39;Velilla&#39;, None, None, None, None, &#39;Standard Patrol&#39;, &#39;Mobile&#39;, &#39;Yes, patrons educated on social distancing (not trespassing)&#39;, None, None, None, 0.0, 2.0, &#39;Walking path&#39;, &#39;a young adult couple male and female walking their bicycles on the path&#39;, None, None, None, None, None, None, &#39;Staten Island&#39;, None, None, None, None, None, 0.0, 0.0, 0.0), (&#39;4/14/2020 17:54:43&#39;, &#39;4/14/2020 20:00:00&#39;, &#39;Morningside Park&#39;, &#39; Did not encounter anyone&#39;, &#39;PEP&#39;, &#39;Officer Martinez&#39;, &#39;Off Medina&#39;, None, None, None, None, &#39;Standard Patrol&#39;, &#39;On foot&#39;, &#39;No encounter&#39;, None, None, None, None, None, None, None, None, None, None, None, None, None, &#39;Manhattan&#39;, None, None, None, None, None, None, None, None))]
-(Background on this error at: http://sqlalche.me/e/f405)</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">patrol</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">patrol</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">patrol_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> 
-                              <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">,</span> <span class="n">dml_col</span> <span class="o">=</span> <span class="s1">&#39;dml_verb&#39;</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_inserts</span> <span class="o">=</span> <span class="n">patrol_deltas</span><span class="p">[</span><span class="n">patrol_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[94]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
@@ -14130,152 +13631,236 @@ The above exception was the direct cause of the following exception:
     <tr style="text-align: right;">
       <th></th>
       <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>property</th>
-      <th>location_adddesc</th>
-      <th>parks_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity_old</th>
-      <th>summonscount_a01_old</th>
-      <th>summonscount_a03_old</th>
-      <th>summonscount_a04_old</th>
-      <th>summonscount_a22_old</th>
-      <th>other_summonstype_old</th>
-      <th>other_summonscount_old</th>
-      <th>borough_old</th>
-      <th>row_hash_old</th>
+      <th>park_district</th>
+      <th>patroncount</th>
+      <th>in_playground</th>
+      <th>action_taken</th>
+      <th>amenity</th>
+      <th>comments</th>
+      <th>site_id</th>
+      <th>borough</th>
+      <th>row_hash</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>5/26/2020 17:37:04</td>
+      <td>Q-06</td>
+      <td>25.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Chess area</td>
+      <td>Chess players</td>
+      <td>Q207</td>
+      <td>Queens</td>
+      <td>230d771c770588d196f0ff3a045f014e7d2ae717c19870...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>5/26/2020 17:17:41</td>
+      <td>X-14</td>
+      <td>17.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Soccer field</td>
+      <td>NaN</td>
+      <td>X147A-ZN01</td>
+      <td>Bronx</td>
+      <td>357cf0fd8cb2692275585adf6bb3a8ed856235187eb0d3...</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5/26/2020 16:31:03</td>
+      <td>X-14</td>
+      <td>8.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Playground</td>
+      <td>On the swings and play equipment</td>
+      <td>X147A-ZN01</td>
+      <td>Bronx</td>
+      <td>12f45e93d05d3fb926d66c6eb1aeeab06d4e83e90a1596...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5/26/2020 10:55:57</td>
+      <td>X-06</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Bench/sitting area</td>
+      <td>NaN</td>
+      <td>X010A</td>
+      <td>Bronx</td>
+      <td>f60be131fa74dff78e843dc7964b929c48959e6999b8ba...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5/26/2020 10:24:04</td>
+      <td>B-13</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Soccer field</td>
+      <td>NaN</td>
+      <td>B129</td>
+      <td>Brooklyn</td>
+      <td>fa5f2cd5e2b38dcc295e39ed620afd980f2bea75f26991...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Find-the-deltas-based-on-the-row-hashes">Find the deltas based on the row hashes<a class="anchor-link" href="#Find-the-deltas-based-on-the-row-hashes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">crowds</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">crowds_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">],</span> 
+                              <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">,</span> <span class="n">dml_col</span> <span class="o">=</span> <span class="s1">&#39;dml_verb&#39;</span><span class="p">))[</span><span class="n">sql_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_deltas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[34]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>encounter_timestamp</th>
+      <th>park_district</th>
+      <th>patroncount</th>
+      <th>in_playground</th>
+      <th>action_taken</th>
+      <th>amenity</th>
+      <th>comments</th>
+      <th>site_id</th>
+      <th>borough</th>
       <th>dml_verb</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td>5/19/2020 20:37:55</td>
-      <td>5/19/2020 20:36:00</td>
-      <td>J.J. Byrne Playground</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>K</td>
-      <td>Romero</td>
-      <td>R</td>
-      <td>Anderson</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>5/26/2020 17:37:04</td>
+      <td>Q-06</td>
+      <td>25.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Chess area</td>
+      <td>Chess players</td>
+      <td>Q207</td>
+      <td>Queens</td>
       <td>I</td>
     </tr>
     <tr>
       <td>1</td>
-      <td>5/19/2020 20:34:58</td>
-      <td>5/19/2020 19:55:00</td>
-      <td>Inwood Hill Park - Dyckman Ballfield</td>
+      <td>5/26/2020 17:17:41</td>
+      <td>X-14</td>
+      <td>17.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Soccer field</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>Ariel</td>
-      <td>Junco</td>
-      <td>McTerry</td>
-      <td>Obioha</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>X147A-ZN01</td>
+      <td>Bronx</td>
       <td>I</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>5/19/2020 20:25:18</td>
-      <td>5/19/2020 18:30:00</td>
-      <td>Battery Park-Battery Park</td>
-      <td>NaN</td>
-      <td>PEP</td>
-      <td>daniel</td>
-      <td>palladino</td>
-      <td>a</td>
-      <td>mota</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>5/26/2020 16:31:03</td>
+      <td>X-14</td>
+      <td>8.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Playground</td>
+      <td>On the swings and play equipment</td>
+      <td>X147A-ZN01</td>
+      <td>Bronx</td>
       <td>I</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>5/19/2020 20:13:33</td>
-      <td>5/19/2020 20:12:00</td>
-      <td>Fort Greene Park</td>
+      <td>5/26/2020 10:55:57</td>
+      <td>X-06</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Bench/sitting area</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>Daniel</td>
-      <td>Gitel</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>X010A</td>
+      <td>Bronx</td>
       <td>I</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>5/19/2020 20:12:57</td>
-      <td>5/19/2020 20:15:00</td>
-      <td>Josephine Caminiti Playground</td>
+      <td>5/26/2020 10:24:04</td>
+      <td>B-13</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Soccer field</td>
       <td>NaN</td>
-      <td>PEP</td>
-      <td>j</td>
-      <td>hengber</td>
-      <td>b</td>
-      <td>jospeh</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>B129</td>
+      <td>Brooklyn</td>
       <td>I</td>
     </tr>
   </tbody>
 </table>
-<p>5 rows × 69 columns</p>
 </div>
 </div>
 
@@ -14287,10 +13872,10 @@ The above exception was the direct cause of the following exception:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_updates</span> <span class="o">=</span> <span class="n">patrol_deltas</span><span class="p">[</span><span class="n">patrol_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_inserts</span> <span class="o">=</span> <span class="n">crowds_deltas</span><span class="p">[</span><span class="n">crowds_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">][</span><span class="n">sql_cols</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -14300,10 +13885,10 @@ The above exception was the direct cause of the following exception:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">patrol_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -14316,7 +13901,7 @@ The above exception was the direct cause of the following exception:
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[95]:</div>
+    <div class="prompt output_prompt">Out[40]:</div>
 
 
 
@@ -14340,37 +13925,187 @@ The above exception was the direct cause of the following exception:
     <tr style="text-align: right;">
       <th></th>
       <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>property</th>
-      <th>location_adddesc</th>
-      <th>parks_division</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity_old</th>
-      <th>summonscount_a01_old</th>
-      <th>summonscount_a03_old</th>
-      <th>summonscount_a04_old</th>
-      <th>summonscount_a22_old</th>
-      <th>other_summonstype_old</th>
-      <th>other_summonscount_old</th>
-      <th>borough_old</th>
-      <th>row_hash_old</th>
-      <th>dml_verb</th>
+      <th>park_district</th>
+      <th>patroncount</th>
+      <th>in_playground</th>
+      <th>action_taken</th>
+      <th>amenity</th>
+      <th>comments</th>
+      <th>site_id</th>
+      <th>borough</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>5/26/2020 17:37:04</td>
+      <td>Q-06</td>
+      <td>25.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Chess area</td>
+      <td>Chess players</td>
+      <td>Q207</td>
+      <td>Queens</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>5/26/2020 17:17:41</td>
+      <td>X-14</td>
+      <td>17.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Soccer field</td>
+      <td>NaN</td>
+      <td>X147A-ZN01</td>
+      <td>Bronx</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5/26/2020 16:31:03</td>
+      <td>X-14</td>
+      <td>8.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Playground</td>
+      <td>On the swings and play equipment</td>
+      <td>X147A-ZN01</td>
+      <td>Bronx</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5/26/2020 10:55:57</td>
+      <td>X-06</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Bench/sitting area</td>
+      <td>NaN</td>
+      <td>X010A</td>
+      <td>Bronx</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5/26/2020 10:24:04</td>
+      <td>B-13</td>
+      <td>20.0</td>
+      <td>0.0</td>
+      <td>Approached the crowd; they ignored the employee</td>
+      <td>Soccer field</td>
+      <td>NaN</td>
+      <td>B129</td>
+      <td>Brooklyn</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_inserts</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_dpr_crowds&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_updates</span> <span class="o">=</span> <span class="n">crowds_deltas</span><span class="p">[</span><span class="n">crowds_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">][</span><span class="n">sql_cols</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[44]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>encounter_timestamp</th>
+      <th>park_district</th>
+      <th>patroncount</th>
+      <th>in_playground</th>
+      <th>action_taken</th>
+      <th>amenity</th>
+      <th>comments</th>
+      <th>site_id</th>
+      <th>borough</th>
     </tr>
   </thead>
   <tbody>
   </tbody>
 </table>
-<p>0 rows × 69 columns</p>
 </div>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_update</span><span class="p">(</span><span class="n">crowds_updates</span><span class="p">,</span> <span class="s1">&#39;tbl_dpr_crowds&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

@@ -13155,7 +13155,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;c:\Projects\config.ini&#39;</span><span class="p">)</span>
@@ -13180,7 +13180,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">col_rename</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PROPERTY_I&#39;</span><span class="p">:</span> <span class="s1">&#39;site_id&#39;</span><span class="p">,</span>
@@ -13188,7 +13188,8 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
                <span class="s1">&#39;DISTRICT&#39;</span><span class="p">:</span> <span class="s1">&#39;park_district&#39;</span><span class="p">,</span> 
                <span class="s1">&#39;DESC_LOCAT&#39;</span><span class="p">:</span> <span class="s1">&#39;desc_location&#39;</span><span class="p">,</span> 
                <span class="s1">&#39;Latitiude&#39;</span><span class="p">:</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> 
-               <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span> <span class="s1">&#39;longitude&#39;</span><span class="p">}</span>
+               <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Borough&#39;</span><span class="p">:</span> <span class="s1">&#39;borough&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -13198,7 +13199,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_rename</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -13218,7 +13219,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con_string</span> <span class="o">=</span> <span class="s1">&#39;Driver={&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span> <span class="s1">&#39;};Server=&#39;</span> <span class="o">+</span> <span class="n">server</span> <span class="o">+</span><span class="s1">&#39;;Database=&#39;</span> <span class="o">+</span> <span class="n">dwh</span> <span class="o">+</span> <span class="s1">&#39;;Trusted_Connection=Yes;&#39;</span>
@@ -13233,7 +13234,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_ref_sites&#39;</span>
@@ -13246,7 +13247,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
@@ -13260,7 +13261,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">sites_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
@@ -13280,7 +13281,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13296,7 +13297,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;DailyTasks_WebMerc_Centroids&#39;</span><span class="p">)</span>
@@ -13309,7 +13310,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
@@ -13322,7 +13323,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
@@ -13337,37 +13338,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Exclude any row with a null site_id</span>
-<span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;dups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="p">[</span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;dups&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13380,7 +13354,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[28]:</div>
 
 
 
@@ -13409,89 +13383,59 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <th>desc_location</th>
       <th>latitude</th>
       <th>longitude</th>
-      <th>dups</th>
+      <th>borough</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>568</td>
-      <td>Q052-01</td>
-      <td>Captain Tilly Park-Captain Tilly Playground</td>
-      <td>Q-08</td>
-      <td>Q052-01 | Captain Tilly Park-Captain Tilly Pla...</td>
-      <td>40.71260</td>
-      <td>-73.79920</td>
-      <td>True</td>
+      <td>0</td>
+      <td>Q102</td>
+      <td>Juniper Valley Park</td>
+      <td>Q-05</td>
+      <td>Q102 | Juniper Valley Park</td>
+      <td>40.7202</td>
+      <td>-73.8804</td>
+      <td>Queens</td>
     </tr>
     <tr>
-      <td>4836</td>
-      <td>M198</td>
-      <td>Martin Luther King Jr. Playground</td>
-      <td>M-10</td>
-      <td>M198 | Martin Luther King Jr. Playground</td>
-      <td>40.80020</td>
-      <td>-73.95040</td>
-      <td>True</td>
+      <td>1</td>
+      <td>Q024</td>
+      <td>Kissena Park</td>
+      <td>Q-07</td>
+      <td>Q024 | Kissena Park</td>
+      <td>40.7454</td>
+      <td>-73.8048</td>
+      <td>Queens</td>
     </tr>
     <tr>
-      <td>4837</td>
-      <td>M404</td>
-      <td>NYC AIDS Memorial Park at St. Vincent’s Triangle</td>
-      <td>M-02</td>
-      <td>M404 | NYC AIDS Memorial Park at St. Vincent’s...</td>
-      <td>40.73720</td>
-      <td>-74.00120</td>
-      <td>True</td>
+      <td>2</td>
+      <td>Q347</td>
+      <td>Colden Playground</td>
+      <td>Q-07</td>
+      <td>Q347 | Colden Playground</td>
+      <td>40.7702</td>
+      <td>-73.8272</td>
+      <td>Queens</td>
     </tr>
     <tr>
-      <td>4841</td>
-      <td>X039-ZN19</td>
-      <td>Orchard Beach</td>
-      <td>NaN</td>
-      <td>X039-ZN19 | Orchard Beach</td>
-      <td>40.86926</td>
-      <td>-73.79017</td>
-      <td>True</td>
+      <td>3</td>
+      <td>Q121</td>
+      <td>Detective Keith L Williams Park</td>
+      <td>Q-12</td>
+      <td>Q121 | Detective Keith L Williams Park</td>
+      <td>40.7029</td>
+      <td>-73.7844</td>
+      <td>Queens</td>
     </tr>
     <tr>
-      <td>4844</td>
-      <td>M042-ZN04</td>
-      <td>Inwood Hill Park - Dyckman Ballfield</td>
-      <td>NaN</td>
-      <td>M042-ZN04 | Inwood Hill Park Zone 4 (Dyckman F...</td>
-      <td>40.87202</td>
-      <td>-73.93082</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <td>4845</td>
-      <td>M071-37</td>
-      <td>Riverside Park-Tot Lot  One Hundred And Twelve</td>
-      <td>NaN</td>
-      <td>M071-37 | Riverside Park-Tot Lot One Hundred A...</td>
-      <td>40.80625</td>
-      <td>-73.96805</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <td>4846</td>
-      <td>M071-38</td>
-      <td>Riverside Park-Tot Lot  One Hundred And Sixteen</td>
-      <td>NaN</td>
-      <td>M071-38 | Riverside Park-Tot Lot One Hundred A...</td>
-      <td>40.80980</td>
-      <td>-73.96535</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <td>4848</td>
-      <td>X044</td>
-      <td>St. James Park</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>40.86516</td>
-      <td>-73.89779</td>
-      <td>True</td>
+      <td>4</td>
+      <td>Q375</td>
+      <td>Willets Point Playground</td>
+      <td>Q-07</td>
+      <td>Q375 | Willets Point Playground</td>
+      <td>40.7838</td>
+      <td>-73.7964</td>
+      <td>Queens</td>
     </tr>
   </tbody>
 </table>
@@ -13506,10 +13450,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13519,10 +13463,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">sites</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">],</span> <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13539,7 +13483,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">sites</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">sites_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;site_id&#39;</span><span class="p">,</span> 
@@ -13553,7 +13497,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_deltas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13569,7 +13513,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[37]:</div>
+    <div class="prompt output_prompt">Out[32]:</div>
 
 
 
@@ -13598,12 +13542,14 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <th>desc_location</th>
       <th>latitude</th>
       <th>longitude</th>
+      <th>borough</th>
       <th>row_hash</th>
       <th>site_desc_old</th>
       <th>park_district_old</th>
       <th>desc_location_old</th>
       <th>latitude_old</th>
       <th>longitude_old</th>
+      <th>borough_old</th>
       <th>row_hash_old</th>
       <th>dml_verb</th>
     </tr>
@@ -13617,7 +13563,9 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q102 | Juniper Valley Park</td>
       <td>40.7202</td>
       <td>-73.8804</td>
-      <td>d322002ab6bc23a6a3e67b72fb0aa7005da8c5212380dc...</td>
+      <td>Queens</td>
+      <td>1930ba678d3a3a8dd294895fdaab7893a18b9fb55f011f...</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13634,7 +13582,9 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q024 | Kissena Park</td>
       <td>40.7454</td>
       <td>-73.8048</td>
-      <td>6b3148652d96466cf59804d9f6121c6005211be0033f6e...</td>
+      <td>Queens</td>
+      <td>707169b8f5989e7e63bf3084a8feb6c9c7ba37ff01370c...</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13651,7 +13601,9 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q347 | Colden Playground</td>
       <td>40.7702</td>
       <td>-73.8272</td>
-      <td>f8b1b82cc366fdf7d2a30573cefd225e0b53ff020b38f5...</td>
+      <td>Queens</td>
+      <td>966796b8304bf1bb54cf96e6427d8cf062cd5a7b570499...</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13668,7 +13620,9 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q121 | Detective Keith L Williams Park</td>
       <td>40.7029</td>
       <td>-73.7844</td>
-      <td>fbe4b102c854dc470881fbe0c2bfdd1a10f7a830f1dfda...</td>
+      <td>Queens</td>
+      <td>ffdd3c6b0d5591e25178b1c4d232dae3cad6f48ce563ac...</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13685,7 +13639,9 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q375 | Willets Point Playground</td>
       <td>40.7838</td>
       <td>-73.7964</td>
-      <td>1cdfd2182f58db2aa5ca2c81a2ba3c814fcdf1df9dcb04...</td>
+      <td>Queens</td>
+      <td>e51dca9c9f859f8c7f6dc9a76d00b015f3a407262b71c4...</td>
+      <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
@@ -13714,7 +13670,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span> <span class="o">=</span> <span class="n">sites_deltas</span><span class="p">[</span><span class="n">sites_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span>
@@ -13727,86 +13683,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[52]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(4849, 6)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">sites_inserts</span><span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">]))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[54]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>4841</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13822,7 +13699,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[44]:</div>
+    <div class="prompt output_prompt">Out[36]:</div>
 
 
 
@@ -13851,6 +13728,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <th>desc_location</th>
       <th>latitude</th>
       <th>longitude</th>
+      <th>borough</th>
     </tr>
   </thead>
   <tbody>
@@ -13862,6 +13740,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q102 | Juniper Valley Park</td>
       <td>40.7202</td>
       <td>-73.8804</td>
+      <td>Queens</td>
     </tr>
     <tr>
       <td>1</td>
@@ -13871,6 +13750,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q024 | Kissena Park</td>
       <td>40.7454</td>
       <td>-73.8048</td>
+      <td>Queens</td>
     </tr>
     <tr>
       <td>2</td>
@@ -13880,6 +13760,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q347 | Colden Playground</td>
       <td>40.7702</td>
       <td>-73.8272</td>
+      <td>Queens</td>
     </tr>
     <tr>
       <td>3</td>
@@ -13889,6 +13770,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q121 | Detective Keith L Williams Park</td>
       <td>40.7029</td>
       <td>-73.7844</td>
+      <td>Queens</td>
     </tr>
     <tr>
       <td>4</td>
@@ -13898,6 +13780,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <td>Q375 | Willets Point Playground</td>
       <td>40.7838</td>
       <td>-73.7964</td>
+      <td>Queens</td>
     </tr>
   </tbody>
 </table>
@@ -13912,7 +13795,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_inserts</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_ref_sites&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
@@ -13932,7 +13815,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_updates</span> <span class="o">=</span> <span class="n">sites_deltas</span><span class="p">[</span><span class="n">sites_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span>
@@ -13945,7 +13828,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13961,7 +13844,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[45]:</div>
+    <div class="prompt output_prompt">Out[39]:</div>
 
 
 
@@ -13990,6 +13873,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <th>desc_location</th>
       <th>latitude</th>
       <th>longitude</th>
+      <th>borough</th>
     </tr>
   </thead>
   <tbody>
@@ -14006,7 +13890,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_update</span><span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="n">sites_updates</span><span class="p">,</span> <span class="n">sql_table</span> <span class="o">=</span> <span class="s1">&#39;tbl_ref_sites&#39;</span><span class="p">,</span> <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">where_col</span> <span class="o">=</span> <span class="s1">&#39;site_id&#39;</span><span class="p">)</span>

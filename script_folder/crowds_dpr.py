@@ -32,6 +32,7 @@ sys.path.append('../..')
 from IPM_Shared_Code_public.Python.google_creds_functions import create_assertion_session
 from IPM_Shared_Code_public.Python.utils import get_config
 from IPM_Shared_Code_public.Python.delta_functions import *
+from IPM_Shared_Code_public.Python.sql_functions import *
 
 
 # ### Use the config file to setup connections
@@ -61,7 +62,7 @@ engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 
 #Call the column map function to get the dictionary to be used for renaming and subsetting the columns
-col_rename = column_map('ambassador_dpr')
+col_rename = column_map('crowds_dpr')
 
 
 # In[7]:
@@ -80,49 +81,49 @@ cols = list(col_rename.values())
 
 # ### Read the site reference list from SQL
 
-# In[10]:
+# In[9]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[11]:
+# In[10]:
 
 
-site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc']]
+site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'desc_location']]
 
 
 # ### Read the current data from SQL
 
+# In[11]:
+
+
+sql = 'select * from crowdsdb.dbo.tbl_dpr_crowds'
+
+
 # In[12]:
 
 
-sql = 'select * from crowdsdb.dbo.tbl_dpr_ambassador'
+crowds_sql = (pd.read_sql(con = engine, sql = sql)
+              .drop(columns = ['crowds_id'])
+              .fillna(value = np.nan, axis = 1))
 
 
 # In[13]:
 
 
-ambass_sql = (pd.read_sql(con = engine, sql = sql)
-              .drop(columns = ['ambassador_id'])
-              .fillna(value = np.nan, axis = 1))
+sql_cols = list(crowds_sql.columns.values)
 
 
 # In[14]:
 
 
-sql_cols = list(ambass_sql.columns.values)
-
-
-# In[15]:
-
-
-hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
+hash_rows(crowds_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
 
 
 # ### Read the latest data from Google Sheets
 
-# In[16]:
+# In[15]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -131,60 +132,118 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
+# In[16]:
+
+
+sheet = client.open('Crowds_Combined')
+
+
 # In[17]:
 
 
-sheet = client.open('_Combined INTERNAL PARKS Ambassador COVID-19 Reporting (Responses)')
+ws = sheet.worksheet('Sheet1')
 
 
-# In[18]:
+# In[24]:
 
 
-ws = sheet.worksheet('Form Responses 1')
-
-
-# In[19]:
-
-
-ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
+crowds = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           #Always remove row 0 with the column headers
           .iloc[1:]
           .rename(columns = col_rename)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[20]:
+# In[25]:
 
 
-ambass.head()
+#Remove the rows where there timestamp is null because these sheets have extra rows full of nulls
+crowds = crowds[crowds['encounter_timestamp'].notnull()]
 
 
-# In[21]:
+# In[26]:
 
 
-yesno = ['sd_pdcontact', 'closed_approach', 'closed_outcome', 'closed_pdcontact']
+crowds.head()
 
 
-# In[22]:
+# In[27]:
 
 
-yesno_cols(ambass, yesno)
+yesno = ['in_playground']
 
 
-# In[23]:
+# In[28]:
 
 
-ambass = ambass.merge(site_ref, how = 'left', on = 'site_desc')[sql_cols]
+yesno_cols(crowds, yesno)
 
 
-# In[24]:
+# In[29]:
 
 
-ambass.head()
+crowds = crowds.merge(site_ref, how = 'left', on = 'desc_location')[sql_cols]
 
 
-# In[ ]:
+# In[26]:
 
 
-hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
+hash_rows(crowds, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
+
+
+# In[27]:
+
+
+crowds.head()
+
+
+# ### Find the deltas based on the row hashes
+
+# In[33]:
+
+
+crowds_deltas = (check_deltas(new_df = crowds, old_df = crowds_sql, on = ['encounter_timestamp', 'site_id'], 
+                              hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
+
+
+# In[34]:
+
+
+crowds_deltas.head()
+
+
+# In[39]:
+
+
+crowds_inserts = crowds_deltas[crowds_deltas['dml_verb'] == 'I'][sql_cols]
+
+
+# In[40]:
+
+
+crowds_inserts.head()
+
+
+# In[41]:
+
+
+crowds_inserts.to_sql('tbl_dpr_crowds', engine, index = False, if_exists = 'append')
+
+
+# In[43]:
+
+
+crowds_updates = crowds_deltas[crowds_deltas['dml_verb'] == 'U'][sql_cols]
+
+
+# In[44]:
+
+
+crowds_updates.head()
+
+
+# In[47]:
+
+
+sql_update(crowds_updates, 'tbl_dpr_crowds', engine, ['encounter_timestamp', 'site_id'])
 

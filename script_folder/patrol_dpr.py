@@ -47,7 +47,15 @@ dwh = config['db']['crowdsdb']
 cred_file = config['google']['path_to_file']
 
 
-# ### Execute the function to get the columns for this sheet
+# In[ ]:
+
+
+con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
+params = urllib.parse.quote_plus(con_string)
+engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
+
+
+# ### Execute the function to get the renamed columns for this sheet
 
 # In[55]:
 
@@ -71,14 +79,6 @@ cols = list(col_rename.values())
 
 
 # ### Read the current data from SQL
-
-# In[42]:
-
-
-con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
-params = urllib.parse.quote_plus(con_string)
-engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
-
 
 # In[43]:
 

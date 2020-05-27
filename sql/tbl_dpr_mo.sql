@@ -14,17 +14,13 @@
  description: Raw data from M&O crowds apps                   
                                                                                       
 ***********************************************************************************************************************/
-CREATE TABLE crowdsdb.dbo.tbl_dpr_mo
-  ( 
-     mo_id            INT IDENTITY(1, 1) PRIMARY KEY, 
-     encounter_DateTime   DATETIME, 
-     district             NVARCHAR(6),
-     patroncount          INT,
-     in_playground        BIT,
-     actiontaken          NVARCHAR(100),
-     amenity              NVARCHAR(100), 
-     comments             NVARCHAR(1000)
-     site_id              NVARCHAR(30) FOREIGN KEY REFERENCES crowdsdb.dbo.tbl_ref_sites(site_id), 
-     location_adddesc     NVARCHAR(1000), 
-     borough              NVARCHAR(13) 
-  ) 
+create table crowdsdb.dbo.tbl_dpr_crowds(crowds_id int identity(1, 1) primary key, 
+										 encounter_timestamp datetime, 
+										 park_district nvarchar(15),
+										 patroncount int,
+										 in_playground bit,
+										 action_taken nvarchar(100),
+										 amenity nvarchar(100), 
+										 comments nvarchar(1000),
+										 site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id), 
+										 borough nvarchar(13)) 

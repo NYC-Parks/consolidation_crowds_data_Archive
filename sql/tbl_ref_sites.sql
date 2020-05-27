@@ -23,4 +23,5 @@ create table crowdsdb.dbo.tbl_ref_sites(site_id nvarchar(30) primary key,
 										desc_location nvarchar(113), /*Sometimes this had commas and it had to be adjusted (commas removed and maybe replaced with hyphens)*/
 										obj_gisobjid int,
 										latitude float,
-										longitude float)
+										longitude float,
+										borough nvarchar(13))
