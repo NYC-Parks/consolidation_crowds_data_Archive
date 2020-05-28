@@ -90,7 +90,7 @@ sql = 'select * from crowdsdb.dbo.tbl_dpr_patrol'
 
 
 patrol_sql = (pd.read_sql(con = engine, sql = sql)
-              .drop(columns = ['patrol_id'])
+              .drop(columns = ['patrol_id', 'patroncount'])
               .fillna(value = np.nan, axis = 1))
 
 

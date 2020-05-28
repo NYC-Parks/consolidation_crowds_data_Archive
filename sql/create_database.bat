@@ -14,3 +14,5 @@ sqlcmd -S . -E -i tbl_dpr_ambassador.sql
 
 sqlcmd -S . -E -i tbl_cw_ambassador.sql
 
+sqlcmd -S . -E -i tbl_dpr_crowds.sql
+

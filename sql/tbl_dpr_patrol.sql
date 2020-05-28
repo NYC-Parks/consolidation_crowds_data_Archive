@@ -53,4 +53,7 @@ create table crowdsdb.dbo.tbl_dpr_patrol(patrol_id int identity(1,1) primary key
 										 summonscount_a22 int, 
 										 other_summonstype nvarchar(500), 
 										 other_summonscount int, 
-										 borough nvarchar(13))
+										 borough nvarchar(13),
+										 patroncount as (case when lower(encounter_type) = 'no encounter' then null
+																 else isnull(sd_patronscomplied, 0) + isnull(sd_patronsnocomply, 0) + isnull(closed_patroncount, 0) 
+															 end) persisted);

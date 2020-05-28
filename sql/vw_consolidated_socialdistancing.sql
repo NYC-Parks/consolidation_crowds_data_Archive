@@ -17,31 +17,58 @@
 	       vis. His ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
-create table crowdsdb.dbo.tbl_cw_ambassador(ambassador_id int identity(1,1) primary key,
-											encounter_timestamp datetime, 
-											encounter_datetime datetime, 
-											site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id),
-											location_adddesc nvarchar(1000), 
-											city_agency nvarchar(80), 
-											firstname_1 nvarchar(80), 
-											lastname_1 nvarchar(80), 
-											firstname_2 nvarchar(80), 
-											lastname_2 nvarchar(80), 
-											firstname_3 nvarchar(80), 
-											lastname_3 nvarchar(80), 
-											encounter_type nvarchar(50), 
-											sd_patronscomplied int, 
-											sd_patronsnocomply int, 
-											sd_amenity nvarchar(100), 
-											sd_pdcontact bit, 
-											sd_comments nvarchar(1000),
-											closed_amenity nvarchar(100), 
-											closed_patroncount int, 
-											closed_approach bit, 
-											closed_outcome bit,
-											closed_pdcontact bit,
-											closed_comments nvarchar(1000),
-											borough nvarchar(13),
-											patroncount as (case when lower(encounter_type) = 'no encounter' then null
-																 else isnull(sd_patronscomplied, 0) + isnull(sd_patronsnocomply, 0) + isnull(closed_patroncount, 0) 
-															 end) persisted);
+use crowdsdb
+go
+
+create view vw_consolidated_socialdistancing as
+	select 'DPR Patrol' as source_survey,
+		   encounter_datetime,
+		   site_id,
+		   location_adddesc,
+		   'DPR' as city_agency,
+		   encounter_type,
+		   coalesce(closed_amenity, sd_amenity) as amenity,
+		   patroncount,
+		   borough,
+		   null as precinct,
+		   null as patrol_boro
+	from crowdsdb.dbo.tbl_dpr_patrol
+	union all
+	select 'DPR Ambassador' as source_survey,
+		   encounter_datetime,
+		   site_id,
+		   location_adddesc,
+		   'DPR' as city_agency,
+		   encounter_type,
+		   coalesce(closed_amenity, sd_amenity) as amenity,
+		   patroncount,
+		   borough,
+		   null as precinct,
+		   null as patrol_boro
+	from crowdsdb.dbo.tbl_dpr_ambassador
+	union all
+	select 'CW Ambassador' as source_survey,
+		   encounter_datetime,
+		   site_id,
+		   location_adddesc,
+		   city_agency,
+		   encounter_type,
+		   coalesce(closed_amenity, sd_amenity) as amenity,
+		   patroncount,
+		   borough,
+		   null as precinct,
+		   null as patrol_boro
+	from crowdsdb.dbo.tbl_cw_ambassador
+	union all
+	select 'DPR Crowds' as source_survey,
+		   encounter_timestamp as encounter_datetime,
+		   site_id,
+		   null location_adddesc,
+		   'DPR' as city_agency,
+		   null encounter_type,
+		   amenity,
+		   patroncount,
+		   borough,
+		   null as precinct,
+		   null as patrol_boro
+	from crowdsdb.dbo.tbl_dpr_crowds

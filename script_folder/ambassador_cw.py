@@ -24,7 +24,7 @@ from column_map import column_map
 from yesno_functions import *
 
 
-# In[59]:
+# In[3]:
 
 
 #Import shared functions
@@ -62,7 +62,7 @@ engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 
 #Call the column map function to get the dictionary to be used for renaming and subsetting the columns
-col_rename = column_map('ambassador_dpr')
+col_rename = column_map('ambassador_cw')
 
 
 # In[7]:
@@ -81,13 +81,13 @@ cols = list(col_rename.values())
 
 # ### Read the site reference list from SQL
 
-# In[31]:
+# In[9]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[32]:
+# In[10]:
 
 
 site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'borough']]
@@ -95,13 +95,13 @@ site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'boroug
 
 # ### Read the current data from SQL
 
-# In[33]:
+# In[11]:
 
 
-sql = 'select * from crowdsdb.dbo.tbl_dpr_ambassador'
+sql = 'select * from crowdsdb.dbo.tbl_cw_ambassador'
 
 
-# In[34]:
+# In[12]:
 
 
 ambass_sql = (pd.read_sql(con = engine, sql = sql)
@@ -109,13 +109,13 @@ ambass_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[35]:
+# In[13]:
 
 
 sql_cols = list(ambass_sql.columns.values)
 
 
-# In[36]:
+# In[14]:
 
 
 hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -123,7 +123,7 @@ hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the latest data from Google Sheets
 
-# In[37]:
+# In[15]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -132,16 +132,16 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[38]:
+# In[16]:
 
 
-sheet = client.open('_Combined INTERNAL PARKS Ambassador COVID-19 Reporting (Responses)')
+sheet = client.open('_COMBINED Inter-Agency Parks Social Distancing Education Ambassador Report (Responses)')
 
 
 # In[39]:
 
 
-ws = sheet.worksheet('Form Responses 1')
+ws = sheet.worksheet('RESPONSES')
 
 
 # In[40]:
@@ -227,7 +227,7 @@ ambass_inserts.head()
 # In[55]:
 
 
-ambass_inserts.to_sql('tbl_dpr_ambassador', engine, index = False, if_exists = 'append')
+ambass_inserts.to_sql('tbl_cw_ambassador', engine, index = False, if_exists = 'append')
 
 
 # In[56]:
@@ -245,5 +245,5 @@ ambass_updates.head()
 # In[60]:
 
 
-sql_update(ambass_updates, 'tbl_dpr_ambassador', engine, ['encounter_timestamp', 'site_id'])
+sql_update(ambass_updates, 'tbl_cw_ambassador', engine, ['encounter_timestamp', 'site_id'])
 
