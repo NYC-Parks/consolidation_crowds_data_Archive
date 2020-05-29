@@ -144,7 +144,7 @@ sheet = client.open('Crowds_Combined')
 ws = sheet.worksheet('Sheet1')
 
 
-# In[24]:
+# In[18]:
 
 
 crowds = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
@@ -154,44 +154,44 @@ crowds = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[25]:
+# In[19]:
 
 
 #Remove the rows where there timestamp is null because these sheets have extra rows full of nulls
 crowds = crowds[crowds['encounter_timestamp'].notnull()]
 
 
-# In[26]:
+# In[20]:
 
 
 crowds.head()
 
 
-# In[27]:
+# In[21]:
 
 
 yesno = ['in_playground']
 
 
-# In[28]:
+# In[22]:
 
 
 yesno_cols(crowds, yesno)
 
 
-# In[29]:
+# In[23]:
 
 
 crowds = crowds.merge(site_ref, how = 'left', on = 'desc_location')[sql_cols]
 
 
-# In[26]:
+# In[24]:
 
 
 hash_rows(crowds, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
 
 
-# In[27]:
+# In[25]:
 
 
 crowds.head()
@@ -199,50 +199,50 @@ crowds.head()
 
 # ### Find the deltas based on the row hashes
 
-# In[33]:
+# In[26]:
 
 
 crowds_deltas = (check_deltas(new_df = crowds, old_df = crowds_sql, on = ['encounter_timestamp', 'site_id'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[34]:
+# In[27]:
 
 
 crowds_deltas.head()
 
 
-# In[39]:
+# In[28]:
 
 
 crowds_inserts = crowds_deltas[crowds_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[40]:
+# In[29]:
 
 
 crowds_inserts.head()
 
 
-# In[41]:
+# In[30]:
 
 
 crowds_inserts.to_sql('tbl_dpr_crowds', engine, index = False, if_exists = 'append')
 
 
-# In[43]:
+# In[31]:
 
 
 crowds_updates = crowds_deltas[crowds_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[44]:
+# In[32]:
 
 
 crowds_updates.head()
 
 
-# In[47]:
+# In[33]:
 
 
 sql_update(crowds_updates, 'tbl_dpr_crowds', engine, ['encounter_timestamp', 'site_id'])

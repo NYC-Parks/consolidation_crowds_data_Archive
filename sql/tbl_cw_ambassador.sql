@@ -29,7 +29,7 @@ create table crowdsdb.dbo.tbl_cw_ambassador(ambassador_id int identity(1,1) prim
 											lastname_2 nvarchar(80), 
 											firstname_3 nvarchar(80), 
 											lastname_3 nvarchar(80), 
-											encounter_type nvarchar(50), 
+											encounter_type nvarchar(80), 
 											sd_patronscomplied int, 
 											sd_patronsnocomply int, 
 											sd_amenity nvarchar(100), 

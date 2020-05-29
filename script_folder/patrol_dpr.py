@@ -32,6 +32,7 @@ sys.path.append('../..')
 from IPM_Shared_Code_public.Python.google_creds_functions import create_assertion_session
 from IPM_Shared_Code_public.Python.utils import get_config
 from IPM_Shared_Code_public.Python.delta_functions import *
+from IPM_Shared_Code_public.Python.sql_functions import *
 
 
 # ### Use the config file to setup connections
@@ -47,7 +48,7 @@ dwh = config['db']['crowdsdb']
 cred_file = config['google']['path_to_file']
 
 
-# In[ ]:
+# In[5]:
 
 
 con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
@@ -57,14 +58,14 @@ engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # ### Execute the function to get the renamed columns for this sheet
 
-# In[55]:
+# In[6]:
 
 
 #Call the column map function to get the dictionary to be used for renaming and subsetting the columns
 col_rename = column_map('patrol_dpr')
 
 
-# In[56]:
+# In[7]:
 
 
 #Because of duplicate column names these columns are renamed based on the column index and the keys and 
@@ -72,7 +73,7 @@ col_rename = column_map('patrol_dpr')
 col_rename = {v[0]: k for k, v in col_rename.items()}
 
 
-# In[57]:
+# In[8]:
 
 
 cols = list(col_rename.values())
@@ -80,13 +81,13 @@ cols = list(col_rename.values())
 
 # ### Read the current data from SQL
 
-# In[43]:
+# In[9]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_dpr_patrol'
 
 
-# In[44]:
+# In[10]:
 
 
 patrol_sql = (pd.read_sql(con = engine, sql = sql)
@@ -94,80 +95,41 @@ patrol_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[45]:
+# In[11]:
 
 
 sql_cols = list(patrol_sql.columns.values)
 
 
-# In[46]:
+# In[12]:
 
 
 patrol_sql.head()
 
 
-# In[12]:
+# In[13]:
 
 
 hash_rows(patrol_sql, exclude_cols = ['encounter_timestamp'], hash_name = 'row_hash')
 
 
-# ### Add a section to try reading in the Site Reference list since it cannot go into a DB in the current state
-
-# In[33]:
-
-
-col_rename = {'PROPERTY_I': 'site_id',
-               'DESCRIPTIO': 'site_desc', 
-               'DISTRICT': 'park_district', 
-               'DESC_LOCAT': 'desc_location', 
-               'Latitiude': 'latitude', 
-               'Longitude': 'longitude'}
-
-
-# In[35]:
-
-
-cols = list(col_rename.values())
-
-
-# In[37]:
-
-
-sheet = client.open('DailyTasks_WebMerc_Centroids')
-
-
-# In[38]:
-
-
-ws = sheet.worksheet('Sheet1')
-
-
-# In[39]:
-
-
-site_ref = (get_as_dataframe(ws, evaluate_formulas = True, header= 0)
-            .rename(columns = col_rename)
-            .fillna(value = np.nan, axis = 1))[cols]
-
-
 # ### Read the site reference list from SQL
 
-# In[26]:
+# In[14]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[ ]:
+# In[15]:
 
 
-site_ref = pd.read_sql(con = engine, sql = sql)
+site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'borough']]
 
 
 # ### Read the latest data from Google Sheets
 
-# In[50]:
+# In[16]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -176,38 +138,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[51]:
+# In[17]:
 
 
 sheet = client.open('COMBINED Patrol Reporting Responses')
 
 
-# In[52]:
+# In[18]:
 
 
 ws = sheet.worksheet('MASTER')
 
 
-# In[16]:
-
-
-#patrol_hist = client.open_by_url('https://docs.google.com/spreadsheets/d/name/edit#gid=0/revisions')
-
-
-# In[17]:
-
-
-#patrol_hist = (get_as_dataframe(hist.worksheet('MASTER'), evaluate_formulas = True, header= 0)
-#               .rename(columns = col_rename))[list(col_rename.values())]
-
-
-# In[18]:
-
-
-#patrol_hist = patrol_hist[patrol_hist['encounter_timestamp'].notna()]
-
-
-# In[58]:
+# In[35]:
 
 
 #Read the worksheet as a data frame, rename the columns and subset the columns to only include those
@@ -219,83 +162,83 @@ patrol = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[59]:
+# In[37]:
 
 
 patrol.head()
 
 
-# In[60]:
+# In[38]:
 
 
 yesno = ['closed_education', 'closed_outcome', 'closed_summonsissued', 'closed_pdassist',
          'closed_pdcontact', 'sd_summonsissued', 'sd_pdassist', 'sd_pdcontact']
 
 
-# In[61]:
+# In[40]:
 
 
 yesno_cols(patrol, yesno)
 
 
-# In[62]:
+# In[41]:
 
 
 #Remove any rows with no data, presumably these are rows with no timestamp
 patrol = patrol[patrol['encounter_timestamp'].notna()]
 
 
-# In[63]:
+# In[42]:
 
 
-patrol = patrol.merge(site_ref, how = 'left', on = 'site_desc')#[sql_cols]
+patrol = patrol.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[64]:
+# In[44]:
 
 
-patrol[patrol['site_id'].isnull()]['site_desc'].unique()
+hash_rows(patrol, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
 
 
-# In[25]:
+# In[45]:
 
 
-patrol.to_sql('tbl_dpr_patrol3', engine, index = False, if_exists = 'append')
+patrol_deltas = (check_deltas(new_df = patrol, old_df = patrol_sql, on = ['site_id', 'encounter_timestamp'], 
+                              hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[78]:
+# In[46]:
 
 
-hash_rows(patrol, exclude_cols = ['encounter_timestamp'], hash_name = 'row_hash')
+patrol_inserts = patrol_deltas[patrol_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[91]:
-
-
-patrol_deltas = (check_deltas(new_df = patrol, old_df = patrol_sql, on = 'encounter_timestamp', 
-                              hash_name = 'row_hash', dml_col = 'dml_verb'))
-
-
-# In[92]:
-
-
-patrol_inserts = patrol_deltas[patrol_deltas['dml_verb'] == 'I']
-
-
-# In[94]:
+# In[47]:
 
 
 patrol_inserts.head()
 
 
-# In[93]:
+# In[48]:
 
 
-patrol_updates = patrol_deltas[patrol_deltas['dml_verb'] == 'U']
+patrol_inserts.to_sql('tbl_dpr_patrol', engine, index = False, if_exists = 'append')
 
 
-# In[95]:
+# In[ ]:
+
+
+patrol_updates = patrol_deltas[patrol_deltas['dml_verb'] == 'U'][sql_cols]
+
+
+# In[ ]:
 
 
 patrol_updates.head()
+
+
+# In[ ]:
+
+
+sql_update(patrol_updates, 'tbl_dpr_patrol', engine, ['encounter_timestamp', 'site_id'])
 
