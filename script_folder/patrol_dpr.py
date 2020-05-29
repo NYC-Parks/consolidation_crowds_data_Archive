@@ -150,7 +150,7 @@ sheet = client.open('COMBINED Patrol Reporting Responses')
 ws = sheet.worksheet('MASTER')
 
 
-# In[35]:
+# In[19]:
 
 
 #Read the worksheet as a data frame, rename the columns and subset the columns to only include those
@@ -162,61 +162,134 @@ patrol = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[37]:
+# In[20]:
 
 
 patrol.head()
 
 
-# In[38]:
+# In[21]:
 
 
 yesno = ['closed_education', 'closed_outcome', 'closed_summonsissued', 'closed_pdassist',
          'closed_pdcontact', 'sd_summonsissued', 'sd_pdassist', 'sd_pdcontact']
 
 
-# In[40]:
+# In[22]:
 
 
 yesno_cols(patrol, yesno)
 
 
-# In[41]:
+# In[23]:
 
 
 #Remove any rows with no data, presumably these are rows with no timestamp
 patrol = patrol[patrol['encounter_timestamp'].notna()]
 
 
-# In[42]:
+# In[24]:
 
 
 patrol = patrol.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[44]:
+# In[25]:
 
 
 hash_rows(patrol, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
 
 
-# In[45]:
+# In[26]:
 
 
 patrol_deltas = (check_deltas(new_df = patrol, old_df = patrol_sql, on = ['site_id', 'encounter_timestamp'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[46]:
+# In[27]:
 
 
 patrol_inserts = patrol_deltas[patrol_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[47]:
+# In[28]:
 
 
 patrol_inserts.head()
+
+
+# In[52]:
+
+
+import datetime
+
+
+# In[90]:
+
+
+def get_datetime(row,col):
+    try:
+        return pd.to_datetime(row[col],infer_datetime_format=True)
+    except:
+        print(row.name)
+
+
+# In[91]:
+
+
+test = patrol.copy()
+
+
+# In[92]:
+
+
+datetime_col = 'encounter_datetime'
+test[datetime_col] = test.apply(lambda row: get_datetime(row, datetime_col),axis=1)
+
+
+# In[94]:
+
+
+patrol.iloc[15770]
+
+
+# In[74]:
+
+
+for i,v in test['encounter_datetime'].iteritems():
+    if type(v) != 'pandas._libs.tslibs.timestamps.Timestamp'
+
+
+# In[37]:
+
+
+x = list(test.unique())
+
+
+# In[50]:
+
+
+print(x)
+
+
+# In[51]:
+
+
+test.dtypes()
+
+
+# In[47]:
+
+
+for v in x:
+    print(v == '...')
+
+
+# In[32]:
+
+
+test.to_sql('tbl_dpr_patrol', engine, index = False, if_exists = 'append')
 
 
 # In[48]:
