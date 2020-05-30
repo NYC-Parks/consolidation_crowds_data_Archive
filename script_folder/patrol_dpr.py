@@ -81,13 +81,13 @@ cols = list(col_rename.values())
 
 # ### Read the current data from SQL
 
-# In[9]:
+# In[13]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_dpr_patrol'
 
 
-# In[10]:
+# In[14]:
 
 
 patrol_sql = (pd.read_sql(con = engine, sql = sql)
@@ -95,19 +95,19 @@ patrol_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[11]:
+# In[15]:
 
 
 sql_cols = list(patrol_sql.columns.values)
 
 
-# In[12]:
+# In[16]:
 
 
 patrol_sql.head()
 
 
-# In[13]:
+# In[17]:
 
 
 hash_rows(patrol_sql, exclude_cols = ['encounter_timestamp'], hash_name = 'row_hash')
@@ -115,13 +115,13 @@ hash_rows(patrol_sql, exclude_cols = ['encounter_timestamp'], hash_name = 'row_h
 
 # ### Read the site reference list from SQL
 
-# In[14]:
+# In[18]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[15]:
+# In[19]:
 
 
 site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'borough']]
@@ -129,7 +129,7 @@ site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'boroug
 
 # ### Read the latest data from Google Sheets
 
-# In[16]:
+# In[20]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -138,19 +138,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[17]:
+# In[21]:
 
 
 sheet = client.open('COMBINED Patrol Reporting Responses')
 
 
-# In[18]:
+# In[22]:
 
 
 ws = sheet.worksheet('MASTER')
 
 
-# In[19]:
+# In[24]:
 
 
 #Read the worksheet as a data frame, rename the columns and subset the columns to only include those
@@ -162,155 +162,82 @@ patrol = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[20]:
+# In[25]:
 
 
 patrol.head()
 
 
-# In[21]:
+# In[26]:
 
 
 yesno = ['closed_education', 'closed_outcome', 'closed_summonsissued', 'closed_pdassist',
          'closed_pdcontact', 'sd_summonsissued', 'sd_pdassist', 'sd_pdcontact']
 
 
-# In[22]:
+# In[27]:
 
 
 yesno_cols(patrol, yesno)
 
 
-# In[23]:
+# In[28]:
 
 
 #Remove any rows with no data, presumably these are rows with no timestamp
 patrol = patrol[patrol['encounter_timestamp'].notna()]
 
 
-# In[24]:
+# In[29]:
 
 
 patrol = patrol.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[25]:
+# In[30]:
 
 
 hash_rows(patrol, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
 
 
-# In[26]:
+# In[31]:
 
 
 patrol_deltas = (check_deltas(new_df = patrol, old_df = patrol_sql, on = ['site_id', 'encounter_timestamp'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[27]:
+# In[32]:
 
 
 patrol_inserts = patrol_deltas[patrol_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[28]:
+# In[33]:
 
 
 patrol_inserts.head()
 
 
-# In[52]:
-
-
-import datetime
-
-
-# In[90]:
-
-
-def get_datetime(row,col):
-    try:
-        return pd.to_datetime(row[col],infer_datetime_format=True)
-    except:
-        print(row.name)
-
-
-# In[91]:
-
-
-test = patrol.copy()
-
-
-# In[92]:
-
-
-datetime_col = 'encounter_datetime'
-test[datetime_col] = test.apply(lambda row: get_datetime(row, datetime_col),axis=1)
-
-
-# In[94]:
-
-
-patrol.iloc[15770]
-
-
-# In[74]:
-
-
-for i,v in test['encounter_datetime'].iteritems():
-    if type(v) != 'pandas._libs.tslibs.timestamps.Timestamp'
-
-
-# In[37]:
-
-
-x = list(test.unique())
-
-
-# In[50]:
-
-
-print(x)
-
-
-# In[51]:
-
-
-test.dtypes()
-
-
-# In[47]:
-
-
-for v in x:
-    print(v == '...')
-
-
-# In[32]:
-
-
-test.to_sql('tbl_dpr_patrol', engine, index = False, if_exists = 'append')
-
-
-# In[48]:
+# In[35]:
 
 
 patrol_inserts.to_sql('tbl_dpr_patrol', engine, index = False, if_exists = 'append')
 
 
-# In[ ]:
+# In[36]:
 
 
 patrol_updates = patrol_deltas[patrol_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[ ]:
+# In[40]:
 
 
 patrol_updates.head()
 
 
-# In[ ]:
+# In[41]:
 
 
 sql_update(patrol_updates, 'tbl_dpr_patrol', engine, ['encounter_timestamp', 'site_id'])

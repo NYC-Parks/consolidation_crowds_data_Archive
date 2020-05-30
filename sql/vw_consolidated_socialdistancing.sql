@@ -20,7 +20,8 @@
 use crowdsdb
 go
 
-create view vw_consolidated_socialdistancing as
+create or alter view vw_consolidated_socialdistancing as
+	with surveys as(
 	select 'DPR Patrol' as source_survey,
 		   encounter_datetime,
 		   site_id,
@@ -29,9 +30,7 @@ create view vw_consolidated_socialdistancing as
 		   encounter_type,
 		   coalesce(closed_amenity, sd_amenity) as amenity,
 		   patroncount,
-		   borough,
-		   null as precinct,
-		   null as patrol_boro
+		   borough
 	from crowdsdb.dbo.tbl_dpr_patrol
 	union all
 	select 'DPR Ambassador' as source_survey,
@@ -42,9 +41,7 @@ create view vw_consolidated_socialdistancing as
 		   encounter_type,
 		   coalesce(closed_amenity, sd_amenity) as amenity,
 		   patroncount,
-		   borough,
-		   null as precinct,
-		   null as patrol_boro
+		   borough
 	from crowdsdb.dbo.tbl_dpr_ambassador
 	union all
 	select 'CW Ambassador' as source_survey,
@@ -55,9 +52,7 @@ create view vw_consolidated_socialdistancing as
 		   encounter_type,
 		   coalesce(closed_amenity, sd_amenity) as amenity,
 		   patroncount,
-		   borough,
-		   null as precinct,
-		   null as patrol_boro
+		   borough
 	from crowdsdb.dbo.tbl_cw_ambassador
 	union all
 	select 'DPR Crowds' as source_survey,
@@ -68,7 +63,24 @@ create view vw_consolidated_socialdistancing as
 		   null encounter_type,
 		   amenity,
 		   patroncount,
-		   borough,
-		   null as precinct,
-		   null as patrol_boro
-	from crowdsdb.dbo.tbl_dpr_crowds
+		   borough
+	from crowdsdb.dbo.tbl_dpr_crowds)
+
+	select l.source_survey,
+		   l.encounter_datetime,
+		   r.gispropnum,
+		   r.reported_as,
+		   l.site_id,
+		   r.site_desc,
+		   r.park_borough,
+		   l.location_adddesc,
+		   l.city_agency,
+		   l.encounter_type,
+		   l.amenity,
+		   l.patroncount,
+		   r.police_precinct,
+		   r.police_boro_com
+	from surveys as l
+	left join
+		 crowdsdb.dbo.tbl_ref_park_sites as r
+	on l.site_id = r.site_id
