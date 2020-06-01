@@ -79,7 +79,8 @@ create or alter view vw_consolidated_socialdistancing as
 		   l.amenity,
 		   l.patroncount,
 		   r.police_precinct,
-		   r.police_boro_com
+		   r.police_boro_com,
+		   r.communityboard
 	from surveys as l
 	left join
 		 crowdsdb.dbo.tbl_ref_park_sites as r

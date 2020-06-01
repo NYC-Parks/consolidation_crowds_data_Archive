@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
 #Import required libraries
@@ -16,15 +16,16 @@ from gspread_dataframe import set_with_dataframe
 from gspread_dataframe import get_as_dataframe
 
 
-# In[3]:
+# In[36]:
 
 
 #Import project specific functions
 from column_map import column_map
 from yesno_functions import *
+from format_datetime import *
 
 
-# In[4]:
+# In[3]:
 
 
 #Import shared functions
@@ -37,7 +38,7 @@ from IPM_Shared_Code_public.Python.sql_functions import *
 
 # ### Use the config file to setup connections
 
-# In[5]:
+# In[4]:
 
 
 config = get_config('c:\Projects\config.ini')
@@ -48,7 +49,7 @@ dwh = config['db']['crowdsdb']
 cred_file = config['google']['path_to_file']
 
 
-# In[6]:
+# In[5]:
 
 
 con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
@@ -58,14 +59,14 @@ engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # ### Execute the function to get the renamed columns for this sheet
 
-# In[7]:
+# In[6]:
 
 
 #Call the column map function to get the dictionary to be used for renaming and subsetting the columns
 col_rename = column_map('ambassador_cw')
 
 
-# In[8]:
+# In[7]:
 
 
 #Because of duplicate column names these columns are renamed based on the column index and the keys and 
@@ -73,7 +74,7 @@ col_rename = column_map('ambassador_cw')
 col_rename = {v[0]: k for k, v in col_rename.items()}
 
 
-# In[9]:
+# In[8]:
 
 
 cols = list(col_rename.values())
@@ -81,13 +82,13 @@ cols = list(col_rename.values())
 
 # ### Read the site reference list from SQL
 
-# In[10]:
+# In[9]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[11]:
+# In[10]:
 
 
 site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'borough']]
@@ -95,13 +96,13 @@ site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'boroug
 
 # ### Read the current data from SQL
 
-# In[12]:
+# In[11]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_cw_ambassador'
 
 
-# In[13]:
+# In[12]:
 
 
 ambass_sql = (pd.read_sql(con = engine, sql = sql)
@@ -109,13 +110,20 @@ ambass_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[14]:
+# In[ ]:
+
+
+ambass_sql['encounter_timestamp'] = format_datetime(ambass_sql['encounter_timestamp'])
+ambass_sql['encounter_datetime'] = format_datetime(ambass_sql['encounter_datetime'])
+
+
+# In[13]:
 
 
 sql_cols = list(ambass_sql.columns.values)
 
 
-# In[15]:
+# In[14]:
 
 
 hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -123,7 +131,7 @@ hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the latest data from Google Sheets
 
-# In[16]:
+# In[15]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -132,19 +140,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[17]:
+# In[16]:
 
 
 sheet = client.open('_COMBINED Inter-Agency Parks Social Distancing Education Ambassador Report (Responses)')
 
 
-# In[18]:
+# In[17]:
 
 
 ws = sheet.worksheet('RESPONSES')
 
 
-# In[28]:
+# In[18]:
 
 
 ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
@@ -154,50 +162,57 @@ ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[29]:
+# In[19]:
 
 
 ambass.head()
 
 
-# In[30]:
+# In[20]:
 
 
 yesno = ['sd_pdcontact', 'closed_approach', 'closed_outcome', 'closed_pdcontact']
 
 
-# In[31]:
+# In[21]:
 
 
 yesno_cols(ambass, yesno)
 
 
-# In[32]:
+# In[ ]:
+
+
+ambass['encounter_timestamp'] = format_datetime(ambass['encounter_timestamp'])
+ambass['encounter_datetime'] = format_datetime(ambass['encounter_datetime'])
+
+
+# In[22]:
 
 
 #Remove rows with no timestamp because these rows have no data
 ambass = ambass[ambass['encounter_timestamp'].notnull()]
 
 
-# In[33]:
+# In[23]:
 
 
 ambass = ambass.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[27]:
+# In[24]:
 
 
 #ambass[ambass['site_id'].isnull()]['site_desc'].unique()
 
 
-# In[34]:
+# In[25]:
 
 
 ambass.head()
 
 
-# In[35]:
+# In[26]:
 
 
 hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -205,56 +220,50 @@ hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name =
 
 # ### Find the deltas based on the row hashes
 
-# In[36]:
+# In[27]:
 
 
 ambass_deltas = (check_deltas(new_df = ambass, old_df = ambass_sql, on = ['encounter_timestamp', 'site_id'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[37]:
+# In[28]:
 
 
 ambass_deltas.head()
 
 
-# In[56]:
+# In[29]:
 
 
 ambass_inserts = ambass_deltas[ambass_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[62]:
-
-
-ambass_inserts['encounter_type'].unique()
-
-
-# In[57]:
+# In[30]:
 
 
 ambass_inserts.head()
 
 
-# In[64]:
+# In[31]:
 
 
 ambass_inserts.to_sql('tbl_cw_ambassador', engine, index = False, if_exists = 'append')
 
 
-# In[65]:
+# In[32]:
 
 
 ambass_updates = ambass_deltas[ambass_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[66]:
+# In[33]:
 
 
 ambass_updates.head()
 
 
-# In[67]:
+# In[34]:
 
 
 sql_update(ambass_updates, 'tbl_cw_ambassador', engine, ['encounter_timestamp', 'site_id'])

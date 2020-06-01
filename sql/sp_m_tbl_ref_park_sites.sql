@@ -21,21 +21,21 @@ if object_id('tempdb..#allsites') is not null
 	drop table #allsites
 select *
 into #allsites
-from (select gisobjid, precinct, 'property' as gis_source
+from (select gisobjid, precinct, communityboard, 'property' as gis_source
 	  from parksgis.dpr.property_evw
 	  union
-	  select gisobjid, precinct, 'zone' as gis_source
+	  select gisobjid, precinct, communityboard, 'zone' as gis_source
 	  from parksgis.dpr.zone_evw
 	  union
-	  select gisobjid, precinct, 'playground' as gis_source
+	  select gisobjid, precinct, communityboard, 'playground' as gis_source
 	  from parksgis.dpr.playground_evw
 	  union
-	  select gisobjid, precinct, 'greenstreet' as gis_source
+	  select gisobjid, precinct, communityboard, 'greenstreet' as gis_source
 	  from parksgis.dpr.greenstreet_evw
 	  union
 	  /*These will be excluded, but are included for good measure because some of these sites have a 
 	  obj_gisobjid/gisobjid in AMPS*/
-	  select null as gisobjid, precinct, 'restrictivedeclarationsite' as gis_source
+	  select null as gisobjid, precinct, communityboard, 'restrictivedeclarationsite' as gis_source
 	  from parksgis.dpr.restrictivedeclarationsite_evw) as u
 where gisobjid is not null and
 	  gisobjid != 0
@@ -57,9 +57,10 @@ select l.gispropnum,
 	   l.district as park_district, 
 	   r2.police_precinct,
 	   r2.police_boro_com,
+	   r.communityboard,
 	   r.gis_source,
 	   l.active
---into crowdsdb.dbo.tbl_ref_park_sites
+into crowdsdb.dbo.tbl_ref_park_sites
 from [dataparks].dwh.dbo.vw_dailytask_property_dropdown as l
 left join
 	 #allsites as r

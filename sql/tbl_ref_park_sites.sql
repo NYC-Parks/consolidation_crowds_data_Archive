@@ -28,6 +28,7 @@ create table crowdsdb.dbo.tbl_ref_park_sites(gispropnum nvarchar(30),
 											 park_district nvarchar(15),
 											 police_precinct nvarchar(3),
 											 police_boro_com nvarchar(15),
+											 communityboard nvarchar(100),
 											 gis_source nvarchar(26),
 											 active bit)
 

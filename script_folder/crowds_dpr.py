@@ -14,6 +14,7 @@ import urllib
 import sqlalchemy
 from gspread_dataframe import set_with_dataframe
 from gspread_dataframe import get_as_dataframe
+import datetime
 
 
 # In[2]:
@@ -22,6 +23,7 @@ from gspread_dataframe import get_as_dataframe
 #Import project specific functions
 from column_map import column_map
 from yesno_functions import *
+from format_datetime import *
 
 
 # In[3]:
@@ -112,10 +114,22 @@ crowds_sql = (pd.read_sql(con = engine, sql = sql)
 # In[13]:
 
 
-sql_cols = list(crowds_sql.columns.values)
+format_datetime(crowds_sql, 'encounter_timestamp')
 
 
 # In[14]:
+
+
+crowds_sql.head()
+
+
+# In[15]:
+
+
+sql_cols = list(crowds_sql.columns.values)
+
+
+# In[16]:
 
 
 hash_rows(crowds_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -123,7 +137,7 @@ hash_rows(crowds_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the latest data from Google Sheets
 
-# In[15]:
+# In[17]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -132,19 +146,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[16]:
+# In[18]:
 
 
 sheet = client.open('Crowds_Combined')
 
 
-# In[17]:
+# In[19]:
 
 
 ws = sheet.worksheet('Sheet1')
 
 
-# In[18]:
+# In[20]:
 
 
 crowds = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
@@ -154,44 +168,50 @@ crowds = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[19]:
+# In[21]:
 
 
 #Remove the rows where there timestamp is null because these sheets have extra rows full of nulls
 crowds = crowds[crowds['encounter_timestamp'].notnull()]
 
 
-# In[20]:
-
-
-crowds.head()
-
-
-# In[21]:
-
-
-yesno = ['in_playground']
-
-
 # In[22]:
 
 
-yesno_cols(crowds, yesno)
+format_datetime(crowds, 'encounter_timestamp')
 
 
 # In[23]:
 
 
-crowds = crowds.merge(site_ref, how = 'left', on = 'desc_location')[sql_cols]
+crowds.head()
 
 
 # In[24]:
 
 
-hash_rows(crowds, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
+yesno = ['in_playground']
 
 
 # In[25]:
+
+
+yesno_cols(crowds, yesno)
+
+
+# In[26]:
+
+
+crowds = crowds.merge(site_ref, how = 'left', on = 'desc_location')[sql_cols]
+
+
+# In[27]:
+
+
+hash_rows(crowds, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
+
+
+# In[28]:
 
 
 crowds.head()
@@ -199,50 +219,50 @@ crowds.head()
 
 # ### Find the deltas based on the row hashes
 
-# In[26]:
+# In[29]:
 
 
 crowds_deltas = (check_deltas(new_df = crowds, old_df = crowds_sql, on = ['encounter_timestamp', 'site_id'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[27]:
+# In[30]:
 
 
 crowds_deltas.head()
 
 
-# In[28]:
+# In[31]:
 
 
 crowds_inserts = crowds_deltas[crowds_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[29]:
+# In[32]:
 
 
 crowds_inserts.head()
 
 
-# In[30]:
+# In[33]:
 
 
 crowds_inserts.to_sql('tbl_dpr_crowds', engine, index = False, if_exists = 'append')
 
 
-# In[31]:
+# In[34]:
 
 
 crowds_updates = crowds_deltas[crowds_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[32]:
+# In[35]:
 
 
 crowds_updates.head()
 
 
-# In[33]:
+# In[41]:
 
 
 sql_update(crowds_updates, 'tbl_dpr_crowds', engine, ['encounter_timestamp', 'site_id'])
