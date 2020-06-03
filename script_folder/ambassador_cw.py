@@ -16,7 +16,7 @@ from gspread_dataframe import set_with_dataframe
 from gspread_dataframe import get_as_dataframe
 
 
-# In[36]:
+# In[2]:
 
 
 #Import project specific functions
@@ -110,20 +110,28 @@ ambass_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[ ]:
-
-
-ambass_sql['encounter_timestamp'] = format_datetime(ambass_sql['encounter_timestamp'])
-ambass_sql['encounter_datetime'] = format_datetime(ambass_sql['encounter_datetime'])
-
-
 # In[13]:
+
+
+format_datetime(ambass_sql, 'encounter_timestamp')
+format_datetime(ambass_sql, 'encounter_datetime')
+
+
+# In[14]:
 
 
 sql_cols = list(ambass_sql.columns.values)
 
 
-# In[14]:
+# In[15]:
+
+
+float_cols = ['sd_pdcontact', 'closed_approach', 'closed_outcome', 'closed_pdcontact']
+for c in float_cols:
+    ambass_sql[c] = ambass_sql[c].astype(float)
+
+
+# In[16]:
 
 
 hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -131,7 +139,7 @@ hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the latest data from Google Sheets
 
-# In[15]:
+# In[18]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -140,19 +148,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[16]:
+# In[19]:
 
 
 sheet = client.open('_COMBINED Inter-Agency Parks Social Distancing Education Ambassador Report (Responses)')
 
 
-# In[17]:
+# In[20]:
 
 
 ws = sheet.worksheet('RESPONSES')
 
 
-# In[18]:
+# In[21]:
 
 
 ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
@@ -162,39 +170,45 @@ ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[19]:
+# In[22]:
 
 
 ambass.head()
 
 
-# In[20]:
+# In[23]:
 
 
 yesno = ['sd_pdcontact', 'closed_approach', 'closed_outcome', 'closed_pdcontact']
 
 
-# In[21]:
+# In[24]:
 
 
 yesno_cols(ambass, yesno)
 
 
-# In[ ]:
+# In[25]:
 
 
-ambass['encounter_timestamp'] = format_datetime(ambass['encounter_timestamp'])
-ambass['encounter_datetime'] = format_datetime(ambass['encounter_datetime'])
+format_datetime(ambass, 'encounter_timestamp')
+format_datetime(ambass, 'encounter_datetime')
 
 
-# In[22]:
+# In[26]:
+
+
+ambass.head()
+
+
+# In[27]:
 
 
 #Remove rows with no timestamp because these rows have no data
 ambass = ambass[ambass['encounter_timestamp'].notnull()]
 
 
-# In[23]:
+# In[28]:
 
 
 ambass = ambass.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
@@ -206,13 +220,13 @@ ambass = ambass.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql
 #ambass[ambass['site_id'].isnull()]['site_desc'].unique()
 
 
-# In[25]:
+# In[29]:
 
 
 ambass.head()
 
 
-# In[26]:
+# In[30]:
 
 
 hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -220,50 +234,50 @@ hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name =
 
 # ### Find the deltas based on the row hashes
 
-# In[27]:
+# In[31]:
 
 
 ambass_deltas = (check_deltas(new_df = ambass, old_df = ambass_sql, on = ['encounter_timestamp', 'site_id'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[28]:
+# In[32]:
 
 
 ambass_deltas.head()
 
 
-# In[29]:
+# In[33]:
 
 
 ambass_inserts = ambass_deltas[ambass_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[30]:
+# In[34]:
 
 
 ambass_inserts.head()
 
 
-# In[31]:
+# In[36]:
 
 
 ambass_inserts.to_sql('tbl_cw_ambassador', engine, index = False, if_exists = 'append')
 
 
-# In[32]:
+# In[37]:
 
 
 ambass_updates = ambass_deltas[ambass_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[33]:
+# In[38]:
 
 
 ambass_updates.head()
 
 
-# In[34]:
+# In[40]:
 
 
 sql_update(ambass_updates, 'tbl_cw_ambassador', engine, ['encounter_timestamp', 'site_id'])

@@ -30,6 +30,10 @@ create table crowdsdb.dbo.tbl_ref_park_sites(gispropnum nvarchar(30),
 											 police_boro_com nvarchar(15),
 											 communityboard nvarchar(100),
 											 gis_source nvarchar(26),
-											 active bit)
+											 active bit,
+											 row_hash as hashbytes('SHA2_256', concat(gispropnum, reported_as, obj_gisobjid, 
+																	site_desc, site_loc, desc_location, park_borough, 
+																	park_district, police_precinct, police_boro_com, communityboard,
+																	gis_source, active)) persisted)
 
 
