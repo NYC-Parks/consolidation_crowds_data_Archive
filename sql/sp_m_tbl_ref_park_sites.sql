@@ -60,12 +60,13 @@ begin
 								 police_precinct nvarchar(3),
 								 police_boro_com nvarchar(15),
 								 communityboard nvarchar(100),
+								 obj_class nvarchar(8),
 								 gis_source nvarchar(26),
 								 active bit,
 								 row_hash as hashbytes('SHA2_256', concat(gispropnum, reported_as, obj_gisobjid, 
 													   site_desc, site_loc, desc_location, park_borough, 
 													   park_district, police_precinct, police_boro_com, communityboard,
-													   gis_source, active)) persisted);
+													   obj_class, gis_source, active)) persisted);
 
 	insert into #ref_park_sites(gispropnum,
 								reported_as,
@@ -79,6 +80,7 @@ begin
 								police_precinct,
 								police_boro_com,
 								communityboard,
+								obj_class,
 								gis_source,
 								active)
 		select l.gispropnum, 
@@ -99,6 +101,7 @@ begin
 			   r2.police_precinct,
 			   r2.police_boro_com,
 			   r.communityboard,
+			   l.obj_class,
 			   r.gis_source,
 			   l.active
 		from [dataparks].dwh.dbo.vw_dailytask_property_dropdown as l
@@ -129,16 +132,17 @@ begin
 										tgt.police_precinct = src.police_precinct,
 										tgt.police_boro_com = src.police_boro_com,
 										tgt.communityboard = src.communityboard,
+										tgt.obj_class = src.obj_class,
 										tgt.gis_source = src.gis_source,
 										tgt.active = src.active
 
 					when not matched by target
 						then insert(gispropnum, reported_as, site_id, obj_gisobjid, site_desc, site_loc, desc_location,
-									park_borough, park_district, police_precinct, police_boro_com, communityboard,
+									park_borough, park_district, police_precinct, police_boro_com, communityboard, obj_class,
 									gis_source, active)
 									values(src.gispropnum, src.reported_as, src.site_id, src.obj_gisobjid, src.site_desc, src.site_loc, src.desc_location,
 										   src.park_borough, src.park_district, src.police_precinct, src.police_boro_com, src.communityboard,
-											src.gis_source, src.active)
+										   src.obj_class, src.gis_source, src.active)
 					/*when not matched by source
 						then delete*/;	
 			commit;

@@ -13283,7 +13283,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_dpr_crowds&#39;</span>
@@ -13296,7 +13296,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
@@ -13311,7 +13311,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">format_datetime</span><span class="p">(</span><span class="n">crowds_sql</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">)</span>
@@ -13324,7 +13324,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">float_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;patroncount&#39;</span><span class="p">,</span> <span class="s1">&#39;in_playground&#39;</span><span class="p">]</span>
@@ -13339,7 +13339,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_sql</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13355,7 +13355,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[47]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -13463,7 +13463,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">crowds_sql</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
@@ -13476,7 +13476,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">crowds_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
@@ -13496,7 +13496,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13512,7 +13512,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;Crowds_Combined&#39;</span><span class="p">)</span>
@@ -13525,7 +13525,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
@@ -13538,7 +13538,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
@@ -13555,7 +13555,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Remove the rows where there timestamp is null because these sheets have extra rows full of nulls</span>
@@ -13569,7 +13569,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">format_datetime</span><span class="p">(</span><span class="n">crowds</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">)</span>
@@ -13582,7 +13582,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -13598,7 +13598,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -13635,62 +13635,62 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
   <tbody>
     <tr>
       <td>1</td>
-      <td>06-02-2020 18:46:01</td>
-      <td>Q-01</td>
-      <td>100.0</td>
-      <td>No</td>
+      <td>06-05-2020 18:55:11</td>
+      <td>Q-07</td>
+      <td>50.0</td>
+      <td>Yes</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Soccer field</td>
-      <td>NaN</td>
-      <td>Q004 | Astoria Park</td>
+      <td>Handall court</td>
+      <td>Kids in PG and adults on HBCT. Departing slowl...</td>
+      <td>Q086-01 | Flushing Fields-Leonardo Ingravallo ...</td>
       <td>Queens</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>06-02-2020 17:47:38</td>
-      <td>Q-13</td>
-      <td>20.0</td>
+      <td>06-05-2020 17:00:16</td>
+      <td>Q-08</td>
+      <td>25.0</td>
       <td>No</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>20 people playing soccer in idlewild cricket f...</td>
-      <td>Q392-ZN01 | Idlewild Park Zone 1</td>
+      <td>Bench/sitting area</td>
+      <td>Bocce courts</td>
+      <td>Q021 | Cunningham Park</td>
       <td>Queens</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>06-02-2020 17:32:52</td>
-      <td>Q-06</td>
-      <td>20.0</td>
+      <td>06-05-2020 15:53:01</td>
+      <td>Q-07A</td>
+      <td>15.0</td>
       <td>No</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Chess area</td>
-      <td>Chess players</td>
-      <td>Q207 | MacDonald Park</td>
+      <td>Bench/sitting area</td>
+      <td>Kids birthday party at Orange BBQ area Upper A...</td>
+      <td>Q001-ZN02 | Alley Pond Park Zone 2</td>
       <td>Queens</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>06-02-2020 17:10:48</td>
-      <td>X-14</td>
-      <td>30.0</td>
-      <td>No</td>
+      <td>06-05-2020 13:35:19</td>
+      <td>Q-07</td>
+      <td>25.0</td>
+      <td>Yes</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Soccer field</td>
-      <td>Soccer game</td>
-      <td>X147A-ZN01 | Starlight Park Zone 1</td>
-      <td>Bronx</td>
+      <td>Playground</td>
+      <td>NaN</td>
+      <td>Q300-03 | Kissena Corridor Park-Silent Springs...</td>
+      <td>Queens</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>06-02-2020 15:50:38</td>
+      <td>06-04-2020 18:42:02</td>
       <td>Q-14</td>
-      <td>7.0</td>
+      <td>10.0</td>
       <td>No</td>
-      <td>Approached the crowd; they complied with instr...</td>
+      <td>Did not approach the crowd; the crowd remains</td>
       <td>Handall court</td>
-      <td>B105</td>
-      <td>Q162 | Rockaway Beach and Boardwalk</td>
+      <td>B77 handball  - elderly paddleball regulars</td>
+      <td>Q163-ZN05A | Rockaway Beach &amp; Boardwalk-Rockaw...</td>
       <td>Queens</td>
     </tr>
   </tbody>
@@ -13706,7 +13706,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;in_playground&#39;</span><span class="p">]</span>
@@ -13719,7 +13719,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno_cols</span><span class="p">(</span><span class="n">crowds</span><span class="p">,</span> <span class="n">yesno</span><span class="p">)</span>
@@ -13732,7 +13732,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span> <span class="o">=</span> <span class="n">crowds</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">site_ref</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s1">&#39;desc_location&#39;</span><span class="p">)[</span><span class="n">sql_cols</span><span class="p">]</span>
@@ -13745,7 +13745,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">crowds</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
@@ -13758,10 +13758,161 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>encounter_timestamp</th>
+      <th>park_district</th>
+      <th>patroncount</th>
+      <th>in_playground</th>
+      <th>action_taken</th>
+      <th>amenity</th>
+      <th>comments</th>
+      <th>site_id</th>
+      <th>borough</th>
+      <th>row_hash</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>06-05-2020 18:55:11</td>
+      <td>Q-07</td>
+      <td>50.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Handall court</td>
+      <td>Kids in PG and adults on HBCT. Departing slowl...</td>
+      <td>Q086-01</td>
+      <td>Queens</td>
+      <td>56d898f6ea9f8118c6224bbfc188daaf0afeb5841517b7...</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>06-05-2020 17:00:16</td>
+      <td>Q-08</td>
+      <td>25.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Bench/sitting area</td>
+      <td>Bocce courts</td>
+      <td>Q021</td>
+      <td>Queens</td>
+      <td>fef7f7aaa6d3a8dbbb4ff030dd461e551e135fc335df9a...</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>06-05-2020 15:53:01</td>
+      <td>Q-07A</td>
+      <td>15.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Bench/sitting area</td>
+      <td>Kids birthday party at Orange BBQ area Upper A...</td>
+      <td>Q001-ZN02</td>
+      <td>Queens</td>
+      <td>485bfff1e40774b3b7e4c68694b1bfe91ffcb7ded1e151...</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>06-05-2020 13:35:19</td>
+      <td>Q-07</td>
+      <td>25.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Playground</td>
+      <td>NaN</td>
+      <td>Q300-03</td>
+      <td>Queens</td>
+      <td>28bf778d8d5a04bb693dbf6d953238d0ef2aefa919f075...</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>06-04-2020 18:42:02</td>
+      <td>Q-14</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Handall court</td>
+      <td>B77 handball  - elderly paddleball regulars</td>
+      <td>Q163-ZN05A</td>
+      <td>Queens</td>
+      <td>3bf2d5b48523c37a2e2959e262aa72711f2eefceeecf77...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Find-the-deltas-based-on-the-row-hashes">Find the deltas based on the row hashes<a class="anchor-link" href="#Find-the-deltas-based-on-the-row-hashes">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">crowds</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">crowds_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">],</span> 
+                              <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">,</span> <span class="n">dml_col</span> <span class="o">=</span> <span class="s1">&#39;dml_verb&#39;</span><span class="p">))[</span><span class="n">sql_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_deltas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13806,225 +13957,74 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
       <th>comments</th>
       <th>site_id</th>
       <th>borough</th>
-      <th>row_hash</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>06-02-2020 18:46:01</td>
-      <td>Q-01</td>
-      <td>100.0</td>
-      <td>0.0</td>
-      <td>Did not approach the crowd; the crowd remains</td>
-      <td>Soccer field</td>
-      <td>NaN</td>
-      <td>Q004</td>
-      <td>Queens</td>
-      <td>806514fedb87fd78073c04cf44ac24544ca3baa3a3244f...</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>06-02-2020 17:47:38</td>
-      <td>Q-13</td>
-      <td>20.0</td>
-      <td>0.0</td>
-      <td>Did not approach the crowd; the crowd remains</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>20 people playing soccer in idlewild cricket f...</td>
-      <td>Q392-ZN01</td>
-      <td>Queens</td>
-      <td>03838f02eb4e5eb00112b8df63963dcba2bc089c778fa6...</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>06-02-2020 17:32:52</td>
-      <td>Q-06</td>
-      <td>20.0</td>
-      <td>0.0</td>
-      <td>Did not approach the crowd; the crowd remains</td>
-      <td>Chess area</td>
-      <td>Chess players</td>
-      <td>Q207</td>
-      <td>Queens</td>
-      <td>9e5e52ceae175cdb0677c6e1e6aed9e67d0f220dcceedf...</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>06-02-2020 17:10:48</td>
-      <td>X-14</td>
-      <td>30.0</td>
-      <td>0.0</td>
-      <td>Did not approach the crowd; the crowd remains</td>
-      <td>Soccer field</td>
-      <td>Soccer game</td>
-      <td>X147A-ZN01</td>
-      <td>Bronx</td>
-      <td>79f649aea0225c65b53df75326f3e8985dacad29b72ca8...</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>06-02-2020 15:50:38</td>
-      <td>Q-14</td>
-      <td>7.0</td>
-      <td>0.0</td>
-      <td>Approached the crowd; they complied with instr...</td>
-      <td>Handall court</td>
-      <td>B105</td>
-      <td>Q162</td>
-      <td>Queens</td>
-      <td>ebc0a91d8c613c59ed22b3432dc24078a98dced5c6eaf7...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Find-the-deltas-based-on-the-row-hashes">Find the deltas based on the row hashes<a class="anchor-link" href="#Find-the-deltas-based-on-the-row-hashes">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">crowds</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">crowds_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">],</span> 
-                              <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">,</span> <span class="n">dml_col</span> <span class="o">=</span> <span class="s1">&#39;dml_verb&#39;</span><span class="p">))[</span><span class="n">sql_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_deltas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[51]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>park_district</th>
-      <th>patroncount</th>
-      <th>in_playground</th>
-      <th>action_taken</th>
-      <th>amenity</th>
-      <th>comments</th>
-      <th>site_id</th>
-      <th>borough</th>
       <th>dml_verb</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>0</td>
-      <td>06-02-2020 18:46:01</td>
-      <td>Q-01</td>
-      <td>100.0</td>
-      <td>0.0</td>
+      <td>06-05-2020 18:55:11</td>
+      <td>Q-07</td>
+      <td>50.0</td>
+      <td>1.0</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Soccer field</td>
-      <td>NaN</td>
-      <td>Q004</td>
+      <td>Handall court</td>
+      <td>Kids in PG and adults on HBCT. Departing slowl...</td>
+      <td>Q086-01</td>
       <td>Queens</td>
-      <td>None</td>
+      <td>I</td>
     </tr>
     <tr>
       <td>1</td>
-      <td>06-02-2020 17:47:38</td>
-      <td>Q-13</td>
-      <td>20.0</td>
+      <td>06-05-2020 17:00:16</td>
+      <td>Q-08</td>
+      <td>25.0</td>
       <td>0.0</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>20 people playing soccer in idlewild cricket f...</td>
-      <td>Q392-ZN01</td>
+      <td>Bench/sitting area</td>
+      <td>Bocce courts</td>
+      <td>Q021</td>
       <td>Queens</td>
-      <td>None</td>
+      <td>I</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>06-02-2020 17:32:52</td>
-      <td>Q-06</td>
-      <td>20.0</td>
+      <td>06-05-2020 15:53:01</td>
+      <td>Q-07A</td>
+      <td>15.0</td>
       <td>0.0</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Chess area</td>
-      <td>Chess players</td>
-      <td>Q207</td>
+      <td>Bench/sitting area</td>
+      <td>Kids birthday party at Orange BBQ area Upper A...</td>
+      <td>Q001-ZN02</td>
       <td>Queens</td>
-      <td>None</td>
+      <td>I</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>06-02-2020 17:10:48</td>
-      <td>X-14</td>
-      <td>30.0</td>
-      <td>0.0</td>
+      <td>06-05-2020 13:35:19</td>
+      <td>Q-07</td>
+      <td>25.0</td>
+      <td>1.0</td>
       <td>Did not approach the crowd; the crowd remains</td>
-      <td>Soccer field</td>
-      <td>Soccer game</td>
-      <td>X147A-ZN01</td>
-      <td>Bronx</td>
-      <td>None</td>
+      <td>Playground</td>
+      <td>NaN</td>
+      <td>Q300-03</td>
+      <td>Queens</td>
+      <td>I</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>06-02-2020 15:50:38</td>
+      <td>06-04-2020 18:42:02</td>
       <td>Q-14</td>
-      <td>7.0</td>
+      <td>10.0</td>
       <td>0.0</td>
-      <td>Approached the crowd; they complied with instr...</td>
+      <td>Did not approach the crowd; the crowd remains</td>
       <td>Handall court</td>
-      <td>B105</td>
-      <td>Q162</td>
+      <td>B77 handball  - elderly paddleball regulars</td>
+      <td>Q163-ZN05A</td>
       <td>Queens</td>
-      <td>None</td>
+      <td>I</td>
     </tr>
   </tbody>
 </table>
@@ -14039,7 +14039,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_inserts</span> <span class="o">=</span> <span class="n">crowds_deltas</span><span class="p">[</span><span class="n">crowds_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">][</span><span class="n">sql_cols</span><span class="p">]</span>
@@ -14052,7 +14052,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -14068,7 +14068,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[53]:</div>
+    <div class="prompt output_prompt">Out[33]:</div>
 
 
 
@@ -14103,6 +14103,66 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>0</td>
+      <td>06-05-2020 18:55:11</td>
+      <td>Q-07</td>
+      <td>50.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Handall court</td>
+      <td>Kids in PG and adults on HBCT. Departing slowl...</td>
+      <td>Q086-01</td>
+      <td>Queens</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>06-05-2020 17:00:16</td>
+      <td>Q-08</td>
+      <td>25.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Bench/sitting area</td>
+      <td>Bocce courts</td>
+      <td>Q021</td>
+      <td>Queens</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>06-05-2020 15:53:01</td>
+      <td>Q-07A</td>
+      <td>15.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Bench/sitting area</td>
+      <td>Kids birthday party at Orange BBQ area Upper A...</td>
+      <td>Q001-ZN02</td>
+      <td>Queens</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>06-05-2020 13:35:19</td>
+      <td>Q-07</td>
+      <td>25.0</td>
+      <td>1.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Playground</td>
+      <td>NaN</td>
+      <td>Q300-03</td>
+      <td>Queens</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>06-04-2020 18:42:02</td>
+      <td>Q-14</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>Did not approach the crowd; the crowd remains</td>
+      <td>Handall court</td>
+      <td>B77 handball  - elderly paddleball regulars</td>
+      <td>Q163-ZN05A</td>
+      <td>Queens</td>
+    </tr>
   </tbody>
 </table>
 </div>
@@ -14116,7 +14176,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_inserts</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_dpr_crowds&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
@@ -14129,7 +14189,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_updates</span> <span class="o">=</span> <span class="n">crowds_deltas</span><span class="p">[</span><span class="n">crowds_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">][</span><span class="n">sql_cols</span><span class="p">]</span>
@@ -14142,7 +14202,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">crowds_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -14158,7 +14218,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[56]:</div>
+    <div class="prompt output_prompt">Out[36]:</div>
 
 
 
@@ -14206,7 +14266,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_update</span><span class="p">(</span><span class="n">crowds_updates</span><span class="p">,</span> <span class="s1">&#39;tbl_dpr_crowds&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">])</span>

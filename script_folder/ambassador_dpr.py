@@ -139,7 +139,7 @@ hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the latest data from Google Sheets
 
-# In[18]:
+# In[17]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -148,19 +148,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[19]:
+# In[18]:
 
 
 sheet = client.open('_Combined INTERNAL PARKS Ambassador COVID-19 Reporting (Responses)')
 
 
-# In[20]:
+# In[19]:
 
 
 ws = sheet.worksheet('Form Responses 1')
 
 
-# In[36]:
+# In[20]:
 
 
 ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
@@ -170,51 +170,51 @@ ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[37]:
+# In[21]:
 
 
 ambass.head()
 
 
-# In[38]:
+# In[22]:
 
 
 yesno = ['sd_pdcontact', 'closed_approach', 'closed_outcome', 'closed_pdcontact']
 
 
-# In[39]:
+# In[23]:
 
 
 yesno_cols(ambass, yesno)
 
 
-# In[40]:
+# In[24]:
 
 
 #Remove rows with no timestamp because these rows have no data
 ambass = ambass[ambass['encounter_timestamp'].notnull()]
 
 
-# In[41]:
+# In[25]:
 
 
 ambass = ambass.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[42]:
+# In[26]:
 
 
 format_datetime(ambass, 'encounter_timestamp')
 format_datetime(ambass, 'encounter_datetime')
 
 
-# In[43]:
+# In[27]:
 
 
 ambass.head()
 
 
-# In[44]:
+# In[28]:
 
 
 hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -222,50 +222,50 @@ hash_rows(ambass, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name =
 
 # ### Find the deltas based on the row hashes
 
-# In[45]:
+# In[29]:
 
 
 ambass_deltas = (check_deltas(new_df = ambass, old_df = ambass_sql, on = ['encounter_timestamp', 'site_id'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[46]:
+# In[30]:
 
 
 ambass_deltas.head()
 
 
-# In[47]:
+# In[31]:
 
 
 ambass_inserts = ambass_deltas[ambass_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[48]:
+# In[32]:
 
 
 ambass_inserts.head()
 
 
-# In[50]:
+# In[33]:
 
 
 ambass_inserts.to_sql('tbl_dpr_ambassador', engine, index = False, if_exists = 'append')
 
 
-# In[51]:
+# In[34]:
 
 
 ambass_updates = ambass_deltas[ambass_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[53]:
+# In[35]:
 
 
 ambass_updates.head()
 
 
-# In[54]:
+# In[36]:
 
 
 sql_update(ambass_updates, 'tbl_dpr_ambassador', engine, ['encounter_timestamp', 'site_id'])

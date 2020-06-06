@@ -139,7 +139,7 @@ hash_rows(ambass_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the latest data from Google Sheets
 
-# In[18]:
+# In[17]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -148,19 +148,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[19]:
+# In[18]:
 
 
 sheet = client.open('_COMBINED Inter-Agency Parks Social Distancing Education Ambassador Report (Responses)')
 
 
-# In[20]:
+# In[19]:
 
 
 ws = sheet.worksheet('RESPONSES')
 
 
-# In[21]:
+# In[20]:
 
 
 ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
@@ -170,51 +170,51 @@ ambass = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[22]:
+# In[21]:
 
 
 ambass.head()
 
 
-# In[23]:
+# In[22]:
 
 
 yesno = ['sd_pdcontact', 'closed_approach', 'closed_outcome', 'closed_pdcontact']
 
 
-# In[24]:
+# In[23]:
 
 
 yesno_cols(ambass, yesno)
 
 
-# In[25]:
+# In[24]:
 
 
 format_datetime(ambass, 'encounter_timestamp')
 format_datetime(ambass, 'encounter_datetime')
 
 
-# In[26]:
+# In[25]:
 
 
 ambass.head()
 
 
-# In[27]:
+# In[26]:
 
 
 #Remove rows with no timestamp because these rows have no data
 ambass = ambass[ambass['encounter_timestamp'].notnull()]
 
 
-# In[28]:
+# In[27]:
 
 
 ambass = ambass.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[24]:
+# In[28]:
 
 
 #ambass[ambass['site_id'].isnull()]['site_desc'].unique()
@@ -259,25 +259,25 @@ ambass_inserts = ambass_deltas[ambass_deltas['dml_verb'] == 'I'][sql_cols]
 ambass_inserts.head()
 
 
-# In[36]:
+# In[35]:
 
 
 ambass_inserts.to_sql('tbl_cw_ambassador', engine, index = False, if_exists = 'append')
 
 
-# In[37]:
+# In[36]:
 
 
 ambass_updates = ambass_deltas[ambass_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[38]:
+# In[37]:
 
 
 ambass_updates.head()
 
 
-# In[40]:
+# In[39]:
 
 
 sql_update(ambass_updates, 'tbl_cw_ambassador', engine, ['encounter_timestamp', 'site_id'])

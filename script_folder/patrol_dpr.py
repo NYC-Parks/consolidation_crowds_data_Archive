@@ -82,13 +82,13 @@ cols = list(col_rename.values())
 
 # ### Read the current data from SQL
 
-# In[43]:
+# In[9]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_dpr_patrol'
 
 
-# In[44]:
+# In[10]:
 
 
 patrol_sql = (pd.read_sql(con = engine, sql = sql)
@@ -96,20 +96,20 @@ patrol_sql = (pd.read_sql(con = engine, sql = sql)
               .fillna(value = np.nan, axis = 1))
 
 
-# In[45]:
+# In[11]:
 
 
 format_datetime(patrol_sql, 'encounter_timestamp')
 format_datetime(patrol_sql, 'encounter_datetime')
 
 
-# In[46]:
+# In[12]:
 
 
 sql_cols = list(patrol_sql.columns.values)
 
 
-# In[47]:
+# In[13]:
 
 
 float_cols = ['closed_education', 'closed_outcome', 'closed_summonsissued', 'closed_pdassist',
@@ -118,13 +118,13 @@ for c in float_cols:
     patrol_sql[c] = patrol_sql[c].astype(float)
 
 
-# In[48]:
+# In[14]:
 
 
 patrol_sql.head()
 
 
-# In[49]:
+# In[15]:
 
 
 hash_rows(patrol_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
@@ -132,13 +132,13 @@ hash_rows(patrol_sql, exclude_cols = ['site_id', 'encounter_timestamp'], hash_na
 
 # ### Read the site reference list from SQL
 
-# In[50]:
+# In[16]:
 
 
 sql = 'select * from crowdsdb.dbo.tbl_ref_sites'
 
 
-# In[51]:
+# In[17]:
 
 
 site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'borough']]
@@ -146,7 +146,7 @@ site_ref = pd.read_sql(con = engine, sql = sql)[['site_id', 'site_desc', 'boroug
 
 # ### Read the latest data from Google Sheets
 
-# In[52]:
+# In[18]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -155,19 +155,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[53]:
+# In[19]:
 
 
 sheet = client.open('COMBINED Patrol Reporting Responses')
 
 
-# In[54]:
+# In[20]:
 
 
 ws = sheet.worksheet('MASTER')
 
 
-# In[55]:
+# In[21]:
 
 
 #Read the worksheet as a data frame, rename the columns and subset the columns to only include those
@@ -179,89 +179,89 @@ patrol = (get_as_dataframe(ws, evaluate_formulas = True, header= None)
           .fillna(value = np.nan, axis = 1))[cols]
 
 
-# In[56]:
+# In[22]:
 
 
 format_datetime(patrol, 'encounter_timestamp')
 format_datetime(patrol, 'encounter_datetime')
 
 
-# In[57]:
+# In[23]:
 
 
 patrol.head()
 
 
-# In[58]:
+# In[24]:
 
 
 yesno = ['closed_education', 'closed_outcome', 'closed_summonsissued', 'closed_pdassist',
          'closed_pdcontact', 'sd_summonsissued', 'sd_pdassist', 'sd_pdcontact']
 
 
-# In[59]:
+# In[25]:
 
 
 yesno_cols(patrol, yesno)
 
 
-# In[60]:
+# In[26]:
 
 
 #Remove any rows with no data, presumably these are rows with no timestamp
 patrol = patrol[patrol['encounter_timestamp'].notna()]
 
 
-# In[61]:
+# In[27]:
 
 
 patrol = patrol.merge(site_ref, how = 'left', on = ['site_desc', 'borough'])[sql_cols]
 
 
-# In[62]:
+# In[28]:
 
 
 hash_rows(patrol, exclude_cols = ['site_id', 'encounter_timestamp'], hash_name = 'row_hash')
 
 
-# In[63]:
+# In[29]:
 
 
 patrol_deltas = (check_deltas(new_df = patrol, old_df = patrol_sql, on = ['site_id', 'encounter_timestamp'], 
                               hash_name = 'row_hash', dml_col = 'dml_verb'))[sql_cols + ['dml_verb']]
 
 
-# In[64]:
+# In[30]:
 
 
 patrol_inserts = patrol_deltas[patrol_deltas['dml_verb'] == 'I'][sql_cols]
 
 
-# In[65]:
+# In[31]:
 
 
 patrol_inserts.head()
 
 
-# In[66]:
+# In[32]:
 
 
 patrol_inserts.to_sql('tbl_dpr_patrol', engine, index = False, if_exists = 'append')
 
 
-# In[67]:
+# In[33]:
 
 
 patrol_updates = patrol_deltas[patrol_deltas['dml_verb'] == 'U'][sql_cols]
 
 
-# In[68]:
+# In[34]:
 
 
 patrol_updates.head()
 
 
-# In[70]:
+# In[35]:
 
 
 sql_update(patrol_updates, 'tbl_dpr_patrol', engine, ['encounter_timestamp', 'site_id'])

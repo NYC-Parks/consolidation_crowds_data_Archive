@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>ambassador_cw</title>
+<title>get_forms_dropdowns</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13089,6 +13089,9 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">sqlalchemy</span>
 <span class="kn">from</span> <span class="nn">gspread_dataframe</span> <span class="k">import</span> <span class="n">set_with_dataframe</span>
 <span class="kn">from</span> <span class="nn">gspread_dataframe</span> <span class="k">import</span> <span class="n">get_as_dataframe</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 </pre></div>
 
     </div>
@@ -13099,22 +13102,6 @@ div#notebook {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Import project specific functions</span>
-<span class="kn">from</span> <span class="nn">column_map</span> <span class="k">import</span> <span class="n">column_map</span>
-<span class="kn">from</span> <span class="nn">yesno_functions</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">format_datetime</span> <span class="k">import</span> <span class="o">*</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Import shared functions</span>
@@ -13151,16 +13138,9 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Use-the-config-file-to-setup-connections">Use the config file to setup connections<a class="anchor-link" href="#Use-the-config-file-to-setup-connections">&#182;</a></h3>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;c:\Projects\config.ini&#39;</span><span class="p">)</span>
@@ -13178,7 +13158,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con_string</span> <span class="o">=</span> <span class="s1">&#39;Driver={&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span> <span class="s1">&#39;};Server=&#39;</span> <span class="o">+</span> <span class="n">server</span> <span class="o">+</span><span class="s1">&#39;;Database=&#39;</span> <span class="o">+</span> <span class="n">dwh</span> <span class="o">+</span> <span class="s1">&#39;;Trusted_Connection=Yes;&#39;</span>
@@ -13191,35 +13171,12 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Execute-the-function-to-get-the-renamed-columns-for-this-sheet">Execute the function to get the renamed columns for this sheet<a class="anchor-link" href="#Execute-the-function-to-get-the-renamed-columns-for-this-sheet">&#182;</a></h3>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Call the column map function to get the dictionary to be used for renaming and subsetting the columns</span>
-<span class="n">col_rename</span> <span class="o">=</span> <span class="n">column_map</span><span class="p">(</span><span class="s1">&#39;ambassador_cw&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Because of duplicate column names these columns are renamed based on the column index and the keys and </span>
-<span class="c1">#values need to be switched</span>
-<span class="n">col_rename</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">col_rename</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
@@ -13230,149 +13187,6 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">col_rename</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Read-the-site-reference-list-from-SQL">Read the site reference list from SQL<a class="anchor-link" href="#Read-the-site-reference-list-from-SQL">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_ref_sites&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">site_ref</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)[[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;site_desc&#39;</span><span class="p">,</span> <span class="s1">&#39;borough&#39;</span><span class="p">]]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Read-the-current-data-from-SQL">Read the current data from SQL<a class="anchor-link" href="#Read-the-current-data-from-SQL">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.tbl_cw_ambassador&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
-              <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ambassador_id&#39;</span><span class="p">,</span> <span class="s1">&#39;patroncount&#39;</span><span class="p">])</span>
-              <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">format_datetime</span><span class="p">(</span><span class="n">ambass_sql</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">)</span>
-<span class="n">format_datetime</span><span class="p">(</span><span class="n">ambass_sql</span><span class="p">,</span> <span class="s1">&#39;encounter_datetime&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ambass_sql</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">float_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sd_pdcontact&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_approach&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_outcome&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_pdcontact&#39;</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">float_cols</span><span class="p">:</span>
-    <span class="n">ambass_sql</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">ambass_sql</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">ambass_sql</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Read-the-latest-data-from-Google-Sheets">Read the latest data from Google Sheets<a class="anchor-link" href="#Read-the-latest-data-from-Google-Sheets">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13388,10 +13202,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;_COMBINED Inter-Agency Parks Social Distancing Education Ambassador Report (Responses)&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;Social Distancing Form URLs&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13401,10 +13215,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;RESPONSES&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13414,1139 +13228,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass</span> <span class="o">=</span> <span class="p">(</span><span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
-          <span class="c1">#Always remove row 0 with the column headers</span>
-          <span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-          <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">col_rename</span><span class="p">)</span>
-          <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))[</span><span class="n">cols</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[21]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_desc</th>
-      <th>location_adddesc</th>
-      <th>city_agency</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity</th>
-      <th>sd_pdcontact</th>
-      <th>sd_comments</th>
-      <th>closed_amenity</th>
-      <th>closed_patroncount</th>
-      <th>closed_approach</th>
-      <th>closed_outcome</th>
-      <th>closed_pdcontact</th>
-      <th>closed_comments</th>
-      <th>borough</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>6/5/2020 19:03:54</td>
-      <td>6/5/2020 16:23:00</td>
-      <td>Prospect Park</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Alex</td>
-      <td>Kolodka</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>6/5/2020 17:51:16</td>
-      <td>6/5/2020 17:30:00</td>
-      <td>Kissena Park</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>No</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>6/5/2020 17:30:34</td>
-      <td>6/5/2020 17:30:00</td>
-      <td>Kissena Park</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>No</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>6/5/2020 17:29:05</td>
-      <td>6/5/2020 14:45:00</td>
-      <td>Kissena Park</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>6/5/2020 17:03:29</td>
-      <td>5/5/2020 16:00:00</td>
-      <td>Flushing Fields</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Emmanuelasia</td>
-      <td>Vaught</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sd_pdcontact&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_approach&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_outcome&#39;</span><span class="p">,</span> <span class="s1">&#39;closed_pdcontact&#39;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yesno_cols</span><span class="p">(</span><span class="n">ambass</span><span class="p">,</span> <span class="n">yesno</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">format_datetime</span><span class="p">(</span><span class="n">ambass</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">)</span>
-<span class="n">format_datetime</span><span class="p">(</span><span class="n">ambass</span><span class="p">,</span> <span class="s1">&#39;encounter_datetime&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[25]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_desc</th>
-      <th>location_adddesc</th>
-      <th>city_agency</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity</th>
-      <th>sd_comments</th>
-      <th>closed_amenity</th>
-      <th>closed_patroncount</th>
-      <th>closed_comments</th>
-      <th>borough</th>
-      <th>sd_pdcontact</th>
-      <th>closed_approach</th>
-      <th>closed_outcome</th>
-      <th>closed_pdcontact</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>06-05-2020 19:03:54</td>
-      <td>06-05-2020 16:23:00</td>
-      <td>Prospect Park</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Alex</td>
-      <td>Kolodka</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>06-05-2020 17:51:16</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Kissena Park</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>06-05-2020 17:30:34</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Kissena Park</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>06-05-2020 17:29:05</td>
-      <td>06-05-2020 14:45:00</td>
-      <td>Kissena Park</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>06-05-2020 17:03:29</td>
-      <td>05-05-2020 16:00:00</td>
-      <td>Flushing Fields</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Emmanuelasia</td>
-      <td>Vaught</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Remove rows with no timestamp because these rows have no data</span>
-<span class="n">ambass</span> <span class="o">=</span> <span class="n">ambass</span><span class="p">[</span><span class="n">ambass</span><span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass</span> <span class="o">=</span> <span class="n">ambass</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">site_ref</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_desc&#39;</span><span class="p">,</span> <span class="s1">&#39;borough&#39;</span><span class="p">])[</span><span class="n">sql_cols</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#ambass[ambass[&#39;site_id&#39;].isnull()][&#39;site_desc&#39;].unique()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[29]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_id</th>
-      <th>location_adddesc</th>
-      <th>city_agency</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity</th>
-      <th>sd_pdcontact</th>
-      <th>sd_comments</th>
-      <th>closed_amenity</th>
-      <th>closed_patroncount</th>
-      <th>closed_approach</th>
-      <th>closed_outcome</th>
-      <th>closed_pdcontact</th>
-      <th>closed_comments</th>
-      <th>borough</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>06-05-2020 19:03:54</td>
-      <td>06-05-2020 16:23:00</td>
-      <td>B073</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Alex</td>
-      <td>Kolodka</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>06-05-2020 17:51:16</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>06-05-2020 17:30:34</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>06-05-2020 17:29:05</td>
-      <td>06-05-2020 14:45:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>06-05-2020 17:03:29</td>
-      <td>05-05-2020 16:00:00</td>
-      <td>Q086</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Emmanuelasia</td>
-      <td>Vaught</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hash_rows</span><span class="p">(</span><span class="n">ambass</span><span class="p">,</span> <span class="n">exclude_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_id&#39;</span><span class="p">,</span> <span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">],</span> <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Find-the-deltas-based-on-the-row-hashes">Find the deltas based on the row hashes<a class="anchor-link" href="#Find-the-deltas-based-on-the-row-hashes">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_deltas</span> <span class="o">=</span> <span class="p">(</span><span class="n">check_deltas</span><span class="p">(</span><span class="n">new_df</span> <span class="o">=</span> <span class="n">ambass</span><span class="p">,</span> <span class="n">old_df</span> <span class="o">=</span> <span class="n">ambass_sql</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">],</span> 
-                              <span class="n">hash_name</span> <span class="o">=</span> <span class="s1">&#39;row_hash&#39;</span><span class="p">,</span> <span class="n">dml_col</span> <span class="o">=</span> <span class="s1">&#39;dml_verb&#39;</span><span class="p">))[</span><span class="n">sql_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_deltas</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[32]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_id</th>
-      <th>location_adddesc</th>
-      <th>city_agency</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_pdcontact</th>
-      <th>sd_comments</th>
-      <th>closed_amenity</th>
-      <th>closed_patroncount</th>
-      <th>closed_approach</th>
-      <th>closed_outcome</th>
-      <th>closed_pdcontact</th>
-      <th>closed_comments</th>
-      <th>borough</th>
-      <th>dml_verb</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>06-05-2020 19:03:54</td>
-      <td>06-05-2020 16:23:00</td>
-      <td>B073</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Alex</td>
-      <td>Kolodka</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-      <td>I</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>06-05-2020 17:51:16</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>I</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>06-05-2020 17:30:34</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>I</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>06-05-2020 17:29:05</td>
-      <td>06-05-2020 14:45:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>I</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>06-05-2020 17:03:29</td>
-      <td>05-05-2020 16:00:00</td>
-      <td>Q086</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Emmanuelasia</td>
-      <td>Vaught</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-      <td>I</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 25 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_inserts</span> <span class="o">=</span> <span class="n">ambass_deltas</span><span class="p">[</span><span class="n">ambass_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">][</span><span class="n">sql_cols</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_inserts</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[34]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_id</th>
-      <th>location_adddesc</th>
-      <th>city_agency</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity</th>
-      <th>sd_pdcontact</th>
-      <th>sd_comments</th>
-      <th>closed_amenity</th>
-      <th>closed_patroncount</th>
-      <th>closed_approach</th>
-      <th>closed_outcome</th>
-      <th>closed_pdcontact</th>
-      <th>closed_comments</th>
-      <th>borough</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>06-05-2020 19:03:54</td>
-      <td>06-05-2020 16:23:00</td>
-      <td>B073</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Alex</td>
-      <td>Kolodka</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Brooklyn</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>06-05-2020 17:51:16</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>06-05-2020 17:30:34</td>
-      <td>06-05-2020 17:30:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>Open field/multi-purpose play area</td>
-      <td>0.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>06-05-2020 17:29:05</td>
-      <td>06-05-2020 14:45:00</td>
-      <td>Q024</td>
-      <td>NaN</td>
-      <td>DOC</td>
-      <td>Chris</td>
-      <td>Hennessey</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>06-05-2020 17:03:29</td>
-      <td>05-05-2020 16:00:00</td>
-      <td>Q086</td>
-      <td>NaN</td>
-      <td>OATH</td>
-      <td>Emmanuelasia</td>
-      <td>Vaught</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_inserts</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_cw_ambassador&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">urls</span> <span class="o">=</span> <span class="n">get_as_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">evaluate_formulas</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span> <span class="mi">0</span><span class="p">)[[</span><span class="s1">&#39;Form Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Borough&#39;</span><span class="p">,</span> <span class="s1">&#39;URL&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -14559,7 +13244,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_updates</span> <span class="o">=</span> <span class="n">ambass_deltas</span><span class="p">[</span><span class="n">ambass_deltas</span><span class="p">[</span><span class="s1">&#39;dml_verb&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">][</span><span class="n">sql_cols</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#urls[&#39;URL&#39;] = urls.apply(lambda x: x[&#39;URL&#39;] + &#39;/edit?usp=drive_web&#39;, axis = 1)</span>
 </pre></div>
 
     </div>
@@ -14569,207 +13254,65 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ambass_updates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_urls</span><span class="p">(</span><span class="n">urls</span><span class="p">):</span>
+    <span class="n">final_sites</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">urls</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="c1">#print(v[&#39;URL&#39;])</span>
+        <span class="c1">#Make a GET request to fetch the raw HTML content</span>
+        <span class="n">html_content</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">text</span>
+    
+        <span class="c1">#Parse the html content</span>
+        <span class="n">html_content</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_content</span><span class="p">)</span>
+        <span class="c1">#print(html_content)</span>
+        <span class="n">sites</span> <span class="o">=</span> <span class="p">[[</span><span class="n">c</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">v</span><span class="p">[</span><span class="s1">&#39;Form Type&#39;</span><span class="p">],</span>
+                  <span class="n">v</span><span class="p">[</span><span class="s1">&#39;Borough&#39;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">html_content</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;quantumWizMenuPaperselectContent exportContent&#39;</span><span class="p">)]</span>
+        <span class="c1">#print(sites)</span>
+        <span class="n">final_sites</span> <span class="o">=</span> <span class="n">final_sites</span> <span class="o">+</span> <span class="n">sites</span>
+    <span class="k">return</span> <span class="n">final_sites</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[37]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>encounter_timestamp</th>
-      <th>encounter_datetime</th>
-      <th>site_id</th>
-      <th>location_adddesc</th>
-      <th>city_agency</th>
-      <th>firstname_1</th>
-      <th>lastname_1</th>
-      <th>firstname_2</th>
-      <th>lastname_2</th>
-      <th>firstname_3</th>
-      <th>...</th>
-      <th>sd_amenity</th>
-      <th>sd_pdcontact</th>
-      <th>sd_comments</th>
-      <th>closed_amenity</th>
-      <th>closed_patroncount</th>
-      <th>closed_approach</th>
-      <th>closed_outcome</th>
-      <th>closed_pdcontact</th>
-      <th>closed_comments</th>
-      <th>borough</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>482</td>
-      <td>05-31-2020 16:56:32</td>
-      <td>05-31-2020 16:54:00</td>
-      <td>Q102</td>
-      <td>Jockey field</td>
-      <td>DEP</td>
-      <td>Riquelmer</td>
-      <td>Salinas</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>483</td>
-      <td>05-31-2020 16:56:32</td>
-      <td>05-31-2020 16:54:00</td>
-      <td>Q102</td>
-      <td>Jockey field</td>
-      <td>DEP</td>
-      <td>Riquelmer</td>
-      <td>Salinas</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>1836</td>
-      <td>05-25-2020 20:17:06</td>
-      <td>05-25-2020 15:00:00</td>
-      <td>Q005-06</td>
-      <td>NaN</td>
-      <td>DEP</td>
-      <td>Joely</td>
-      <td>Delarosa</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>1837</td>
-      <td>05-25-2020 20:17:06</td>
-      <td>05-25-2020 15:00:00</td>
-      <td>Q005-06</td>
-      <td>NaN</td>
-      <td>DEP</td>
-      <td>Joely</td>
-      <td>Delarosa</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-    <tr>
-      <td>2425</td>
-      <td>05-25-2020 12:37:19</td>
-      <td>05-24-2020 12:00:00</td>
-      <td>Q021</td>
-      <td>Union Tpke and Francis Lewis Blvd</td>
-      <td>DEP</td>
-      <td>James</td>
-      <td>Tangredi</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>Queens</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
 </div>
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_urls</span><span class="p">(</span><span class="n">urls</span><span class="p">),</span>
+                     <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;site_desc&#39;</span><span class="p">,</span> <span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;app_borough&#39;</span><span class="p">])</span>   
+</pre></div>
 
-</div>
-
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_update</span><span class="p">(</span><span class="n">ambass_updates</span><span class="p">,</span> <span class="s1">&#39;tbl_cw_ambassador&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;encounter_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;site_id&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="n">sites</span><span class="p">[</span><span class="s1">&#39;site_desc&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Choose&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sites</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s1">&#39;tbl_forms_sites&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">if_exists</span> <span class="o">=</span> <span class="s1">&#39;append&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
