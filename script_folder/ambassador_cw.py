@@ -277,7 +277,7 @@ ambass_updates = ambass_deltas[ambass_deltas['dml_verb'] == 'U'][sql_cols]
 ambass_updates.head()
 
 
-# In[39]:
+# In[38]:
 
 
 sql_update(ambass_updates, 'tbl_cw_ambassador', engine, ['encounter_timestamp', 'site_id'])

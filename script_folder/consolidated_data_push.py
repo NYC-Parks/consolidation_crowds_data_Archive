@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[11]:
 
 
 #Import required libraries
@@ -16,7 +16,7 @@ from gspread_dataframe import set_with_dataframe
 from gspread_dataframe import get_as_dataframe
 
 
-# In[2]:
+# In[12]:
 
 
 #Import shared functions
@@ -29,7 +29,7 @@ from IPM_Shared_Code_public.Python.sql_functions import *
 
 # ### Use the config file to setup connections
 
-# In[3]:
+# In[13]:
 
 
 config = get_config('c:\Projects\config.ini')
@@ -40,7 +40,7 @@ dwh = config['db']['crowdsdb']
 cred_file = config['google']['path_to_file']
 
 
-# In[4]:
+# In[14]:
 
 
 con_string = 'Driver={' + driver + '};Server=' + server +';Database=' + dwh + ';Trusted_Connection=Yes;'
@@ -50,26 +50,26 @@ engine = sqlalchemy.create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # ### Send the data to the sheet
 
-# In[5]:
+# In[15]:
 
 
 sql = 'select * from crowdsdb.dbo.vw_consolidated_socialdistancing'
 
 
-# In[6]:
+# In[16]:
 
 
 consolidated_sql = (pd.read_sql(con = engine, sql = sql)
                     .fillna(value = np.nan, axis = 1))
 
 
-# In[7]:
+# In[17]:
 
 
 consolidated_sql.tail()
 
 
-# In[8]:
+# In[18]:
 
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -78,19 +78,19 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 
-# In[9]:
+# In[19]:
 
 
 sheet = client.open('consolidated_social_distancing_data')
 
 
-# In[10]:
+# In[20]:
 
 
-ws = sheet.worksheet('Sheet1')
+ws = sheet.worksheet('Data')
 
 
-# In[11]:
+# In[21]:
 
 
 set_with_dataframe(ws, consolidated_sql, include_index = False, 

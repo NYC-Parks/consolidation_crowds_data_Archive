@@ -13076,7 +13076,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Import required libraries</span>
@@ -13098,7 +13098,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Import shared functions</span>
@@ -13113,27 +13113,6 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>C:\ProgramData\Anaconda3\lib\site-packages\authlib\client\__init__.py:12: AuthlibDeprecationWarning: Deprecate &#34;authlib.client&#34;, USE &#34;authlib.integrations.requests_client&#34; instead.
-It will be compatible before version 1.0.
-Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
-  deprecate(&#39;Deprecate &#34;authlib.client&#34;, USE &#34;authlib.integrations.requests_client&#34; instead.&#39;, &#39;1.0&#39;, &#39;Jeclj&#39;, &#39;rn&#39;)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13144,7 +13123,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s1">&#39;c:\Projects\config.ini&#39;</span><span class="p">)</span>
@@ -13162,7 +13141,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con_string</span> <span class="o">=</span> <span class="s1">&#39;Driver={&#39;</span> <span class="o">+</span> <span class="n">driver</span> <span class="o">+</span> <span class="s1">&#39;};Server=&#39;</span> <span class="o">+</span> <span class="n">server</span> <span class="o">+</span><span class="s1">&#39;;Database=&#39;</span> <span class="o">+</span> <span class="n">dwh</span> <span class="o">+</span> <span class="s1">&#39;;Trusted_Connection=Yes;&#39;</span>
@@ -13184,7 +13163,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select * from crowdsdb.dbo.vw_consolidated_socialdistancing&#39;</span>
@@ -13197,7 +13176,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">consolidated_sql</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">con</span> <span class="o">=</span> <span class="n">engine</span><span class="p">,</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">sql</span><span class="p">)</span>
@@ -13211,7 +13190,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">consolidated_sql</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
@@ -13227,7 +13206,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -13269,94 +13248,94 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
   </thead>
   <tbody>
     <tr>
-      <td>31581</td>
+      <td>35449</td>
       <td>DPR Crowds</td>
-      <td>2020-06-02 10:58:56</td>
-      <td>Q131</td>
-      <td>Q131</td>
-      <td>Q131-01</td>
-      <td>Frank Principe Park-Virginia Principe Playground</td>
-      <td>Queens</td>
+      <td>2020-06-06 11:09:43</td>
+      <td>M144</td>
+      <td>M144</td>
+      <td>M144-ZN05</td>
+      <td>John V. Lindsay - East River Park-East River P...</td>
+      <td>Manhattan</td>
       <td>NaN</td>
       <td>DPR</td>
       <td>NaN</td>
-      <td>Soccer field</td>
-      <td>80.0</td>
-      <td>104</td>
-      <td>Queens North</td>
-      <td>405</td>
+      <td>Baseball field</td>
+      <td>17.0</td>
+      <td>9</td>
+      <td>Manhattan South</td>
+      <td>103</td>
     </tr>
     <tr>
-      <td>31582</td>
+      <td>35450</td>
       <td>DPR Crowds</td>
-      <td>2020-06-02 18:46:01</td>
-      <td>Q004</td>
-      <td>Q004</td>
-      <td>Q004</td>
-      <td>Astoria Park</td>
-      <td>Queens</td>
-      <td>NaN</td>
-      <td>DPR</td>
-      <td>NaN</td>
-      <td>Soccer field</td>
-      <td>100.0</td>
-      <td>114</td>
-      <td>Queens North</td>
-      <td>401</td>
-    </tr>
-    <tr>
-      <td>31583</td>
-      <td>DPR Crowds</td>
-      <td>2020-06-02 17:47:38</td>
-      <td>Q392</td>
-      <td>Q392</td>
-      <td>Q392-ZN01</td>
-      <td>Idlewild Park Zone 1</td>
-      <td>Queens</td>
+      <td>2020-06-06 10:58:32</td>
+      <td>R022</td>
+      <td>R022</td>
+      <td>R022</td>
+      <td>Silver Lake Park</td>
+      <td>Staten Island</td>
       <td>NaN</td>
       <td>DPR</td>
       <td>NaN</td>
       <td>Open field/multi-purpose play area</td>
-      <td>20.0</td>
-      <td>105</td>
-      <td>Queens South</td>
-      <td>413</td>
+      <td>25.0</td>
+      <td>120</td>
+      <td>Staten Island</td>
+      <td>501</td>
     </tr>
     <tr>
-      <td>31584</td>
+      <td>35451</td>
       <td>DPR Crowds</td>
-      <td>2020-06-02 17:32:52</td>
-      <td>Q207</td>
-      <td>Q207</td>
-      <td>Q207</td>
-      <td>MacDonald Park</td>
+      <td>2020-06-06 10:37:52</td>
+      <td>Q300</td>
+      <td>Q300</td>
+      <td>Q300-05</td>
+      <td>Kissena Corridor Park-Rachel Carson Playground</td>
       <td>Queens</td>
       <td>NaN</td>
       <td>DPR</td>
       <td>NaN</td>
-      <td>Chess area</td>
-      <td>20.0</td>
-      <td>112</td>
+      <td>Track/field area</td>
+      <td>12.0</td>
+      <td>109</td>
       <td>Queens North</td>
-      <td>406</td>
+      <td>407</td>
     </tr>
     <tr>
-      <td>31585</td>
+      <td>35452</td>
       <td>DPR Crowds</td>
-      <td>2020-06-02 17:10:48</td>
-      <td>X147A</td>
-      <td>X147A</td>
-      <td>X147A-ZN01</td>
-      <td>Starlight Park Zone 1</td>
-      <td>Bronx</td>
+      <td>2020-06-06 10:36:29</td>
+      <td>Q300</td>
+      <td>Q300</td>
+      <td>Q300-03</td>
+      <td>Kissena Corridor Park-Silent Springs Playground</td>
+      <td>Queens</td>
       <td>NaN</td>
       <td>DPR</td>
       <td>NaN</td>
-      <td>Soccer field</td>
-      <td>30.0</td>
-      <td>43</td>
-      <td>Bronx</td>
-      <td>209</td>
+      <td>Playground</td>
+      <td>19.0</td>
+      <td>109</td>
+      <td>Queens North</td>
+      <td>407</td>
+    </tr>
+    <tr>
+      <td>35453</td>
+      <td>DPR Crowds</td>
+      <td>2020-06-06 08:06:00</td>
+      <td>M011</td>
+      <td>M011</td>
+      <td>M011</td>
+      <td>Chelsea Park</td>
+      <td>Manhattan</td>
+      <td>NaN</td>
+      <td>DPR</td>
+      <td>NaN</td>
+      <td>Basketball court</td>
+      <td>14.0</td>
+      <td>10</td>
+      <td>Manhattan South</td>
+      <td>104</td>
     </tr>
   </tbody>
 </table>
@@ -13371,7 +13350,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">scope</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://spreadsheets.google.com/feeds&#39;</span><span class="p">,</span>
@@ -13387,7 +13366,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sheet</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;consolidated_social_distancing_data&#39;</span><span class="p">)</span>
@@ -13400,10 +13379,10 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Sheet1&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="n">worksheet</span><span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13413,7 +13392,7 @@ Read more &lt;https://git.io/Jeclj#file-rn-md&gt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">set_with_dataframe</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">consolidated_sql</span><span class="p">,</span> <span class="n">include_index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
