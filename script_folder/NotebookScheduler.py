@@ -13,10 +13,20 @@ import time
 # ---------------------------------------
 # This script helps with the automated processing of Jupyter Notebooks via papermill (https://github.com/nteract/papermill/)
 
-
-
 snapshotDir = 'snapshots'
 
+files = ['exec_sp_m_tbl_ref_park_sites.ipynb',
+         'ambassador_cw.ipynb',
+         'ambassador_dpr.ipynb',
+         'crowds_dpr.ipynb',
+         'patrol_dpr.ipynb',
+         'consolidated_data_push.ipynb']
+
+def defFiles(directory, files):
+    # Lists all files in the specified directory that match the specified pattern
+    for filename in files:
+        yield os.path.join(directory, filename)
+        
 def findFiles(directory, pattern):
     # Lists all files in the specified directory that match the specified pattern
     for filename in os.listdir(directory):
@@ -37,7 +47,7 @@ def processNotebooks(notebookDirectory, days=[]):
         if os.path.isdir(os.path.join(notebookDirectory,snapshotDir)) == False:
             os.mkdir(os.path.join(notebookDirectory,snapshotDir))
         
-        for file in findFiles(notebookDirectory, '*.ipynb'):
+        for file in defFiles(notebookDirectory, files):
             try:
                 nb = os.path.basename(file)
                 
@@ -106,7 +116,8 @@ if __name__ == '__main__':
 
         print("Starting scheduler...")
 
-        schedule.every().day.at('11:15').do(processNotebooks, notebookDirectory='daily')
+        schedule.every().day.at('02:00').do(processNotebooks, notebookDirectory='daily')
+        schedule.every().day.at('09:46').do(processNotebooks, notebookDirectory='daily')
 
         # Run the scheduled tasks
         while True:
