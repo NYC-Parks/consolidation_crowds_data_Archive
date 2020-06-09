@@ -13,7 +13,11 @@ sqlcmd -S . -E -i tbl_ref_sites.sql
 
 sqlcmd -S . -E -i tbl_dpr_patrol.sql
 
+sqlcmd -S . -E -i tbl_dpr_patrol_audit.sql
+
 sqlcmd -S . -E -i tbl_dpr_ambassador.sql
+
+sqlcmd -S . -E -i tbl_dpr_ambassador_audit.sql
 
 sqlcmd -S . -E -i tbl_cw_ambassador.sql
 
@@ -26,3 +30,7 @@ sqlcmd -S . -E -i tbl_ref_park_sites.sql
 sqlcmd -S . -E -i sp_m_tbl_ref_park_sites.sql
 
 sqlcmd -S . -E -i vw_consolidated_socialdistancing.sql
+
+sqlcmd -S . -E -i trg_u_tbl_dpr_ambassador.sql
+
+sqlcmd -S . -E -i trg_u_tbl_dpr_patrol.sql
