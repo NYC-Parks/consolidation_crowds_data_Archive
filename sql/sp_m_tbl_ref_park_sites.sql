@@ -87,7 +87,8 @@ begin
 			   coalesce(r3.parent_id, l.gispropnum) as reported_as,
 			   l.omppropid as site_id, 
 			   l.obj_gisobjid,
-			   l.description as site_desc, 
+			   /*Remove characters that will mess up google sheets.*/
+			   replace(replace(l.description, '"', ''), ',', '') as site_desc, 
 			   l.location as site_loc, 
 			   l.desc_location, 
 			   case when left(district, 1) = 'X' then 'Bronx'
