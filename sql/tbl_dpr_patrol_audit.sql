@@ -17,7 +17,7 @@
 	       vis. his ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
-create table crowdsdb.dbo.tbl_dpr_patrol_audit(patrol_id int identity(1,1) foreign key references crowdsdb.dbo.tbl_dpr_patrol(patrol_id),
+create table crowdsdb.dbo.tbl_dpr_patrol_audit(patrol_id int foreign key references crowdsdb.dbo.tbl_dpr_patrol(patrol_id),
 											   encounter_timestamp datetime, 
 											   encounter_datetime datetime, 
 											   site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id),
