@@ -20,7 +20,7 @@
 use crowdsdb
 go
 
-create or alter view vw_consolidated_socialdistancing as
+create or alter view dbo.vw_consolidated_socialdistancing as
 	with surveys as(
 	select 'DPR Patrol' as source_survey,
 		   encounter_datetime,

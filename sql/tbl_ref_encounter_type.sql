@@ -17,31 +17,17 @@
 	       vis. His ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
-create table crowdsdb.dbo.tbl_dpr_ambassador(ambassador_id int identity(1,1) primary key,
-											 encounter_timestamp datetime, 
-											 encounter_datetime datetime, 
-											 site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id),
-											 location_adddesc nvarchar(1000), 
-											 park_division nvarchar(80), 
-											 firstname_1 nvarchar(80), 
-											 lastname_1 nvarchar(80), 
-											 firstname_2 nvarchar(80), 
-											 lastname_2 nvarchar(80), 
-											 firstname_3 nvarchar(80), 
-											 lastname_3 nvarchar(80), 
-											 encounter_type nvarchar(80), 
-											 sd_patronscomplied int, 
-											 sd_patronsnocomply int, 
-											 sd_amenity nvarchar(100), 
-											 sd_pdcontact bit, 
-											 sd_comments nvarchar(1000),
-											 closed_amenity nvarchar(100), 
-											 closed_patroncount int, 
-											 closed_approach bit, 
-											 closed_outcome bit,
-											 closed_pdcontact bit,
-											 closed_comments nvarchar(1000),
-											 borough nvarchar(13),
-											 patroncount as (case when lower(encounter_type) = 'no encounter' then null
-																  else isnull(sd_patronscomplied, 0) + isnull(sd_patronsnocomply, 0) + isnull(closed_patroncount, 0) 
-															 end) persisted);
+create table crowdsdb.dbo.tbl_ref_encounter_type(encounter_type nvarchar(80) primary key,
+												 simplified_encounter_type nvarchar(80))
+
+begin transaction
+	insert into crowdsdb.dbo.tbl_ref_encounter_type(encounter_type,
+													simplified_encounter_type)
+	values ('Everyone at this site is in compliance with social distancing', 'No Encounter'),
+		   ('No encounter', 'No Encounter'),
+		   ('Patrons in an area closed to the public', 'Patrons in Closed Area'),
+		   ('Social distancing', 'Social Distancing'),
+		   ('Social distancing (groups of 3 or more)', 'Social Distancing'),
+		   ('Yes, patrons educated on social distancing (not trespassing)', 'Social Distancing'),
+		   ('Yes, patrons who trespassed/violated rules', 'Patrons in Closed Area')
+commit;

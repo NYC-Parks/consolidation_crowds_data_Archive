@@ -17,31 +17,26 @@
 	       vis. His ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
-create table crowdsdb.dbo.tbl_dpr_ambassador(ambassador_id int identity(1,1) primary key,
-											 encounter_timestamp datetime, 
-											 encounter_datetime datetime, 
-											 site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id),
-											 location_adddesc nvarchar(1000), 
-											 park_division nvarchar(80), 
-											 firstname_1 nvarchar(80), 
-											 lastname_1 nvarchar(80), 
-											 firstname_2 nvarchar(80), 
-											 lastname_2 nvarchar(80), 
-											 firstname_3 nvarchar(80), 
-											 lastname_3 nvarchar(80), 
-											 encounter_type nvarchar(80), 
-											 sd_patronscomplied int, 
-											 sd_patronsnocomply int, 
-											 sd_amenity nvarchar(100), 
-											 sd_pdcontact bit, 
-											 sd_comments nvarchar(1000),
-											 closed_amenity nvarchar(100), 
-											 closed_patroncount int, 
-											 closed_approach bit, 
-											 closed_outcome bit,
-											 closed_pdcontact bit,
-											 closed_comments nvarchar(1000),
-											 borough nvarchar(13),
-											 patroncount as (case when lower(encounter_type) = 'no encounter' then null
-																  else isnull(sd_patronscomplied, 0) + isnull(sd_patronsnocomply, 0) + isnull(closed_patroncount, 0) 
-															 end) persisted);
+use crowdsdb
+go
+
+create or alter view dbo.vw_consolidated_socialdistancing_opendata as
+	select l.source_survey,
+		   l.encounter_datetime,
+		   l.gispropnum,
+		   l.reported_as,
+		   l.site_id,
+		   l.site_desc,
+		   l.park_borough,
+		   l.city_agency,
+		   l.encounter_type,
+		   r.simplified_encounter_type,
+		   l.amenity,
+		   l.patroncount,
+		   l.police_precinct,
+		   l.police_boro_com,
+		   l.communityboard
+	from crowdsdb.dbo.vw_consolidated_socialdistancing as l
+	left join
+		 crowdsdb.dbo.tbl_ref_encounter_type as r
+	on l.encounter_type = r.encounter_type;

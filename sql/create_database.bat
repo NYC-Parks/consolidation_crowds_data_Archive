@@ -27,10 +27,31 @@ sqlcmd -S . -E -i tbl_ref_precinct.sql
 
 sqlcmd -S . -E -i tbl_ref_park_sites.sql
 
+sqlcmd -S . -E -i tbl_ref_encounter_type.sql
+
+REM Run the scripts to create the stored procedures
+REM -------------------------------------------------------------------------
+
 sqlcmd -S . -E -i sp_m_tbl_ref_park_sites.sql
 
-sqlcmd -S . -E -i vw_consolidated_socialdistancing.sql
+REM Run the scripts to create the triggers
+REM -------------------------------------------------------------------------
 
 sqlcmd -S . -E -i trg_u_tbl_dpr_ambassador.sql
 
 sqlcmd -S . -E -i trg_u_tbl_dpr_patrol.sql
+
+REM Run all the create view scripts
+REM -------------------------------------------------------------------------
+
+sqlcmd -S . -E -i vw_consolidated_socialdistancing.sql
+
+sqlcmd -S . -E -i vw_consolidated_socialdistancing_opendata.sql
+
+sqlcmd -S . -E -i vw_dpr_crowds_opendata.sql
+
+sqlcmd -S . -E -i vw_dpr_ambassador_opendata.sql
+
+sqlcmd -S . -E -i vw_cw_ambassador_opendata.sql
+
+sqlcmd -S . -E -i vw_dpr_patrol_opendata.sql
