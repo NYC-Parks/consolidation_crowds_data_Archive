@@ -61,7 +61,9 @@ begin transaction
 												  summonscount_a22, 
 												  other_summonstype, 
 												  other_summonscount, 
-												  borough)
+												  borough,
+												  closed_outcome_spec,
+												  sd_outcome_spec)
 
 		select patrol_id,
 			   encounter_timestamp, 
@@ -99,6 +101,8 @@ begin transaction
 			   summonscount_a22, 
 			   other_summonstype, 
 			   other_summonscount, 
-			   borough
+			   borough,
+			   closed_outcome_spec,
+			   sd_outcome_spec
 		from deleted;
 	commit;

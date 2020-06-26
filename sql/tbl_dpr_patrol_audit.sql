@@ -53,4 +53,6 @@ create table crowdsdb.dbo.tbl_dpr_patrol_audit(patrol_id int foreign key referen
 											   summonscount_a22 int, 
 											   other_summonstype nvarchar(500), 
 											   other_summonscount int, 
-											   borough nvarchar(13));
+											   borough nvarchar(13),
+											   closed_outcome_spec nvarchar(100),
+											   sd_outcome_spec nvarchar(100));
