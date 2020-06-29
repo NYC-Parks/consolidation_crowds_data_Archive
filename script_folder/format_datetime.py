@@ -10,5 +10,5 @@ def dt_fmt(x):
     return(dt)
 
 def format_datetime(df, col):
-      df[col] = pd.to_datetime(df[col], infer_datetime_format = True)
+      df[col] = pd.to_datetime(df[col], infer_datetime_format = True, errors = 'coerce')
       df[col] = df.apply(lambda x: dt_fmt(x[col]), axis = 1)
