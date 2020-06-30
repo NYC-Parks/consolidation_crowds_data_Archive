@@ -88,14 +88,14 @@ begin
 			   l.omppropid as site_id, 
 			   l.obj_gisobjid,
 			   /*Remove characters that will mess up google sheets.*/
-			   replace(replace(l.description, '"', ''), ',', '') as site_desc, 
+			   replace(l.description, '"', '') as site_desc, 
 			   l.location as site_loc, 
-			   l.desc_location, 
-			   case when left(district, 1) = 'X' then 'Bronx'
-					when left(district, 1) = 'B' then 'Brooklyn'
-					when left(district, 1) = 'M' then 'Manhattan'
-					when left(district, 1) = 'Q' then 'Queens'
-					when left(district, 1) = 'R' then 'Staten Island'
+			   replace(replace(l.desc_location, '  ', ' '), '"', '') as desc_location, 
+			   case when left(l.omppropid, 1) = 'X' then 'Bronx'
+					when left(l.omppropid, 1) = 'B' then 'Brooklyn'
+					when left(l.omppropid, 1) = 'M' then 'Manhattan'
+					when left(l.omppropid, 1) = 'Q' then 'Queens'
+					when left(l.omppropid, 1) = 'R' then 'Staten Island'
 					else null
 			   end as park_borough,
 			   l.district as park_district, 
