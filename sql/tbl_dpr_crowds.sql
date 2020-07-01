@@ -22,5 +22,5 @@ create table crowdsdb.dbo.tbl_dpr_crowds(crowds_id int identity(1, 1) primary ke
 										 action_taken nvarchar(100),
 										 amenity nvarchar(100), 
 										 comments nvarchar(1000),
-										 site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id), 
+										 site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_park_sites(site_id),
 										 borough nvarchar(13)) 

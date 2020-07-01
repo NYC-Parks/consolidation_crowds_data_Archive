@@ -20,7 +20,7 @@
 create table crowdsdb.dbo.tbl_dpr_ambassador_audit(ambassador_id int foreign key references crowdsdb.dbo.tbl_dpr_ambassador(ambassador_id),
 												   encounter_timestamp datetime, 
 												   encounter_datetime datetime, 
-												   site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_sites(site_id),
+												   site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_park_sites(site_id),
 												   location_adddesc nvarchar(1000), 
 												   park_division nvarchar(80), 
 												   firstname_1 nvarchar(80), 

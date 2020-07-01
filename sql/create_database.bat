@@ -27,6 +27,8 @@ sqlcmd -S . -E -i tbl_ref_precinct.sql
 
 sqlcmd -S . -E -i tbl_ref_park_sites.sql
 
+sqlcmd -S . -E -i tbl_ref_park_sites_audit.sql
+
 sqlcmd -S . -E -i tbl_ref_encounter_type.sql
 
 REM Run the scripts to create the stored procedures
@@ -40,6 +42,8 @@ REM -------------------------------------------------------------------------
 sqlcmd -S . -E -i trg_u_tbl_dpr_ambassador.sql
 
 sqlcmd -S . -E -i trg_u_tbl_dpr_patrol.sql
+
+sqlcmd -S . -E -i trg_u_tbl_ref_park_sites.sql
 
 REM Run all the create view scripts
 REM -------------------------------------------------------------------------

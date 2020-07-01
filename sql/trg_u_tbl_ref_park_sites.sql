@@ -31,14 +31,14 @@ begin transaction
 													  park_borough)
 		select l.site_id,
 			   case when l.site_desc != r.site_desc then l.site_desc
+					when l.site_desc != r.site_desc and l.park_borough != r.park_borough then l.site_desc
 				    else null
 			   end as site_desc,
 			   case when l.desc_location != r.desc_location then l.desc_location
+					when l.desc_location != r.desc_location and l.park_borough != r.park_borough then l.desc_location
 					else null
 			   end as desc_location,
-			   case when l.park_borough != r.park_borough then l.park_borough
-				    else null
-			   end as park_borough
+			   l.park_borough
 		from deleted as l
 		inner join
 			 inserted as r
