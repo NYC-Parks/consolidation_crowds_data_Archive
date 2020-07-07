@@ -32,7 +32,11 @@ create table crowdsdb.dbo.tbl_ref_park_sites(gispropnum nvarchar(30),
 											 obj_class nvarchar(8),
 											 gis_source nvarchar(26),
 											 active bit,
+											 shape geometry,
 											 row_hash as hashbytes('SHA2_256', concat(gispropnum, reported_as, obj_gisobjid, 
 																	site_desc, site_loc, desc_location, park_borough, 
 																	park_district, police_precinct, police_boro_com, communityboard,
 																	obj_class, gis_source, active)) persisted)
+
+exec dwh.dbo.sp_create_spatial_index @db_name = 'crowdsdb', @db_schema = 'dbo', @table_name = 'tbl_ref_park_sites', 
+									 @geom_column = 'shape', @pk_column = 'site_id'

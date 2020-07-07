@@ -26,21 +26,21 @@ begin
 		drop table #allsites
 	select *
 	into #allsites
-	from (select gisobjid, precinct, communityboard, 'property' as gis_source
+	from (select gisobjid, precinct, communityboard, 'property' as gis_source, shape
 		  from parksgis.dpr.property_evw
-		  union
-		  select gisobjid, precinct, communityboard, 'zone' as gis_source
+		  union all
+		  select gisobjid, precinct, communityboard, 'zone' as gis_source, shape
 		  from parksgis.dpr.zone_evw
-		  union
-		  select gisobjid, precinct, communityboard, 'playground' as gis_source
+		  union all
+		  select gisobjid, precinct, communityboard, 'playground' as gis_source, shape
 		  from parksgis.dpr.playground_evw
-		  union
-		  select gisobjid, precinct, communityboard, 'greenstreet' as gis_source
+		  union all
+		  select gisobjid, precinct, communityboard, 'greenstreet' as gis_source, shape
 		  from parksgis.dpr.greenstreet_evw
-		  union
+		  union all
 		  /*These will be excluded, but are included for good measure because some of these sites have a 
 		  obj_gisobjid/gisobjid in AMPS*/
-		  select null as gisobjid, precinct, communityboard, 'restrictivedeclarationsite' as gis_source
+		  select null as gisobjid, precinct, communityboard, 'restrictivedeclarationsite' as gis_source, shape
 		  from parksgis.dpr.restrictivedeclarationsite_evw) as u
 	where gisobjid is not null and
 		  gisobjid != 0;
@@ -63,6 +63,7 @@ begin
 								 obj_class nvarchar(8),
 								 gis_source nvarchar(26),
 								 active bit,
+								 shape geometry,
 								 row_hash as hashbytes('SHA2_256', concat(gispropnum, reported_as, obj_gisobjid, 
 													   site_desc, site_loc, desc_location, park_borough, 
 													   park_district, police_precinct, police_boro_com, communityboard,
@@ -82,7 +83,8 @@ begin
 								communityboard,
 								obj_class,
 								gis_source,
-								active)
+								active,
+								shape)
 		select l.gispropnum, 
 			   coalesce(r3.parent_id, l.gispropnum) as reported_as,
 			   l.omppropid as site_id, 
@@ -104,7 +106,8 @@ begin
 			   r.communityboard,
 			   l.obj_class,
 			   r.gis_source,
-			   l.active
+			   l.active,
+			   r.shape
 		from [dataparks].dwh.dbo.vw_dailytask_property_dropdown as l
 		left join
 			 #allsites as r
@@ -117,11 +120,14 @@ begin
 		on l.gispropnum = r3.gispropnum
 		where obj_gisobjid is not null;
 
+		exec dwh.dbo.sp_create_spatial_index @table_name = '#ref_park_sites', @pk_column = 'site_id', @geom_column = 'shape'
+
 		begin transaction	
 				merge crowdsdb.dbo.tbl_ref_park_sites as tgt using #ref_park_sites as src
 					on tgt.site_id = src.site_id
 					/*Include rows that matched on parks_id, but had differing row hashes or shapes and had unique, non-null parks_id values.*/
-					when matched and (tgt.row_hash != src.row_hash)
+					when matched and (tgt.row_hash != src.row_hash or 
+									  tgt.shape.STEquals(src.shape) = 0)
 						then update set tgt.gispropnum = src.gispropnum,
 										tgt.reported_as = src.reported_as,
 										tgt.obj_gisobjid = src.obj_gisobjid,
@@ -135,15 +141,16 @@ begin
 										tgt.communityboard = src.communityboard,
 										tgt.obj_class = src.obj_class,
 										tgt.gis_source = src.gis_source,
-										tgt.active = src.active
+										tgt.active = src.active,
+										tgt.shape = src.shape
 
 					when not matched by target
 						then insert(gispropnum, reported_as, site_id, obj_gisobjid, site_desc, site_loc, desc_location,
 									park_borough, park_district, police_precinct, police_boro_com, communityboard, obj_class,
-									gis_source, active)
+									gis_source, active, shape)
 									values(src.gispropnum, src.reported_as, src.site_id, src.obj_gisobjid, src.site_desc, src.site_loc, src.desc_location,
 										   src.park_borough, src.park_district, src.police_precinct, src.police_boro_com, src.communityboard,
-										   src.obj_class, src.gis_source, src.active)
+										   src.obj_class, src.gis_source, src.active, src.shape)
 					/*when not matched by source
 						then delete*/;	
 			commit;
