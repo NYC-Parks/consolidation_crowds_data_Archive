@@ -29,5 +29,9 @@ begin transaction
 		   ('Social distancing', 'Social Distancing'),
 		   ('Social distancing (groups of 3 or more)', 'Social Distancing'),
 		   ('Yes, patrons educated on social distancing (not trespassing)', 'Social Distancing'),
-		   ('Yes, patrons who trespassed/violated rules', 'Patrons in Closed Area')
+		   ('Yes, patrons who trespassed/violated rules', 'Patrons in Closed Area'),
+		   ('No encounter with non-complaint patrons, but the park was CROWDED', 'No Encounter'),
+		   ('No encounter with non-compliant patrons, but the park was NOT CROWDED', 'No Encounter'),
+		   ('No encounter with non-compliant patrons, the park was NOT CROWDED', 'No Encounter'),
+		   ('Yes, patrons who trespassed', 'Patrons in Closed Area')
 commit;
