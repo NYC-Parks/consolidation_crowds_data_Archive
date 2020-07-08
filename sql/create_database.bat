@@ -51,3 +51,13 @@ REM -------------------------------------------------------------------------
 sqlcmd -S . -E -i vw_consolidated_socialdistancing.sql
 
 sqlcmd -S . -E -i vw_consolidated_socialdistancing_opendata.sql
+
+sqlcmd -S . -E -i vw_dpr_crowds_opendata.sql
+
+sqlcmd -S . -E -i vw_dpr_ambassador_opendata.sql
+
+sqlcmd -S . -E -i vw_cw_ambassador_opendata.sql
+
+sqlcmd -S . -E -i vw_dpr_patrol_opendata.sql
+
+sqlcmd -S . -E -i vw_ref_park_areas_opendata.sql

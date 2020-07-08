@@ -21,19 +21,13 @@ use crowdsdb
 go
 
 create view dbo.vw_dpr_crowds_opendata as
-	select l.encounter_timestamp,
-		   l.park_district as district,
-		   l.patroncount as numberofpeople,
-		   case when l.in_playground = 1 then 'Yes'
+	select encounter_timestamp,
+		   site_id,
+		   park_district,
+		   patroncount,
+		   case when in_playground = 1 then 'Yes'
 				else 'No'
-		   end as crowdinplayground,
-		   l.action_taken as actiontakenbyparksemployee,
-		   l.site_id as [site],
-		   l.amenity as locationinpark,
-		   case when r.latitude is null or r.longitude is null then null
-				else geography::STGeomFromText(concat('Point(', cast(r.longitude as nvarchar), ' ', cast(r.latitude as nvarchar), ')'), 4326)
-		   end as point
-	from crowdsdb.dbo.tbl_dpr_crowds as l
-	left join
-		 crowdsdb.dbo.tbl_ref_sites as r
-	on l.site_id = r.site_id
+		   end as in_playground,
+		   action_taken,
+		   amenity
+	from crowdsdb.dbo.tbl_dpr_crowds

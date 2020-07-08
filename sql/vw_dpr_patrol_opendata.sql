@@ -20,34 +20,42 @@
 use crowdsdb 
 go
 
-create or alter view dbo.vw_cw_ambassador_opendata as
+create or alter view dbo.vw_dpr_patrol_opendata as
 	select l.encounter_datetime,
 		   l.site_id,
-		   r.site_desc,
-		   l.city_agency,
+		   l.park_division,
+		   l.visit_reason,
+		   l.patrol_method,
 		   l.encounter_type,
-		   r2.simplified_encounter_type,
-		   l.sd_patronscomplied,
-		   l.sd_patronsnocomply,
-		   l.sd_amenity,
+		   r.simplified_encounter_type,
 		   l.closed_amenity,
 		   l.closed_patroncount,
-		   case when l.closed_approach = 1 then 'Yes'
-				when l.closed_approach = 0 then 'No'
+		   case when l.closed_education= 1 then 'Yes'
+				when l.closed_education = 0 then 'No'
 				else null
-		   end as closed_approach,
-		   case when l.closed_outcome = 1 then 'Yes'
+		   end as closed_education,
+		   case when l.closed_outcome= 1 then 'Yes'
 				when l.closed_outcome = 0 then 'No'
 				else null
 		   end as closed_outcome,
-		   l.borough,
-		   case when r.latitude is null or r.longitude is null then null
-				else geography::STGeomFromText(concat('Point(', cast(r.longitude as nvarchar), ' ', cast(r.latitude as nvarchar), ')'), 4326)
-		   end as point
-	from crowdsdb.dbo.tbl_cw_ambassador as l
+		   case when l.closed_pdcontact= 1 then 'Yes'
+				when l.closed_pdcontact = 0 then 'No'
+				else null
+		   end as closed_pdcontact,
+		   l.sd_patronscomplied,
+		   l.sd_patronsnocomply,
+		   l.sd_amenity,
+		   case when l.sd_pdcontact= 1 then 'Yes'
+				when l.sd_pdcontact = 0 then 'No'
+				else null
+		   end as sd_pdcontact,
+		   l.summonscount_a01,
+		   l.summonscount_a03,
+		   l.summonscount_a04,
+		   l.summonscount_a22,
+		   l.other_summonscount,
+		   l.borough
+	from crowdsdb.dbo.tbl_dpr_patrol as l
 	left join
-		 crowdsdb.dbo.tbl_ref_sites as r
-	on l.site_id = r.site_id
-	left join
-		 crowdsdb.dbo.tbl_ref_encounter_type as r2
-	on l.encounter_type = r2.encounter_type;
+		 crowdsdb.dbo.tbl_ref_encounter_type as r
+	on l.encounter_type = r.encounter_type;

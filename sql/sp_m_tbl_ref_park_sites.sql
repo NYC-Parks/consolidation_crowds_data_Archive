@@ -26,21 +26,21 @@ begin
 		drop table #allsites
 	select *
 	into #allsites
-	from (select gisobjid, precinct, communityboard, 'property' as gis_source, shape
+	from (select gispropnum, gisobjid, precinct, communityboard, 'property' as gis_source, shape
 		  from parksgis.dpr.property_evw
 		  union all
-		  select gisobjid, precinct, communityboard, 'zone' as gis_source, shape
+		  select gispropnum, gisobjid, precinct, communityboard, 'zone' as gis_source, shape
 		  from parksgis.dpr.zone_evw
 		  union all
-		  select gisobjid, precinct, communityboard, 'playground' as gis_source, shape
+		  select gispropnum, gisobjid, precinct, communityboard, 'playground' as gis_source, shape
 		  from parksgis.dpr.playground_evw
 		  union all
-		  select gisobjid, precinct, communityboard, 'greenstreet' as gis_source, shape
+		  select gispropnum, gisobjid, precinct, communityboard, 'greenstreet' as gis_source, shape
 		  from parksgis.dpr.greenstreet_evw
 		  union all
 		  /*These will be excluded, but are included for good measure because some of these sites have a 
 		  obj_gisobjid/gisobjid in AMPS*/
-		  select null as gisobjid, precinct, communityboard, 'restrictivedeclarationsite' as gis_source, shape
+		  select gispropnum, null as gisobjid, precinct, communityboard, 'restrictivedeclarationsite' as gis_source, shape
 		  from parksgis.dpr.restrictivedeclarationsite_evw) as u
 	where gisobjid is not null and
 		  gisobjid != 0;
@@ -85,8 +85,8 @@ begin
 								gis_source,
 								active,
 								shape)
-		select l.gispropnum, 
-			   coalesce(r3.parent_id, l.gispropnum) as reported_as,
+		select coalesce(r.gispropnum, l.gispropnum) as gispropnum, 
+			   coalesce(r3.parent_id, r.gispropnum, l.gispropnum) as reported_as,
 			   l.omppropid as site_id, 
 			   l.obj_gisobjid,
 			   /*Remove characters that will mess up google sheets.*/
@@ -117,7 +117,7 @@ begin
 		on r.precinct = r2.police_precinct
 		left join
 			 dwh.dbo.tbl_ref_parent_property as r3
-		on l.gispropnum = r3.gispropnum
+		on coalesce(r.gispropnum, l.gispropnum) = r3.gispropnum
 		where obj_gisobjid is not null;
 
 		exec dwh.dbo.sp_create_spatial_index @table_name = '#ref_park_sites', @pk_column = 'site_id', @geom_column = 'shape'
