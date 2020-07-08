@@ -20,6 +20,12 @@
 use crowdsdb 
 go
 
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create or alter view dbo.vw_dpr_ambassador_opendata as
 	select l.encounter_datetime,
 		   l.site_id,

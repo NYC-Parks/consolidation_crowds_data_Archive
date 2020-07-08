@@ -20,6 +20,12 @@
 use crowdsdb
 go
 
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create or alter trigger dbo.trg_u_tbl_dpr_patrol
 on crowdsdb.dbo.tbl_dpr_patrol
 after update as

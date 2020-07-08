@@ -17,6 +17,12 @@
 	       vis. His ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create table crowdsdb.dbo.tbl_ref_encounter_type(encounter_type nvarchar(80) primary key,
 												 simplified_encounter_type nvarchar(80))
 

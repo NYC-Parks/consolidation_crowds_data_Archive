@@ -17,6 +17,12 @@
 	       vis. His ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create table crowdsdb.dbo.tbl_ref_park_sites_audit(site_id nvarchar(30) foreign key references crowdsdb.dbo.tbl_ref_park_sites(site_id),
 												   site_desc nvarchar(80),
 												   desc_location nvarchar(113),

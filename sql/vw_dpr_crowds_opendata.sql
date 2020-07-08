@@ -20,7 +20,13 @@
 use crowdsdb
 go
 
-create view dbo.vw_dpr_crowds_opendata as
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
+create or alter view dbo.vw_dpr_crowds_opendata as
 	select encounter_timestamp,
 		   site_id,
 		   park_district,

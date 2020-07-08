@@ -14,6 +14,12 @@
  description: Raw data from M&O crowds apps                   
                                                                                       
 ***********************************************************************************************************************/
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create table crowdsdb.dbo.tbl_dpr_crowds(crowds_id int identity(1, 1) primary key, 
 										 encounter_timestamp datetime, 
 										 park_district nvarchar(15),

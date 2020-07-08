@@ -20,6 +20,12 @@
 use crowdsdb
 go
 
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create or alter procedure dbo.sp_m_tbl_ref_park_sites as
 begin
 	if object_id('tempdb..#allsites') is not null

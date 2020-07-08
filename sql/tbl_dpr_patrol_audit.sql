@@ -17,6 +17,12 @@
 	       vis. his ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create table crowdsdb.dbo.tbl_dpr_patrol_audit(patrol_id int foreign key references crowdsdb.dbo.tbl_dpr_patrol(patrol_id),
 											   encounter_timestamp datetime, 
 											   encounter_datetime datetime, 

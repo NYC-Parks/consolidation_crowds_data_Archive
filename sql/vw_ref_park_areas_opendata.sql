@@ -19,6 +19,13 @@
 ***********************************************************************************************************************/
 use crowdsdb
 go
+
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create or alter view dbo.vw_ref_park_areas_opendata as
 	select reported_as, 
 		   gispropnum, 

@@ -17,5 +17,11 @@
 	       vis. His ad sonet probatus torquatos, ut vim tempor vidisse deleniti.>  									   
 																													   												
 ***********************************************************************************************************************/
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create table crowdsdb.dbo.tbl_ref_precinct(police_precinct nvarchar(3) primary key,
 										   police_boro_com nvarchar(15))

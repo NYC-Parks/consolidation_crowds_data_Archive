@@ -20,6 +20,12 @@
 use crowdsdb
 go
 
+set ansi_nulls on;
+go
+
+set quoted_identifier on;
+go
+
 create or alter view dbo.vw_consolidated_socialdistancing_opendata as
 	select l.source_survey,
 		   l.encounter_datetime,
