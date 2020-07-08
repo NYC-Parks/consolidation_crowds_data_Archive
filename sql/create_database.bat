@@ -9,7 +9,9 @@ sqlcmd -S . -E -i create_db.sql
 
 REM Run all the create table scripts
 REM -------------------------------------------------------------------------
-sqlcmd -S . -E -i tbl_ref_sites.sql
+sqlcmd -S . -E -i tbl_ref_park_sites.sql
+
+sqlcmd -S . -E -i tbl_ref_park_sites_audit.sql
 
 sqlcmd -S . -E -i tbl_dpr_patrol.sql
 
@@ -24,10 +26,6 @@ sqlcmd -S . -E -i tbl_cw_ambassador.sql
 sqlcmd -S . -E -i tbl_dpr_crowds.sql
 
 sqlcmd -S . -E -i tbl_ref_precinct.sql
-
-sqlcmd -S . -E -i tbl_ref_park_sites.sql
-
-sqlcmd -S . -E -i tbl_ref_park_sites_audit.sql
 
 sqlcmd -S . -E -i tbl_ref_encounter_type.sql
 
@@ -61,3 +59,5 @@ sqlcmd -S . -E -i vw_cw_ambassador_opendata.sql
 sqlcmd -S . -E -i vw_dpr_patrol_opendata.sql
 
 sqlcmd -S . -E -i vw_ref_park_areas_opendata.sql
+
+pause
