@@ -28,7 +28,7 @@ go
 
 create or alter view dbo.vw_dpr_ambassador_opendata as
 	select l.encounter_datetime,
-		   l.site_id,
+		   l.site_id as park_area_id,
 		   l.park_division,
 		   l.encounter_type,
 		   r.simplified_encounter_type,

@@ -29,13 +29,15 @@ go
 create or alter view dbo.vw_ref_park_areas_opendata as
 	select reported_as, 
 		   gispropnum, 
-		   site_id, 
-		   site_desc, 
-		   site_loc, 
+		   site_id as park_area_id, 
+		   site_desc as park_area_desc, 
+		   site_loc as park_area_loc, 
 		   park_borough, 
 		   park_district, 
 		   police_precinct, 
 		   police_boro_com, 
 		   communityboard,
-		   shape
+		   case when shape is null then geometry::STGeomFromText('POLYGON EMPTY', 2263)
+				else shape
+		   end as shape
 	from crowdsdb.dbo.tbl_ref_park_sites
