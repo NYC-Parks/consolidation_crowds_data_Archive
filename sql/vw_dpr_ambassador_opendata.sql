@@ -45,7 +45,7 @@ create or alter view dbo.vw_dpr_ambassador_opendata as
 				when l.closed_outcome = 0 then 'No'
 				else null
 		   end as closed_outcome,
-		   l.borough
+		   l.borough as park_borough
 	from crowdsdb.dbo.tbl_dpr_ambassador as l
 	left join
 		 crowdsdb.dbo.tbl_ref_encounter_type as r

@@ -30,6 +30,7 @@ create or alter view dbo.vw_dpr_crowds_opendata as
 	select encounter_timestamp,
 		   site_id as park_area_id,
 		   park_district,
+		   borough as park_borough,
 		   patroncount,
 		   case when in_playground = 1 then 'Yes'
 				else 'No'

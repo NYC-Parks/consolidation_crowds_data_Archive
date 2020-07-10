@@ -48,6 +48,7 @@ create or alter view dbo.vw_dpr_patrol_opendata as
 				when l.closed_pdcontact = 0 then 'No'
 				else null
 		   end as closed_pdcontact,
+		   l.closed_outcome_spec,
 		   l.sd_patronscomplied,
 		   l.sd_patronsnocomply,
 		   l.sd_amenity,
@@ -55,12 +56,13 @@ create or alter view dbo.vw_dpr_patrol_opendata as
 				when l.sd_pdcontact = 0 then 'No'
 				else null
 		   end as sd_pdcontact,
+		   l.sd_outcome_spec,
 		   l.summonscount_a01,
 		   l.summonscount_a03,
 		   l.summonscount_a04,
 		   l.summonscount_a22,
-		   l.other_summonscount,
-		   l.borough
+		   l.other_summonscount,		   
+		   l.borough as park_borough
 	from crowdsdb.dbo.tbl_dpr_patrol as l
 	left join
 		 crowdsdb.dbo.tbl_ref_encounter_type as r
