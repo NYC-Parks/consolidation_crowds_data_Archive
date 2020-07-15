@@ -37,7 +37,7 @@ create or alter view dbo.vw_ref_park_areas_opendata as
 		   police_precinct, 
 		   police_boro_com, 
 		   communityboard,
-		   case when shape is null then geometry::STGeomFromText('POLYGON EMPTY', 2263)
+		   case when shape is null then geometry::STGeomFromText('MULTIPOLYGON EMPTY', 2263)
 				else shape
 		   end as shape
 	from crowdsdb.dbo.tbl_ref_park_sites
