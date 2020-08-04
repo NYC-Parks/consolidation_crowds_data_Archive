@@ -41,3 +41,4 @@ create or alter view dbo.vw_ref_park_areas_opendata as
 				else shape
 		   end as shape
 	from crowdsdb.dbo.tbl_ref_park_sites
+	where shape is not null

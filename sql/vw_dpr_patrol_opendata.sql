@@ -66,4 +66,5 @@ create or alter view dbo.vw_dpr_patrol_opendata as
 	from crowdsdb.dbo.tbl_dpr_patrol as l
 	left join
 		 crowdsdb.dbo.tbl_ref_encounter_type as r
-	on l.encounter_type = r.encounter_type;
+	on l.encounter_type = r.encounter_type
+	where encounter_timestamp <= dateadd(day, -7, cast(getdate() as date));

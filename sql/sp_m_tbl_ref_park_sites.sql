@@ -107,7 +107,7 @@ begin
 					else null
 			   end as park_borough,
 			   l.district as park_district, 
-			   r2.police_precinct,
+			   r.police_precinct,
 			   r2.police_boro_com,
 			   r.communityboard,
 			   l.obj_class,
